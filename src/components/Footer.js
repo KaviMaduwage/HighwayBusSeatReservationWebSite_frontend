@@ -9,7 +9,7 @@ import logo from "../images/logo.png";
 const Footer = () => {
     return (
             <Grid container rowSpacing={1} columnSpacing={{ xs: 12, sm: 4 }}
-                  sx={{marginTop: 'calc(10% + 60px)',
+                  sx={{marginTop: 'calc(5%)',
                         width: '100%',
                         bottom: 0,
                         backgroundColor: colors.menuBarBackground,
