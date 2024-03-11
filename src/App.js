@@ -6,6 +6,7 @@ import Home from "./components/Home";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import SignUp from "./components/SignUp";
+import Dashboard from "./components/Dashboard";
 import {useState} from "react";
 import {Route, Routes,useNavigate } from "react-router-dom";
 
@@ -42,6 +43,7 @@ function App() {
                   <Route path="/contact" element={ <Contact/> }></Route>
                   <Route path="/signIn" element={ <SignIn confirmUserAccount={confirmUserAccount}/> }></Route>
                   <Route path="/signUp" element={ <SignUp/> }></Route>
+                  <Route path="/dashboard" element={<Dashboard/> }></Route>
               </Routes>
           </div>
 

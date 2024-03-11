@@ -2,9 +2,13 @@
 import * as React from "react";
 import logo from "../images/menuBarLogo.png";
 import {Link, useMatch, useResolvedPath} from "react-router-dom";
+import {useState} from "react";
 
 
 export default function NavBar(){
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
     return <nav className="nav">
         <img src={logo}
              alt="My Seat"
