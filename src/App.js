@@ -6,15 +6,21 @@ import Home from "./components/Home";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import SignUp from "./components/SignUp";
-import Dashboard from "./components/Dashboard";
+import AdminDashboard from "./components/AdminDashboard";
 import {useState} from "react";
 import {Route, Routes,useNavigate } from "react-router-dom";
+import PassengerDashBoard from "./components/PassengerDashBoard";
 
 function App() {
 
     const navigate = useNavigate();
 
     const [message, setMessage] = useState('');
+    const [loggedIn, setLoggedIn] = useState(false);
+
+    const updateLoggedIn = (value) => {
+        setLoggedIn(value);
+    };
 
     const confirmUserAccount = async (confirmationToken) => {
         try {
@@ -35,15 +41,25 @@ function App() {
 
   return (
       <div className="App">
-        <NavBar></NavBar>
+        <NavBar isLoggedIn={loggedIn}></NavBar>
           <div className="container">
               <Routes>
                   <Route path="/" element={ <Home/> }></Route>
                   <Route path="/about" element={ <About/> }></Route>
                   <Route path="/contact" element={ <Contact/> }></Route>
-                  <Route path="/signIn" element={ <SignIn confirmUserAccount={confirmUserAccount}/> }></Route>
+                  <Route path="/signIn" element={ <SignIn confirmUserAccount={confirmUserAccount} loggedIn={loggedIn} updateLoggedIn={updateLoggedIn}/> }></Route>
                   <Route path="/signUp" element={ <SignUp/> }></Route>
-                  <Route path="/dashboard" element={<Dashboard/> }></Route>
+
+                  {loggedIn ? (
+                      <>
+                          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                          <Route path="/passenger-dashboard" element={<PassengerDashBoard loggedIn={loggedIn} />} />
+                      </>
+                  ) :
+                      <>
+                          <Route path="*" element={<SignIn/>}></Route>
+                      </>
+                  }
               </Routes>
           </div>
 

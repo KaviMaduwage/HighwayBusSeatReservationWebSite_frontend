@@ -1,8 +1,8 @@
-export default function Dashboard(){
+export default function AdminDashboard(){
     return (
         <div>
 
-            <h1>Dashboard</h1>
+            <h1>Admin Dashboard</h1>
 
             <h3>Welcome</h3>
         </div>
