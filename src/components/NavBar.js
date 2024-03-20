@@ -2,12 +2,15 @@
 import * as React from "react";
 import logo from "../images/menuBarLogo.png";
 import {Link, useMatch, useResolvedPath} from "react-router-dom";
-import {useState} from "react";
 
 
-export default function NavBar(){
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+export default function NavBar({ isLoggedIn }){
+
+    // Log the value of isLoggedIn whenever the component re-renders
+    React.useEffect(() => {
+        console.log("isLoggedIn:", isLoggedIn);
+    }, [isLoggedIn]); // This effect will re-run whenever isLoggedIn changes
 
     return <nav className="nav">
         <img src={logo}
@@ -18,8 +21,18 @@ export default function NavBar(){
             <CustomLink to="/">Home</CustomLink>
             <CustomLink to="/about">About</CustomLink>
             <CustomLink to="/contact">Contact</CustomLink>
-            <CustomLink to="/signIn">Sign In</CustomLink>
-            <CustomLink to="/signUp">Sign Up</CustomLink>
+
+            {isLoggedIn ? (
+                <>
+                    <CustomLink to="/dashboard">Dashboard</CustomLink>
+                    <CustomLink to="/logout">Log Out</CustomLink>
+                </>
+            ) : (
+                <>
+                    <CustomLink to="/signIn">Sign In</CustomLink>
+                    <CustomLink to="/signUp">Sign Up</CustomLink>
+                </>
+            )}
 
         </ul>
 

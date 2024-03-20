@@ -4,11 +4,12 @@ import {useState} from "react";
 import {userLogin} from "../services/userService";
 import {useNavigate} from "react-router-dom";
 
-export default function SignIn(){
+export default function SignIn({ loggedIn, updateLoggedIn }){
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [responseMessage, setResponseMessage] = useState('');
+    //const [loggedIn, setLoggedIn] = useState(false);
 
     const navigate = useNavigate();
 
@@ -28,11 +29,14 @@ export default function SignIn(){
         try {
             const response = await userLogin(user);
             console.log(response.data);
-            if (response.data === "success") {
-                navigate("/dashboard");
-            } else {
-                console.error('Login failed:', response.data);
+            if (response.data === "Invalid") {
+                console.error('Login failed');
                 setResponseMessage(response.data);
+
+            } else {
+                //setLoggedIn(true);
+                updateLoggedIn(true);
+                navigate(response.data);
             }
         } catch (error) {
             console.error('Failed to sign in:', error);
