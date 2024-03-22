@@ -17,9 +17,13 @@ function App() {
 
     const [message, setMessage] = useState('');
     const [loggedIn, setLoggedIn] = useState(false);
+    const [userTypeId, setUserTypeId] = useState(0);
+    const [userName, setUserName] = useState('');
 
-    const updateLoggedIn = (value) => {
+    const updateLoggedIn = (value, userTypeId,userName) => {
         setLoggedIn(value);
+        setUserTypeId(userTypeId);
+        setUserName(userName);
     };
 
     const confirmUserAccount = async (confirmationToken) => {
@@ -50,12 +54,21 @@ function App() {
                   <Route path="/signIn" element={ <SignIn confirmUserAccount={confirmUserAccount} loggedIn={loggedIn} updateLoggedIn={updateLoggedIn}/> }></Route>
                   <Route path="/signUp" element={ <SignUp/> }></Route>
 
-                  {loggedIn ? (
+                  {(loggedIn && userTypeId === 3) ? (
                       <>
-                          <Route path="/admin-dashboard" element={<AdminDashboard />} />
-                          <Route path="/passenger-dashboard" element={<PassengerDashBoard loggedIn={loggedIn} />} />
+                          <Route path="/passenger-dashboard" element={<PassengerDashBoard userName={userName} />} />
                       </>
                   ) :
+                      <>
+                          <Route path="*" element={<SignIn/>}></Route>
+                      </>
+                  }
+
+                  {(loggedIn && userTypeId === 1) ? (
+                          <>
+                              <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                          </>
+                      ) :
                       <>
                           <Route path="*" element={<SignIn/>}></Route>
                       </>

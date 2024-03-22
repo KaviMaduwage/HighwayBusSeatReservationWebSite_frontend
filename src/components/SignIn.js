@@ -35,8 +35,22 @@ export default function SignIn({ loggedIn, updateLoggedIn }){
 
             } else {
                 //setLoggedIn(true);
-                updateLoggedIn(true);
-                navigate(response.data);
+                const { userTypeId, userName } = response.data;
+
+                updateLoggedIn(true, userTypeId, userName);
+                //navigate(response.data);
+                if(userTypeId === 1){
+                    navigate("/admin-dashboard");
+                }else if(userTypeId === 2){
+
+                }else if(userTypeId === 3){
+                    navigate("/passenger-dashboard");
+                }else if(userTypeId === 4){
+
+                }else if(userTypeId === 5){
+
+                }
+
             }
         } catch (error) {
             console.error('Failed to sign in:', error);
