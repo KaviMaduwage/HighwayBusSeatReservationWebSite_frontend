@@ -1,8 +1,8 @@
-export default function PassengerDashBoard({ loggedIn }){
+export default function PassengerDashBoard({ userName }){
     return (
         <div>
 
-            <h1>Passenger Dashboard {loggedIn}</h1>
+            <h1>Passenger Dashboard {userName}</h1>
 
             <h3>Welcome</h3>
         </div>

@@ -3,13 +3,13 @@ import passwordImg from "../images/password.png";
 import {useState} from "react";
 import {userLogin} from "../services/userService";
 import {useNavigate} from "react-router-dom";
+import Cookies from 'js-cookie';
 
-export default function SignIn({ loggedIn, updateLoggedIn }){
+export default function SignIn({ loggedIn }){
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [responseMessage, setResponseMessage] = useState('');
-    //const [loggedIn, setLoggedIn] = useState(false);
 
     const navigate = useNavigate();
 
@@ -35,8 +35,25 @@ export default function SignIn({ loggedIn, updateLoggedIn }){
 
             } else {
                 //setLoggedIn(true);
-                updateLoggedIn(true);
-                navigate(response.data);
+                const { userTypeId, userName } = response.data;
+
+                const userDetails = {userTypeId, userName};
+                const expirationTime = new Date(new Date().getTime() + 60000);
+                Cookies.set('auth', JSON.stringify(userDetails), { expires: expirationTime });
+
+
+                if(userTypeId === 1){
+                    navigate("/admin-dashboard");
+                }else if(userTypeId === 2){
+
+                }else if(userTypeId === 3){
+                    navigate("/passenger-dashboard");
+                }else if(userTypeId === 4){
+
+                }else if(userTypeId === 5){
+
+                }
+
             }
         } catch (error) {
             console.error('Failed to sign in:', error);

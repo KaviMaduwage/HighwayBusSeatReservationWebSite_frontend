@@ -7,20 +7,32 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import SignUp from "./components/SignUp";
 import AdminDashboard from "./components/AdminDashboard";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Route, Routes,useNavigate } from "react-router-dom";
 import PassengerDashBoard from "./components/PassengerDashBoard";
+import Cookies from "js-cookie";
 
 function App() {
 
+     const [message, setMessage] = useState('');
+
     const navigate = useNavigate();
+    const [userData, setUserData] = useState(null);
 
-    const [message, setMessage] = useState('');
-    const [loggedIn, setLoggedIn] = useState(false);
+    useEffect(() => {
 
-    const updateLoggedIn = (value) => {
-        setLoggedIn(value);
-    };
+        const cookieData = Cookies.get('auth');
+
+        if (cookieData) {
+            setUserData(JSON.parse(cookieData));
+        }else{
+            setUserData(null);
+        }
+    }, [Cookies.get('auth')]);
+
+
+
+    const isAuthenticated = !!userData;
 
     const confirmUserAccount = async (confirmationToken) => {
         try {
@@ -41,21 +53,30 @@ function App() {
 
   return (
       <div className="App">
-        <NavBar isLoggedIn={loggedIn}></NavBar>
+        <NavBar isLoggedIn={isAuthenticated} userData={userData}></NavBar>
           <div className="container">
               <Routes>
                   <Route path="/" element={ <Home/> }></Route>
                   <Route path="/about" element={ <About/> }></Route>
                   <Route path="/contact" element={ <Contact/> }></Route>
-                  <Route path="/signIn" element={ <SignIn confirmUserAccount={confirmUserAccount} loggedIn={loggedIn} updateLoggedIn={updateLoggedIn}/> }></Route>
+                  <Route path="/signIn" element={ <SignIn confirmUserAccount={confirmUserAccount} loggedIn={isAuthenticated}/> }></Route>
                   <Route path="/signUp" element={ <SignUp/> }></Route>
 
-                  {loggedIn ? (
+                  {(userData != null && userData.userTypeId === 3) ? (
                       <>
-                          <Route path="/admin-dashboard" element={<AdminDashboard />} />
-                          <Route path="/passenger-dashboard" element={<PassengerDashBoard loggedIn={loggedIn} />} />
+                          <Route path="/passenger-dashboard" element={<PassengerDashBoard userName={userData.userName} />} />
                       </>
                   ) :
+                      <>
+                          <Route path="*" element={<SignIn/>}></Route>
+                      </>
+                  }
+
+                  {(userData != null && userData.userTypeId === 1) ? (
+                          <>
+                              <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                          </>
+                      ) :
                       <>
                           <Route path="*" element={<SignIn/>}></Route>
                       </>
