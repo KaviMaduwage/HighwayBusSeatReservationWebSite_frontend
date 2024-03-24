@@ -1,16 +1,22 @@
 
 import * as React from "react";
 import logo from "../images/menuBarLogo.png";
-import {Link, useMatch, useResolvedPath} from "react-router-dom";
+import {Link, useMatch, useNavigate, useResolvedPath} from "react-router-dom";
+import Cookies from "js-cookie";
 
 
 
-export default function NavBar({ isLoggedIn }){
+export default function NavBar({ isLoggedIn , userData}){
+    const navigate = useNavigate();
 
-    // Log the value of isLoggedIn whenever the component re-renders
-    React.useEffect(() => {
-        console.log("isLoggedIn:", isLoggedIn);
-    }, [isLoggedIn]); // This effect will re-run whenever isLoggedIn changes
+
+    const handleLogout = () => {
+
+        Cookies.remove('auth');
+
+
+        navigate("/");
+    };
 
     return <nav className="nav">
         <img src={logo}
@@ -24,8 +30,15 @@ export default function NavBar({ isLoggedIn }){
 
             {isLoggedIn ? (
                 <>
-                    <CustomLink to="/dashboard">Dashboard</CustomLink>
-                    <CustomLink to="/logout">Log Out</CustomLink>
+                    {userData && userData.userTypeId === 3 ? (
+                        <CustomLink to="/passenger-dashboard">Dashboard</CustomLink>
+                    ) : null}
+
+                    {userData && userData.userTypeId === 1 ? (
+                        <CustomLink to="/admin-dashboard">Dashboard</CustomLink>
+                    ) : null}
+
+                    <CustomLink onClick={handleLogout}>Log Out</CustomLink>
                 </>
             ) : (
                 <>
@@ -39,14 +52,19 @@ export default function NavBar({ isLoggedIn }){
     </nav>
 }
 
-function CustomLink ({to, children, ...props }){
-    //const path = window.location.pathname
+function CustomLink ({to,onClick, children, ...props }){
+
+    const handleClick = (event) => {
+        if (onClick) {
+            onClick(event);
+        }
+    };
 
     const resolvedPath = useResolvedPath(to);
     const isActive = useMatch({path : resolvedPath.pathname, end: true})
     return (
         <li className={isActive ? "active" : ""}>
-            <Link to={to} {...props}>
+            <Link to={to} onClick={handleClick} {...props}>
                 {children}
             </Link>
         </li>
