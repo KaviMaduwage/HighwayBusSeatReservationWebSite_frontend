@@ -1,0 +1,79 @@
+/*html{*/
+/*    height:120vh*/
+/*}*/
+/*body{*/
+/*    height: 120vh;*/
+/*    font-size: 16px;*/
+
+/*}*/
+
+/*.main_sideBar{*/
+/*    display: flex;*/
+/*    height: 100vh*/
+/*}*/
+
+.sideBar{
+    width: 250px;
+    color: white;
+    flex-shrink: 0;
+    background-color: #282c34;
+    height: 100%;
+    overflow: auto;
+}
+
+.sideBar-item{
+    padding: .7em 1em;
+
+    display: block;
+    transition: background-color .15s;
+}
+
+.sideBar-item:hover{
+    background-color: rgb(255,255,255,.1);
+}
+
+.sideBar-title{
+    display: flex;
+    font-size: 1.1em;
+    justify-content: space-between;
+}
+
+.sideBar-title span i{
+    display: inline-block;
+    width: 1.5em;
+}
+
+.sideBar-title .toggle-btn{
+    cursor: pointer;
+    transition: transform .3s;
+}
+
+.sideBar-item.open > .sideBar-title .toggle-btn{
+    transform: rotate(180deg);
+}
+
+.sideBar-item-subMenu{
+    padding-top: .25em;
+    height: 0;
+    overflow: hidden;
+}
+
+.sideBar-item.open > .sideBar-item-subMenu{
+    height: auto;
+}
+
+.sideBar-item.plain{
+    color: #FFFFFF;
+    text-decoration: none;
+
+}
+
+.sideBar-item.plain i{
+    display: inline-block;
+    width: 1.5em;
+}
+
+.sideBar-item.plain:hover{
+    cursor: pointer;
+
+}

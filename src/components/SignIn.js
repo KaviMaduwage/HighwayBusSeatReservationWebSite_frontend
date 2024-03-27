@@ -65,7 +65,7 @@ export default function SignIn({ loggedIn }){
 
 
     return (
-        <div className="signUp-signIn-container">
+        <div className="signUp-signIn-container" style={{marginBottom : "5%"}}>
             <div className="header">
                 <h1>Sign In</h1>
             </div>

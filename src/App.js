@@ -64,7 +64,7 @@ function App() {
 
                   {(userData != null && userData.userTypeId === 3) ? (
                       <>
-                          <Route path="/passenger-dashboard" element={<PassengerDashBoard userName={userData.userName} />} />
+                          <Route path="/passenger-dashboard" element={<PassengerDashBoard userName={userData.userName} userTypeId={userData.userTypeId} />} />
                       </>
                   ) :
                       <>
