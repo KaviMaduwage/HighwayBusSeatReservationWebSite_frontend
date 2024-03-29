@@ -1,0 +1,69 @@
+[
+  {
+    "title": "Profile",
+    "icon": "bi-gear-fill",
+    "childrens": [
+      {
+        "title": "View Profile",
+        "icon": "bi-house-fill",
+        "path": "/"
+      },
+      {
+        "title": "View Staff",
+        "icon": "bi-info-circle-fill",
+        "path": "/about"
+      },
+      {
+        "title": "View Bank Details",
+        "icon": "bi-phone-fill",
+        "path": "/"
+      }
+    ]
+  },
+  {
+    "title": "Bus Schedule",
+    "icon": "bi-info-circle-fill",
+    "childrens": [
+      {
+        "title": "View Bus Schedule",
+        "path": "/login"
+      }
+    ]
+  },
+  {
+    "title": "Payments",
+    "icon": "bi-person-fill",
+    "childrens": [
+      {
+        "title": "Profile",
+        "path": "/profile"
+      },
+      {
+        "title": "Settings",
+        "childrens": [
+          {
+            "title": "Account",
+            "path": "/settings/account"
+          },
+          {
+            "title": "Billing",
+            "childrens": [
+              {
+                "title": "Payment",
+                "path": "/settings/billing/payment"
+              },
+              {
+                "title": "Subscription",
+                "path": "/settings/billing/subscription"
+              }
+            ]
+          },
+          {
+            "title": "Notifications",
+            "path": "/settings/notifications"
+          }
+        ]
+      }
+    ]
+  }
+]

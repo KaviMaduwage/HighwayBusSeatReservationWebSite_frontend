@@ -1,0 +1,128 @@
+[
+  {
+    "title": "Profile",
+    "icon": "bi-gear-fill",
+    "childrens": [
+      {
+        "title": "View Profile",
+        "icon": "bi-house-fill",
+        "path": "/"
+      },
+      {
+        "title": "View Reservation History",
+        "icon": "bi-info-circle-fill",
+        "path": "/"
+      }
+    ]
+  },
+  {
+    "title": "Bus Schedule",
+    "icon": "bi-info-circle-fill",
+    "childrens": [
+      {
+        "title": "View Bus Schedule",
+        "path": "/"
+      },
+      {
+        "title": "Reservation",
+        "path": "/"
+      },
+      {
+        "title": "Reserved Seat Cancellation",
+        "path": "/"
+      }
+    ]
+  },
+  {
+    "title": "Payments",
+    "icon": "bi-person-fill",
+    "childrens": [
+      {
+        "title": "View Transaction History",
+        "path": "/"
+      },
+      {
+        "title": "Payment Details",
+        "path": "/"
+      }
+    ]
+  },
+  {
+    "title": "Reports",
+    "icon": "bi-view-list",
+    "childrens": [
+      {
+        "title": "Travel History Report",
+        "path": "/"
+      },
+      {
+        "title": "Payment History Report",
+        "path": "/"
+      }
+    ]
+  },
+  {
+    "title": "Notifications",
+    "icon": "bi-view-list",
+    "childrens": [
+      {
+        "title": "View Notifications",
+        "path": "/"
+      }
+    ]
+  },
+  {
+    "title": "Emergency Alerts",
+    "icon": "bi-view-list",
+    "childrens": [
+      {
+        "title": "View Emergency Alerts",
+        "path": "/"
+      }
+    ]
+  },
+  {
+    "title": "Lost/ Found",
+    "icon": "bi-view-list",
+    "childrens": [
+      {
+        "title": "View Lost Items",
+        "path": "/"
+      },
+      {
+        "title": "View Found Items",
+        "path": "/"
+      },
+      {
+        "title": "View User's Posts",
+        "path": "/"
+      }
+    ]
+  },
+  {
+    "title": "Discounts",
+    "icon": "bi-view-list",
+    "childrens": [
+      {
+        "title": "View Discounts",
+        "path": "/"
+      }
+    ]
+  },
+  {
+    "title": "Feedback/ Complaints",
+    "icon": "bi-view-list",
+    "childrens": [
+      {
+        "title": "View Feedback / Complaints",
+        "path": "/"
+      }
+    ]
+  },
+
+  {
+    "title": "Cart",
+    "icon": "bi-bug",
+    "path": "/"
+  }
+]

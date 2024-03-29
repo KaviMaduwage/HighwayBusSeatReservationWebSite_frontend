@@ -1,0 +1,61 @@
+[
+  {
+    "title": "Profile Management",
+    "icon": "bi-gear-fill",
+    "childrens": [
+      {
+        "title": "View Profiles",
+        "icon": "bi-house-fill",
+        "path": "/"
+      },
+      {
+        "title": "Accept Requests",
+        "icon": "bi-info-circle-fill",
+        "path": "/about"
+      }
+    ]
+  },
+  {
+    "title": "Bus Schedule",
+    "icon": "bi-info-circle-fill",
+    "childrens": [
+      {
+        "title": "View Bus Schedule",
+        "path": "/"
+      },
+      {
+        "title": "Manage Seat Structure",
+        "path": "/"
+      }
+    ]
+  },
+  {
+    "title": "Emergency",
+    "icon": "bi-person-fill",
+    "childrens": [
+      {
+        "title": "View Emergency Alerts",
+        "path": "/"
+      }
+    ]
+  },
+  {
+    "title": "Reports",
+    "icon": "bi-view-list",
+    "childrens": [
+      {
+        "title": "Search",
+        "path": "/search"
+      },
+      {
+        "title": "History",
+        "path": "/history"
+      }
+    ]
+  },
+  {
+    "title": "Lost/ Found",
+    "icon": "bi-question-circle-fill",
+    "path": "/"
+  }
+]

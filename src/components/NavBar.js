@@ -30,13 +30,11 @@ export default function NavBar({ isLoggedIn , userData}){
 
             {isLoggedIn ? (
                 <>
-                    {userData && userData.userTypeId === 3 ? (
-                        <CustomLink to="/passenger-dashboard">Dashboard</CustomLink>
+                    {userData ? (
+                        <CustomLink to="/dashboard">Dashboard</CustomLink>
                     ) : null}
 
-                    {userData && userData.userTypeId === 1 ? (
-                        <CustomLink to="/admin-dashboard">Dashboard</CustomLink>
-                    ) : null}
+
 
                     <CustomLink onClick={handleLogout}>Log Out</CustomLink>
                 </>
@@ -61,7 +59,15 @@ function CustomLink ({to,onClick, children, ...props }){
     };
 
     const resolvedPath = useResolvedPath(to);
-    const isActive = useMatch({path : resolvedPath.pathname, end: true})
+    let isActive = useMatch({path : resolvedPath.pathname, end: true})
+
+    // check if the link is for Log Out
+    if (!to && window.location.pathname !== '/') {
+        isActive = false;
+    }
+    if (to === '/signOut' && window.location.pathname !== '/') {
+        isActive = false;
+    }
     return (
         <li className={isActive ? "active" : ""}>
             <Link to={to} onClick={handleClick} {...props}>
