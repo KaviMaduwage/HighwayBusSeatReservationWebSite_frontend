@@ -5,13 +5,13 @@
     "childrens": [
       {
         "title": "View Profile",
-        "icon": "bi-house-fill",
-        "path": "/"
+        "icon": "bi-house-fill"
+
       },
       {
         "title": "View Reservation History",
-        "icon": "bi-info-circle-fill",
-        "path": "/"
+        "icon": "bi-info-circle-fill"
+
       }
     ]
   },
@@ -20,16 +20,16 @@
     "icon": "bi-info-circle-fill",
     "childrens": [
       {
-        "title": "View Bus Schedule",
-        "path": "/"
+        "title": "View Bus Schedule"
+
       },
       {
-        "title": "Reservation",
-        "path": "/"
+        "title": "Reservation"
+
       },
       {
-        "title": "Reserved Seat Cancellation",
-        "path": "/"
+        "title": "Reserved Seat Cancellation"
+
       }
     ]
   },
@@ -38,12 +38,12 @@
     "icon": "bi-person-fill",
     "childrens": [
       {
-        "title": "View Transaction History",
-        "path": "/"
+        "title": "View Transaction History"
+
       },
       {
-        "title": "Payment Details",
-        "path": "/"
+        "title": "Payment Details"
+
       }
     ]
   },
@@ -52,12 +52,12 @@
     "icon": "bi-view-list",
     "childrens": [
       {
-        "title": "Travel History Report",
-        "path": "/"
+        "title": "Travel History Report"
+
       },
       {
-        "title": "Payment History Report",
-        "path": "/"
+        "title": "Payment History Report"
+
       }
     ]
   },
@@ -66,8 +66,8 @@
     "icon": "bi-view-list",
     "childrens": [
       {
-        "title": "View Notifications",
-        "path": "/"
+        "title": "View Notifications"
+
       }
     ]
   },
@@ -76,8 +76,8 @@
     "icon": "bi-view-list",
     "childrens": [
       {
-        "title": "View Emergency Alerts",
-        "path": "/"
+        "title": "View Emergency Alerts"
+
       }
     ]
   },
@@ -86,16 +86,16 @@
     "icon": "bi-view-list",
     "childrens": [
       {
-        "title": "View Lost Items",
-        "path": "/"
+        "title": "View Lost Items"
+
       },
       {
-        "title": "View Found Items",
-        "path": "/"
+        "title": "View Found Items"
+
       },
       {
-        "title": "View User's Posts",
-        "path": "/"
+        "title": "View User's Posts"
+
       }
     ]
   },
@@ -104,8 +104,8 @@
     "icon": "bi-view-list",
     "childrens": [
       {
-        "title": "View Discounts",
-        "path": "/"
+        "title": "View Discounts"
+
       }
     ]
   },
@@ -114,15 +114,15 @@
     "icon": "bi-view-list",
     "childrens": [
       {
-        "title": "View Feedback / Complaints",
-        "path": "/"
+        "title": "View Feedback / Complaints"
+
       }
     ]
   },
 
   {
     "title": "Cart",
-    "icon": "bi-bug",
-    "path": "/"
+    "icon": "bi-bug"
+
   }
 ]

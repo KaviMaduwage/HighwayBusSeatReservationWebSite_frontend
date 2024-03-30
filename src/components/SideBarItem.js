@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-export default function SideBarItem({item}){
+export default function SideBarItem({item,setSelectedPage}){
 
     const [open, setOpen] = useState(false);
 
@@ -16,14 +16,14 @@ export default function SideBarItem({item}){
                 </div>
 
                 <div className="sideBar-item-subMenu">
-                    {item.childrens.map((child, index) => <SideBarItem key={index} item={child}/>)}
+                    {item.childrens.map((child, index) => <SideBarItem key={index} item={child} setSelectedPage={setSelectedPage}/>)}
                 </div>
             </div>
         )
     }else{
         return (
 
-                <a href={item.path || "#"} className="sideBar-item plain">
+                <a href={item.path || "#"} className="sideBar-item plain" onClick={() => setSelectedPage(item.title)}>
 
                         { item.icon && <i className={item.icon}></i>}
                         {item.title}

@@ -11,6 +11,8 @@ import {useEffect, useState} from "react";
 import {Route, Routes,useNavigate } from "react-router-dom";
 import DashBoard from "./components/DashBoard";
 import Cookies from "js-cookie";
+import Request from "./components/adminRelated/Request";
+import Profile from "./components/Profile";
 
 function App() {
 
@@ -62,11 +64,25 @@ function App() {
                   <Route path="/signIn" element={ <SignIn confirmUserAccount={confirmUserAccount} loggedIn={isAuthenticated}/> }></Route>
                   <Route path="/signUp" element={ <SignUp/> }></Route>
 
-                  {(userData != null) ? (
+
+                  {(userData != null && userData.userTypeId === 1) ? (
                       <>
                           <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} />} />
+                          <Route path="/requests" element={<Request/>}></Route>
+                          <Route path="/profile" element={<Profile/>}></Route>
                       </>
                   ) :
+                      <>
+                          <Route path="*" element={<SignIn/>}></Route>
+                      </>
+                  }
+
+                  {(userData != null && userData.userTypeId === 3) ? (
+                          <>
+                              <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} />} />
+                              <Route path="/profile" element={<Profile/>}></Route>
+                          </>
+                      ) :
                       <>
                           <Route path="*" element={<SignIn/>}></Route>
                       </>

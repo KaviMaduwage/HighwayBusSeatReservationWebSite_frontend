@@ -4,14 +4,14 @@
     "icon": "bi-gear-fill",
     "childrens": [
       {
-        "title": "View Profiles",
-        "icon": "bi-house-fill",
-        "path": "/"
+        "title": "View Profile",
+        "icon": "bi-house-fill"
+
       },
       {
         "title": "Accept Requests",
-        "icon": "bi-info-circle-fill",
-        "path": "/about"
+        "icon": "bi-info-circle-fill"
+
       }
     ]
   },
@@ -20,12 +20,12 @@
     "icon": "bi-info-circle-fill",
     "childrens": [
       {
-        "title": "View Bus Schedule",
-        "path": "/"
+        "title": "View Bus Schedule"
+
       },
       {
-        "title": "Manage Seat Structure",
-        "path": "/"
+        "title": "Manage Seat Structure"
+
       }
     ]
   },
@@ -34,8 +34,8 @@
     "icon": "bi-person-fill",
     "childrens": [
       {
-        "title": "View Emergency Alerts",
-        "path": "/"
+        "title": "View Emergency Alerts"
+
       }
     ]
   },
@@ -44,18 +44,18 @@
     "icon": "bi-view-list",
     "childrens": [
       {
-        "title": "Search",
-        "path": "/search"
+        "title": "Search"
+
       },
       {
-        "title": "History",
-        "path": "/history"
+        "title": "History"
+
       }
     ]
   },
   {
     "title": "Lost/ Found",
-    "icon": "bi-question-circle-fill",
-    "path": "/"
+    "icon": "bi-question-circle-fill"
+
   }
 ]
