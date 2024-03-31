@@ -1,6 +1,9 @@
 import emailImg from "../images/email.png"
 import usernameImg from "../images/username.png"
 import passwordImg from "../images/password.png"
+import companyImg from "../images/company.png"
+import telImg from "../images/tel.png"
+import locationImg from "../images/location.png"
 import Select from "react-select";
 import {useState} from "react";
 import {userRegistration} from "../services/userService";
@@ -13,6 +16,11 @@ export default function SignUp(){
     const [password, setPassword] = useState('');
     const [responseMessage, setResponseMessage] = useState('');
     const [userType, setUserType] = useState('');
+    const [isShowCompanyDetailPanel, setIsShowCompanyDetailPanel] = useState(false);
+
+    const [travelServiceName, setTravelServiceName] = useState('');
+    const [mobileNo, setMobileNo] = useState('');
+    const [address, setAddress] = useState('');
 
     function handleUserName(e){
         setUserName(e.target.value);
@@ -26,8 +34,29 @@ export default function SignUp(){
         setPassword(e.target.value);
     }
 
+    function handleCompanyName(e) {
+        setTravelServiceName(e.target.value);
+    }
+
+    function handleCompanyTel(e) {
+        setMobileNo(e.target.value);
+    }
+
+    function handleCompanyAddress(e) {
+        setAddress(e.target.value);
+    }
+
+
     function handleOptionChange(e){
-        setUserType(e.target.value);
+        const selectedUserType = e.target.value;
+        setUserType(selectedUserType);
+
+        if(selectedUserType === 'busOwner') {
+            setIsShowCompanyDetailPanel(true);
+        } else {
+            setIsShowCompanyDetailPanel(false);
+        }
+
     }
 
     function signUp(e){
@@ -46,15 +75,28 @@ export default function SignUp(){
             }
         }
         const user = {userName, password,email, userType: selectedUserType };
-        console.log(user);
+        const busOwner  ={travelServiceName, mobileNo, address};
+        let userData = {};
 
-        userRegistration(user).then((response) => {
+        if(userType === "passenger"){
+            userData = {
+                user: user
+            };
+        }else{
+            userData = {
+                user: user,
+                busOwner: busOwner
+            };
+        }
+        console.log(userData);
+
+        userRegistration(userData).then((response) => {
             setResponseMessage(response.data);
         })
     }
 
     return (
-        <div className="signUp-signIn-container">
+        <div className="signUp-signIn-container" style={{marginBottom : "5%"}}>
             <div className="header">
                 <h1>Sign Up</h1>
             </div>
@@ -89,6 +131,31 @@ export default function SignUp(){
                         Bus owner registration
                     </label>
                 </div>
+
+                {isShowCompanyDetailPanel && (
+
+                    <div className="inputs">
+                        <div className="input">
+                            <img src={companyImg} alt=""/>
+                            <input type="text" name='companyName' placeholder="Company Name" value={travelServiceName} onChange={handleCompanyName}/>
+
+                        </div>
+
+                        <div className="input">
+                            <img src={telImg} alt=""/>
+                            <input type="text" name='companyTel' placeholder="Company Tel." value={mobileNo} onChange={handleCompanyTel}/>
+
+                        </div>
+
+                        <div className="input">
+                            <img src={locationImg} alt=""/>
+                            <input type="text" name='companyAddress' placeholder="Company Address" value={address} onChange={handleCompanyAddress}/>
+
+                        </div>
+
+
+                    </div>
+                )}
 
 
 

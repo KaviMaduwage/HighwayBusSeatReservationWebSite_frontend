@@ -1,0 +1,31 @@
+[
+  {
+    "title": "Profile",
+    "icon": "bi-gear-fill",
+    "childrens": [
+      {
+        "title": "View Profile",
+        "icon": "bi-house-fill",
+        "path": "/"
+      }
+    ]
+  },
+  {
+    "title": "Bus Schedule",
+    "icon": "bi-info-circle-fill",
+    "childrens": [
+      {
+        "title": "Today's Trip",
+        "path": "/"
+      },
+      {
+        "title": "Trip History",
+        "path": "/"
+      },
+      {
+        "title": "View Bus Schedule",
+        "path": "/"
+      }
+    ]
+  }
+]

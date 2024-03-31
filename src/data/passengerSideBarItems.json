@@ -1,0 +1,128 @@
+[
+  {
+    "title": "Profile",
+    "icon": "bi-gear-fill",
+    "childrens": [
+      {
+        "title": "View Profile",
+        "icon": "bi-house-fill"
+
+      },
+      {
+        "title": "View Reservation History",
+        "icon": "bi-info-circle-fill"
+
+      }
+    ]
+  },
+  {
+    "title": "Bus Schedule",
+    "icon": "bi-info-circle-fill",
+    "childrens": [
+      {
+        "title": "View Bus Schedule"
+
+      },
+      {
+        "title": "Reservation"
+
+      },
+      {
+        "title": "Reserved Seat Cancellation"
+
+      }
+    ]
+  },
+  {
+    "title": "Payments",
+    "icon": "bi-person-fill",
+    "childrens": [
+      {
+        "title": "View Transaction History"
+
+      },
+      {
+        "title": "Payment Details"
+
+      }
+    ]
+  },
+  {
+    "title": "Reports",
+    "icon": "bi-view-list",
+    "childrens": [
+      {
+        "title": "Travel History Report"
+
+      },
+      {
+        "title": "Payment History Report"
+
+      }
+    ]
+  },
+  {
+    "title": "Notifications",
+    "icon": "bi-view-list",
+    "childrens": [
+      {
+        "title": "View Notifications"
+
+      }
+    ]
+  },
+  {
+    "title": "Emergency Alerts",
+    "icon": "bi-view-list",
+    "childrens": [
+      {
+        "title": "View Emergency Alerts"
+
+      }
+    ]
+  },
+  {
+    "title": "Lost/ Found",
+    "icon": "bi-view-list",
+    "childrens": [
+      {
+        "title": "View Lost Items"
+
+      },
+      {
+        "title": "View Found Items"
+
+      },
+      {
+        "title": "View User's Posts"
+
+      }
+    ]
+  },
+  {
+    "title": "Discounts",
+    "icon": "bi-view-list",
+    "childrens": [
+      {
+        "title": "View Discounts"
+
+      }
+    ]
+  },
+  {
+    "title": "Feedback/ Complaints",
+    "icon": "bi-view-list",
+    "childrens": [
+      {
+        "title": "View Feedback / Complaints"
+
+      }
+    ]
+  },
+
+  {
+    "title": "Cart",
+    "icon": "bi-bug"
+
+  }
+]
