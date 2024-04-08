@@ -64,7 +64,7 @@ export default function Request(){
                     {result.length === 0 ?
                     (
                         <tr>
-                            <td>No Data</td>
+                            <td colSpan="6">-- No Data --</td>
                         </tr>
                     ) :
                         (

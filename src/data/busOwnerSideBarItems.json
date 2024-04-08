@@ -5,18 +5,23 @@
     "childrens": [
       {
         "title": "View Profile",
-        "icon": "bi-house-fill",
-        "path": "/"
+        "icon": "bi-house-fill"
+
       },
       {
         "title": "View Staff",
-        "icon": "bi-info-circle-fill",
-        "path": "/about"
+        "icon": "bi-info-circle-fill"
+
       },
       {
         "title": "View Bank Details",
-        "icon": "bi-phone-fill",
-        "path": "/"
+        "icon": "bi-phone-fill"
+
+      },
+      {
+        "title": "Reset Password",
+        "icon": "bi-phone-fill"
+
       }
     ]
   },
@@ -25,8 +30,8 @@
     "icon": "bi-info-circle-fill",
     "childrens": [
       {
-        "title": "View Bus Schedule",
-        "path": "/login"
+        "title": "View Bus Schedule"
+
       }
     ]
   },
@@ -35,32 +40,32 @@
     "icon": "bi-person-fill",
     "childrens": [
       {
-        "title": "Profile",
-        "path": "/profile"
+        "title": "Profile"
+
       },
       {
         "title": "Settings",
         "childrens": [
           {
-            "title": "Account",
-            "path": "/settings/account"
+            "title": "Account"
+
           },
           {
             "title": "Billing",
             "childrens": [
               {
-                "title": "Payment",
-                "path": "/settings/billing/payment"
+                "title": "Payment"
+
               },
               {
-                "title": "Subscription",
-                "path": "/settings/billing/subscription"
+                "title": "Subscription"
+
               }
             ]
           },
           {
-            "title": "Notifications",
-            "path": "/settings/notifications"
+            "title": "Notifications"
+
           }
         ]
       }

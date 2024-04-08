@@ -13,6 +13,7 @@ import DashBoard from "./components/DashBoard";
 import Cookies from "js-cookie";
 import Request from "./components/adminRelated/Request";
 import Profile from "./components/Profile";
+import ViewStaff from "./components/BusOwnerRelated/ViewStaff";
 
 function App() {
 
@@ -80,6 +81,7 @@ function App() {
                   {(userData != null && userData.userTypeId === 2) ? (
                           <>
                               <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} />} />
+                              <Route path="/viewStaff" element={<ViewStaff/>}></Route>
                           </>
                       ) :
                       <>
