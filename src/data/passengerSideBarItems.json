@@ -12,6 +12,11 @@
         "title": "View Reservation History",
         "icon": "bi-info-circle-fill"
 
+      },
+      {
+        "title": "Reset Password",
+        "icon": "bi-phone-fill"
+
       }
     ]
   },

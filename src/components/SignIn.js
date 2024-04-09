@@ -35,25 +35,14 @@ export default function SignIn({ loggedIn }){
 
             } else {
                 //setLoggedIn(true);
-                const { userTypeId, userName } = response.data;
+                const { userTypeId, userName,userId } = response.data;
 
-                const userDetails = {userTypeId, userName};
+                const userDetails = {userTypeId, userName, userId};
                 const expirationTime = new Date(new Date().getTime() + 60000);
                 Cookies.set('auth', JSON.stringify(userDetails), { expires: expirationTime });
 
                 navigate("/dashboard");
 
-                // if(userTypeId === 1){
-                //     navigate("/admin-dashboard");
-                // }else if(userTypeId === 2){
-                //
-                // }else if(userTypeId === 3){
-                //     navigate("/passenger-dashboard");
-                // }else if(userTypeId === 4){
-                //
-                // }else if(userTypeId === 5){
-                //
-                // }
 
             }
         } catch (error) {

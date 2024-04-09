@@ -184,3 +184,104 @@ table td {
     border-bottom: 1px solid #ccc;
     font-weight: bold;
 }
+.boarder-style{
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1)
+}
+
+.select {
+
+
+    background-color: #f2f2f2; /* Background color */
+    border: 1px solid #ccc; /* Border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 8px 20px 8px 10px; /* Padding */
+    font-size: 16px; /* Font size */
+    color: #555; /* Text color */
+    width: 200px;
+    align-items: flex-start;
+}
+
+.select:focus {
+    outline: none; /* Remove outline on focus */
+    border-color: #007bff; /* Border color on focus */
+    box-shadow: 0 0 0 0.1rem rgba(0,123,255,.25); /* Add box shadow on focus */
+}
+
+.form-text-input{
+    width: 20%;
+    height: 40px;
+    border-radius: 6px;
+    background: #eaeaea;
+}
+
+.button-img{
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+
+}
+
+.field-holder{
+    position: relative;
+    margin-bottom: 1.25em;
+}
+
+.form-input{
+    background-color: transparent;
+    border: 0;
+    border-bottom: 2px solid #777777;
+    outline: none;
+}
+
+.form-label{
+    position: absolute;
+    top: 0;
+    left: 0;
+    align-items: center;
+    cursor: text;
+    display: flex;
+    transition: .3s ease-in-out;
+
+
+}
+
+.form-input, .form-label{
+    font-size: 1em;
+    width: 50%;
+    display: flex;
+
+    height: 60px;
+}
+.error-message{
+    color: red;
+}
+
+.form-input:focus + .form-label,
+.form-input:valid + .form-label{
+    font-size: 0.75em;
+    top: -25px;
+    pointer-events: none;
+}
+
+.form-input:focus,
+.form-input:valid{
+    border-bottom: 3px solid #333333;
+}
+
+.image-preview {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%; /* This makes the container circular */
+    overflow: hidden; /* This hides any image overflow */
+    margin: 20px auto;
+    border: 0.7px solid black; /* You can customize border styles */
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This ensures the image fits within the circular container */
+}
