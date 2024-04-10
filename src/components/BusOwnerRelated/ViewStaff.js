@@ -399,9 +399,9 @@ export default function ViewStaff(){
                                     <label style={{paddingBottom:'20px'}}  htmlFor="jobType">Job Type :</label>
                                     <RadioGroup id="jobType" style={{display: "flex",alignItems: 'flex-start', marginLeft:'20px'}} >
                                         <span style={{ padding:'15px'}}>
-                                            <input type="radio" name="jobType" value="driver" id="driverLabel" onChange={handleJobType} onClick={() => setDriverLicensePanel(true) } checked={busCrewType === 'Driver'}/>
+                                            <input type="radio" name="jobType" value="driver" id="driverLabel" onChange={handleJobType} onClick={() => setDriverLicensePanel(true) } checked={busCrewType === 'driver'}/>
                                             <label htmlFor="driverLabel">Driver</label>
-                                            <input type="radio" name="jobType" value="conductor" id="driverLabel" onChange={handleJobType}  onClick={() => setDriverLicensePanel(false)} checked={busCrewType === 'Conductor'}/>
+                                            <input type="radio" name="jobType" value="conductor" id="driverLabel" onChange={handleJobType}  onClick={() => setDriverLicensePanel(false)} checked={busCrewType === 'conductor'}/>
                                             <label htmlFor="driverLabel">Conductor</label>
                                         </span>
 
@@ -484,7 +484,7 @@ export default function ViewStaff(){
             )}
 
             <Dialog open={openDeleteDialogBox}>
-                <DialogTitle>{"Do you want to delete the selected staff member?"}</DialogTitle>
+                <DialogTitle>Do you want to delete the selected staff member?</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
 

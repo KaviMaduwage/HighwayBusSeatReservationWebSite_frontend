@@ -100,6 +100,17 @@ function App() {
                       </>
                   }
 
+                  {(userData != null && (userData.userTypeId === 4 || userData.userTypeId === 5)) ? (
+                          <>
+                              <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} />} />
+                              <Route path="/profile" element={<Profile/>}></Route>
+                          </>
+                      ) :
+                      <>
+                          <Route path="*" element={<SignIn/>}></Route>
+                      </>
+                  }
+
               </Routes>
           </div>
 
