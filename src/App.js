@@ -14,6 +14,7 @@ import Cookies from "js-cookie";
 import Request from "./components/adminRelated/Request";
 import Profile from "./components/Profile";
 import ViewStaff from "./components/BusOwnerRelated/ViewStaff";
+import PasswordReset from "./components/PasswordReset";
 
 function App() {
 
@@ -71,6 +72,7 @@ function App() {
                           <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} />} />
                           <Route path="/requests" element={<Request/>}></Route>
                           <Route path="/profile" element={<Profile/>}></Route>
+                          <Route path="/resetPassword" element={<PasswordReset/>}></Route>
                       </>
                   ) :
                       <>
@@ -82,6 +84,8 @@ function App() {
                           <>
                               <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} />} />
                               <Route path="/viewStaff" element={<ViewStaff/>}></Route>
+                              <Route path="/profile" element={<Profile/>}></Route>
+                              <Route path="/resetPassword" element={<PasswordReset/>}></Route>
                           </>
                       ) :
                       <>
@@ -93,6 +97,7 @@ function App() {
                           <>
                               <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} />} />
                               <Route path="/profile" element={<Profile/>}></Route>
+                              <Route path="/resetPassword" element={<PasswordReset/>}></Route>
                           </>
                       ) :
                       <>
@@ -104,6 +109,7 @@ function App() {
                           <>
                               <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} />} />
                               <Route path="/profile" element={<Profile/>}></Route>
+                              <Route path="/resetPassword" element={<PasswordReset/>}></Route>
                           </>
                       ) :
                       <>

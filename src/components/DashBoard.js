@@ -6,6 +6,7 @@ import Home from "./Home";
 import Request from "./adminRelated/Request";
 import Profile from "./Profile";
 import ViewStaff from "./BusOwnerRelated/ViewStaff";
+import PasswordReset from "./PasswordReset";
 
 
 export default function DashBoard({ userName, userTypeId }) {
@@ -31,6 +32,7 @@ export default function DashBoard({ userName, userTypeId }) {
                 {selectedPage === 'Accept Requests' && <Request />}
                 {selectedPage === 'View Profile' && <Profile />}
                 {selectedPage === 'View Staff' && <ViewStaff/>}
+                {selectedPage === 'Reset Password' && <PasswordReset/>}
 
             </div>
         </div>
