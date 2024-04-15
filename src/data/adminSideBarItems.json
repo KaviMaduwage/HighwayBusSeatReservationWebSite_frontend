@@ -25,6 +25,14 @@
     "icon": "bi-info-circle-fill",
     "childrens": [
       {
+        "title": "View Routes"
+
+      },
+      {
+        "title": "View Bus Details"
+
+      },
+      {
         "title": "View Bus Schedule"
 
       },

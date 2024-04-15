@@ -14,6 +14,9 @@ import Cookies from "js-cookie";
 import Request from "./components/adminRelated/Request";
 import Profile from "./components/Profile";
 import ViewStaff from "./components/BusOwnerRelated/ViewStaff";
+import PasswordReset from "./components/PasswordReset";
+import Bus from "./components/Bus";
+import BusRoute from "./components/BusRoute";
 
 function App() {
 
@@ -68,9 +71,11 @@ function App() {
 
                   {(userData != null && userData.userTypeId === 1) ? (
                       <>
-                          <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} />} />
+                          <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} userId={userData.userId} />} />
                           <Route path="/requests" element={<Request/>}></Route>
                           <Route path="/profile" element={<Profile/>}></Route>
+                          <Route path="/resetPassword" element={<PasswordReset/>}></Route>
+                          <Route path="/busRoute" element={<BusRoute/>}></Route>
                       </>
                   ) :
                       <>
@@ -80,8 +85,12 @@ function App() {
 
                   {(userData != null && userData.userTypeId === 2) ? (
                           <>
-                              <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} />} />
+                              <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} userId={userData.userId}/>} />
                               <Route path="/viewStaff" element={<ViewStaff/>}></Route>
+                              <Route path="/profile" element={<Profile/>}></Route>
+                              <Route path="/resetPassword" element={<PasswordReset/>}></Route>
+                              <Route path="/bus" element={<Bus/>}></Route>
+                              <Route path="/busRoute" element={<BusRoute/>}></Route>
                           </>
                       ) :
                       <>
@@ -91,8 +100,21 @@ function App() {
 
                   {(userData != null && userData.userTypeId === 3) ? (
                           <>
-                              <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} />} />
+                              <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} userId={userData.userId}/>} />
                               <Route path="/profile" element={<Profile/>}></Route>
+                              <Route path="/resetPassword" element={<PasswordReset/>}></Route>
+                          </>
+                      ) :
+                      <>
+                          <Route path="*" element={<SignIn/>}></Route>
+                      </>
+                  }
+
+                  {(userData != null && (userData.userTypeId === 4 || userData.userTypeId === 5)) ? (
+                          <>
+                              <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} userId={userData.userId}/>} />
+                              <Route path="/profile" element={<Profile/>}></Route>
+                              <Route path="/resetPassword" element={<PasswordReset/>}></Route>
                           </>
                       ) :
                       <>

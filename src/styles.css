@@ -285,3 +285,18 @@ table td {
     height: 100%;
     object-fit: cover; /* This ensures the image fits within the circular container */
 }
+
+.seat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    grid-gap: 5px;
+
+}
+
+.seat {
+    background-color: #eaeaea;
+    border: 1px solid #ccc;
+    padding: 10px;
+    height: 80px;
+
+}

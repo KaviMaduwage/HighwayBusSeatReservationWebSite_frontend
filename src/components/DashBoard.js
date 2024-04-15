@@ -6,9 +6,12 @@ import Home from "./Home";
 import Request from "./adminRelated/Request";
 import Profile from "./Profile";
 import ViewStaff from "./BusOwnerRelated/ViewStaff";
+import PasswordReset from "./PasswordReset";
+import Bus from "./Bus";
+import BusRoute from "./BusRoute";
 
 
-export default function DashBoard({ userName, userTypeId }) {
+export default function DashBoard({ userName, userTypeId, userId }) {
     const contentRef = useRef(null);
     const [selectedPage, setSelectedPage] = useState('Home');
 
@@ -31,6 +34,9 @@ export default function DashBoard({ userName, userTypeId }) {
                 {selectedPage === 'Accept Requests' && <Request />}
                 {selectedPage === 'View Profile' && <Profile />}
                 {selectedPage === 'View Staff' && <ViewStaff/>}
+                {selectedPage === 'Reset Password' && <PasswordReset/>}
+                {selectedPage === 'View Bus Details' && <Bus userTypeId={userTypeId} userId={userId}/>}
+                {selectedPage === 'View Routes' && <BusRoute userTypeId={userTypeId}/>}
 
             </div>
         </div>

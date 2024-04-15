@@ -4,7 +4,7 @@ import {
     findMemberById,
     populateBusCrewTypes,
     populateStaffDetails,
-    saveStaffMember
+    saveStaffMember, searchStaff
 } from "../../services/staffService";
 import addImage from "../../images/add1.png";
 import deleteStaff from "../../images/delete.png";
@@ -26,6 +26,8 @@ export default function ViewStaff(){
 
     const [name, setName] = useState('');
     const [searchName, setSearchName] = useState('');
+    const [searchCrewType, setSearchCrewType] = useState('');
+    const [searchStatus, setSearchStatus] = useState('');
     const [address, setAddress] = useState('');
     const [email, setEmail] = useState('');
     const [mobileNo, setMobileNo] = useState('');
@@ -120,7 +122,7 @@ export default function ViewStaff(){
 
     function saveCrewMember() {
         let  selectedBusCrewType;
-        if(busCrewType === "driver"){
+        if(busCrewType === "Driver"){
             selectedBusCrewType= {
                 busCrewTypeId: 1,
                 description: 'driver'
@@ -278,6 +280,43 @@ export default function ViewStaff(){
         })
     }
 
+    function searchStaffMember() {
+        let crewTypeId = 0;
+        if(searchCrewType === "Driver"){
+            crewTypeId = 1;
+        }else if(searchCrewType === "Conductor"){
+            crewTypeId = 2;
+        }
+
+        const cookieData = Cookies.get('auth');
+        let userId =0;
+        if (cookieData) {
+
+            let cookie = JSON.parse(cookieData)
+            userId = cookie.userId;
+
+        }else{
+            console.log("no cookie");
+
+        }
+        searchStaff(searchName, crewTypeId, searchStatus,userId).then(response => {
+            setBusCrewList(response.data);
+        })
+
+    }
+
+    function handleSearchName(e) {
+        setSearchName(e.target.value);
+    }
+
+    function handleSearchCrewType(e) {
+        setSearchCrewType(e.target.value);
+    }
+
+    function handleSearchStatus(e) {
+        setSearchStatus(e.target.value);
+    }
+
     return (
         <div>
             <h1>Staff Management</h1>
@@ -285,11 +324,11 @@ export default function ViewStaff(){
             <div className="boarder-style">
 
                 <label style={{padding :"10px"}} htmlFor="nameSearch">Name:</label>
-                <input className="form-text-input"  id="nameSearch"/>
+                <input className="form-text-input"  id="nameSearch" onChange={handleSearchName} value={searchName}/>
 
 
                 <label style={{padding :"10px"}} htmlFor="type">Type:</label>
-                <select className="select" id="type">
+                <select className="select" id="type" onChange={handleSearchCrewType} value={searchCrewType}>
 
                     <option>Please select...</option>
                     {busCrewTypes.map(busCrewType => (
@@ -299,15 +338,15 @@ export default function ViewStaff(){
                 </select>
 
                 <label style={{padding :"10px"}} htmlFor="status">Status:</label>
-                <select className="select" id="status">
+                <select className="select" id="status" onChange={handleSearchStatus} value={searchStatus}>
 
-                    <option>Please select...</option>
-                    <option value="current">Current</option>
+                    <option value="">Please select...</option>
+                    <option value="present">Present</option>
                     <option value="past">Past</option>
 
                 </select>
 
-                <button type="button" style={{backgroundImage : "linear-gradient(#164863, #164863)", marginLeft:"20px"}}> Search </button>
+                <button type="button" style={{backgroundImage : "linear-gradient(#164863, #164863)", marginLeft:"20px"}} onClick={searchStaffMember}> Search </button>
 
             </div>
 
@@ -399,9 +438,9 @@ export default function ViewStaff(){
                                     <label style={{paddingBottom:'20px'}}  htmlFor="jobType">Job Type :</label>
                                     <RadioGroup id="jobType" style={{display: "flex",alignItems: 'flex-start', marginLeft:'20px'}} >
                                         <span style={{ padding:'15px'}}>
-                                            <input type="radio" name="jobType" value="driver" id="driverLabel" onChange={handleJobType} onClick={() => setDriverLicensePanel(true) } checked={busCrewType === 'Driver'}/>
+                                            <input type="radio" name="jobType" value="Driver" id="driverLabel" onChange={handleJobType} onClick={() => setDriverLicensePanel(true) } checked={busCrewType === 'Driver'}/>
                                             <label htmlFor="driverLabel">Driver</label>
-                                            <input type="radio" name="jobType" value="conductor" id="driverLabel" onChange={handleJobType}  onClick={() => setDriverLicensePanel(false)} checked={busCrewType === 'Conductor'}/>
+                                            <input type="radio" name="jobType" value="Conductor" id="driverLabel" onChange={handleJobType}  onClick={() => setDriverLicensePanel(false)} checked={busCrewType === 'Conductor'}/>
                                             <label htmlFor="driverLabel">Conductor</label>
                                         </span>
 
@@ -484,7 +523,7 @@ export default function ViewStaff(){
             )}
 
             <Dialog open={openDeleteDialogBox}>
-                <DialogTitle>{"Do you want to delete the selected staff member?"}</DialogTitle>
+                <DialogTitle>Do you want to delete the selected staff member?</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
 
