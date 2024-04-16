@@ -71,7 +71,7 @@ function App() {
 
                   {(userData != null && userData.userTypeId === 1) ? (
                       <>
-                          <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} />} />
+                          <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} userId={userData.userId} />} />
                           <Route path="/requests" element={<Request/>}></Route>
                           <Route path="/profile" element={<Profile/>}></Route>
                           <Route path="/resetPassword" element={<PasswordReset/>}></Route>
@@ -85,7 +85,7 @@ function App() {
 
                   {(userData != null && userData.userTypeId === 2) ? (
                           <>
-                              <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} />} />
+                              <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} userId={userData.userId}/>} />
                               <Route path="/viewStaff" element={<ViewStaff/>}></Route>
                               <Route path="/profile" element={<Profile/>}></Route>
                               <Route path="/resetPassword" element={<PasswordReset/>}></Route>
@@ -100,7 +100,7 @@ function App() {
 
                   {(userData != null && userData.userTypeId === 3) ? (
                           <>
-                              <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} />} />
+                              <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} userId={userData.userId}/>} />
                               <Route path="/profile" element={<Profile/>}></Route>
                               <Route path="/resetPassword" element={<PasswordReset/>}></Route>
                           </>
@@ -112,7 +112,7 @@ function App() {
 
                   {(userData != null && (userData.userTypeId === 4 || userData.userTypeId === 5)) ? (
                           <>
-                              <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} />} />
+                              <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} userId={userData.userId}/>} />
                               <Route path="/profile" element={<Profile/>}></Route>
                               <Route path="/resetPassword" element={<PasswordReset/>}></Route>
                           </>

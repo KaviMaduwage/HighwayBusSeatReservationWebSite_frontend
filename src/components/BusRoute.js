@@ -98,7 +98,7 @@ export default function BusRoute({userTypeId}){
                         <th>Destination</th>
                         <th>Description</th>
                         {userTypeId === 1 &&
-                            <th><img className="button-img" src={addImage} title="Add New Crew Member" alt="add" onClick={showPanelAdd}/></th>
+                            <th><img className="button-img" src={addImage} title="Add New Route" alt="add" onClick={showPanelAdd}/></th>
 
                         }
 
