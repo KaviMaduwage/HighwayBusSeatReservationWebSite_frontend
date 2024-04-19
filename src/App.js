@@ -17,6 +17,7 @@ import ViewStaff from "./components/BusOwnerRelated/ViewStaff";
 import PasswordReset from "./components/PasswordReset";
 import Bus from "./components/Bus";
 import BusRoute from "./components/BusRoute";
+import BusSchedule from "./components/BusSchedule";
 
 function App() {
 
@@ -76,6 +77,7 @@ function App() {
                           <Route path="/profile" element={<Profile/>}></Route>
                           <Route path="/resetPassword" element={<PasswordReset/>}></Route>
                           <Route path="/busRoute" element={<BusRoute/>}></Route>
+                          <Route path="/busSchedule" element={<BusSchedule/>}></Route>
                       </>
                   ) :
                       <>
@@ -91,6 +93,7 @@ function App() {
                               <Route path="/resetPassword" element={<PasswordReset/>}></Route>
                               <Route path="/bus" element={<Bus/>}></Route>
                               <Route path="/busRoute" element={<BusRoute/>}></Route>
+                              <Route path="/busSchedule" element={<BusSchedule/>}></Route>
                           </>
                       ) :
                       <>
@@ -103,6 +106,7 @@ function App() {
                               <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} userId={userData.userId}/>} />
                               <Route path="/profile" element={<Profile/>}></Route>
                               <Route path="/resetPassword" element={<PasswordReset/>}></Route>
+                              <Route path="/busSchedule" element={<BusSchedule/>}></Route>
                           </>
                       ) :
                       <>
@@ -115,6 +119,7 @@ function App() {
                               <Route path="/dashboard" element={<DashBoard userName={userData.userName} userTypeId={userData.userTypeId} userId={userData.userId}/>} />
                               <Route path="/profile" element={<Profile/>}></Route>
                               <Route path="/resetPassword" element={<PasswordReset/>}></Route>
+                              <Route path="/busSchedule" element={<BusSchedule/>}></Route>
                           </>
                       ) :
                       <>

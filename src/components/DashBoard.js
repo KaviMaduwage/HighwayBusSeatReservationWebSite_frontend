@@ -9,6 +9,7 @@ import ViewStaff from "./BusOwnerRelated/ViewStaff";
 import PasswordReset from "./PasswordReset";
 import Bus from "./Bus";
 import BusRoute from "./BusRoute";
+import BusSchedule from "./BusSchedule";
 
 
 export default function DashBoard({ userName, userTypeId, userId }) {
@@ -37,6 +38,7 @@ export default function DashBoard({ userName, userTypeId, userId }) {
                 {selectedPage === 'Reset Password' && <PasswordReset/>}
                 {selectedPage === 'View Bus Details' && <Bus userTypeId={userTypeId} userId={userId}/>}
                 {selectedPage === 'View Routes' && <BusRoute userTypeId={userTypeId}/>}
+                {selectedPage === 'View Bus Schedule' && <BusSchedule userTypeId={userTypeId} userId={userId} />}
 
             </div>
         </div>
