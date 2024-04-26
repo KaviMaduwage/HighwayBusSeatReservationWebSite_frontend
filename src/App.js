@@ -18,6 +18,7 @@ import PasswordReset from "./components/PasswordReset";
 import Bus from "./components/Bus";
 import BusRoute from "./components/BusRoute";
 import BusSchedule from "./components/BusSchedule";
+import Cart from "./components/PassengerRelated/Cart";
 
 function App() {
 
@@ -107,6 +108,7 @@ function App() {
                               <Route path="/profile" element={<Profile/>}></Route>
                               <Route path="/resetPassword" element={<PasswordReset/>}></Route>
                               <Route path="/busSchedule" element={<BusSchedule/>}></Route>
+                              <Route path="/cart" element={<Cart/>}></Route>
                           </>
                       ) :
                       <>

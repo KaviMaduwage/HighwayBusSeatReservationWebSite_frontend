@@ -300,3 +300,9 @@ table td {
     height: 80px;
 
 }
+
+.selected {
+    background-color: #011f4b;
+    color: #fff;
+
+}

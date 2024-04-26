@@ -10,6 +10,7 @@ import PasswordReset from "./PasswordReset";
 import Bus from "./Bus";
 import BusRoute from "./BusRoute";
 import BusSchedule from "./BusSchedule";
+import Cart from "./PassengerRelated/Cart";
 
 
 export default function DashBoard({ userName, userTypeId, userId }) {
@@ -39,6 +40,8 @@ export default function DashBoard({ userName, userTypeId, userId }) {
                 {selectedPage === 'View Bus Details' && <Bus userTypeId={userTypeId} userId={userId}/>}
                 {selectedPage === 'View Routes' && <BusRoute userTypeId={userTypeId}/>}
                 {selectedPage === 'View Bus Schedule' && <BusSchedule userTypeId={userTypeId} userId={userId} />}
+
+                {selectedPage === 'Cart' && <Cart userId={userId}/>}
 
             </div>
         </div>
