@@ -1,28 +1,33 @@
 [
   {
+    "title": "Cart",
+    "icon": "bi-cart-dash"
+
+  },
+  {
     "title": "Profile",
-    "icon": "bi-gear-fill",
+    "icon": "bi-person-square",
     "childrens": [
       {
-        "title": "View Profile",
-        "icon": "bi-house-fill"
+        "title": "View Profile"
+
 
       },
       {
-        "title": "View Reservation History",
-        "icon": "bi-info-circle-fill"
+        "title": "View Reservation History"
+
 
       },
       {
-        "title": "Reset Password",
-        "icon": "bi-phone-fill"
+        "title": "Reset Password"
+
 
       }
     ]
   },
   {
     "title": "Bus Schedule",
-    "icon": "bi-info-circle-fill",
+    "icon": "bi-calendar-week",
     "childrens": [
       {
         "title": "View Bus Schedule"
@@ -40,7 +45,7 @@
   },
   {
     "title": "Payments",
-    "icon": "bi-person-fill",
+    "icon": "bi-cash-coin",
     "childrens": [
       {
         "title": "View Transaction History"
@@ -58,7 +63,7 @@
   },
   {
     "title": "Reports",
-    "icon": "bi-view-list",
+    "icon": "bi-file-earmark-text",
     "childrens": [
       {
         "title": "Travel History Report"
@@ -72,7 +77,7 @@
   },
   {
     "title": "Notifications",
-    "icon": "bi-view-list",
+    "icon": "bi bi-bell",
     "childrens": [
       {
         "title": "View Notifications"
@@ -82,7 +87,7 @@
   },
   {
     "title": "Emergency Alerts",
-    "icon": "bi-view-list",
+    "icon": "bi-exclamation-triangle",
     "childrens": [
       {
         "title": "View Emergency Alerts"
@@ -92,7 +97,7 @@
   },
   {
     "title": "Lost/ Found",
-    "icon": "bi-view-list",
+    "icon": "bi-duffle",
     "childrens": [
       {
         "title": "View Lost Items"
@@ -110,7 +115,7 @@
   },
   {
     "title": "Discounts",
-    "icon": "bi-view-list",
+    "icon": "bi-piggy-bank",
     "childrens": [
       {
         "title": "View Discounts"
@@ -120,18 +125,14 @@
   },
   {
     "title": "Feedback/ Complaints",
-    "icon": "bi-view-list",
+    "icon": "bi-chat-square-text",
     "childrens": [
       {
         "title": "View Feedback / Complaints"
 
       }
     ]
-  },
-
-  {
-    "title": "Cart",
-    "icon": "bi-bug"
-
   }
+
+
 ]

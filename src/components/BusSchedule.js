@@ -1,4 +1,5 @@
 import {useEffect, useRef, useState} from "react";
+import { useNavigate} from 'react-router-dom';
 import citiesData from "../data/cities.json";
 import {getAllRoutes} from "../services/routeService";
 import addImage from "../images/addItem.png";
@@ -80,6 +81,8 @@ export default function BusSchedule({userTypeId,userId}){
     const [pickUpPoint, setPickUpPoint] = useState('');
     const [dropOffPoint, setDropOffPoint] = useState('');
     const [remark, setRemark] = useState('');
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (showAddPanel) {
@@ -425,11 +428,13 @@ export default function BusSchedule({userTypeId,userId}){
         
     }
 
+
+
     return (
         <div>
             <h1>Bus Schedule</h1>
 
-            <p>{responseMessage}</p>
+
 
             <div className="boarder-style">
 
@@ -545,6 +550,8 @@ export default function BusSchedule({userTypeId,userId}){
                     </tbody>
                 </table>
             </div>
+
+            <p>{responseMessage}</p>
 
             {showAddPanel && (
                 <div className="boarder-style" style={{marginTop:'30px'}} ref={addPanelRef}>
@@ -887,7 +894,7 @@ export default function BusSchedule({userTypeId,userId}){
                             </span>
 
                         <span style={{padding:'10px'}}>
-                                <button > Pay</button>
+                                <button> Pay</button>
                             </span>
                     </div>
 
