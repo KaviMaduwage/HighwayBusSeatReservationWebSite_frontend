@@ -500,7 +500,12 @@ export default function BusSchedule({userTypeId,userId}){
                         <th>Trip Status</th>
                         <th style={{width:'10%'}}>Available Seats</th>
                         <th>Price (Rs.)</th>
-                        <th><img className="button-img" src={addImage} title="Add New Schedule" alt="add" onClick={showPanelAdd}/></th>
+                        {userTypeId === 1 || userTypeId === 2 ?
+
+                            <th><img className="button-img" src={addImage} title="Add New Schedule" alt="add" onClick={showPanelAdd}/></th>
+                            :
+                            <th></th>
+                        }
 
 
                     </tr>

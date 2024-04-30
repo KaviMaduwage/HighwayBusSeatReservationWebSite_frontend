@@ -11,6 +11,7 @@ import Bus from "./Bus";
 import BusRoute from "./BusRoute";
 import BusSchedule from "./BusSchedule";
 import Cart from "./PassengerRelated/Cart";
+import TodayTrip from "./BusCrewRelated/TodayTrip";
 
 
 export default function DashBoard({ userName, userTypeId, userId }) {
@@ -42,6 +43,7 @@ export default function DashBoard({ userName, userTypeId, userId }) {
                 {selectedPage === 'View Bus Schedule' && <BusSchedule userTypeId={userTypeId} userId={userId} />}
 
                 {selectedPage === 'Cart' && <Cart userId={userId}/>}
+                {selectedPage === 'Today\'s Trip' && <TodayTrip userId={userId}/>}
 
             </div>
         </div>

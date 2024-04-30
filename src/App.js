@@ -19,6 +19,7 @@ import Bus from "./components/Bus";
 import BusRoute from "./components/BusRoute";
 import BusSchedule from "./components/BusSchedule";
 import Cart from "./components/PassengerRelated/Cart";
+import TodayTrip from "./components/BusCrewRelated/TodayTrip";
 
 function App() {
 
@@ -95,6 +96,7 @@ function App() {
                               <Route path="/bus" element={<Bus/>}></Route>
                               <Route path="/busRoute" element={<BusRoute/>}></Route>
                               <Route path="/busSchedule" element={<BusSchedule/>}></Route>
+                              <Route path="/todaySchedule" element={<TodayTrip/>}></Route>
                           </>
                       ) :
                       <>
