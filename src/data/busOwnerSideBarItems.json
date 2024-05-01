@@ -40,6 +40,10 @@
       {
         "title": "View Bus Schedule"
 
+      },
+      {
+        "title": "Trip History"
+
       }
     ]
   },

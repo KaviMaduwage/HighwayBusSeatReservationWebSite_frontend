@@ -20,6 +20,7 @@ import BusRoute from "./components/BusRoute";
 import BusSchedule from "./components/BusSchedule";
 import Cart from "./components/PassengerRelated/Cart";
 import TodayTrip from "./components/BusCrewRelated/TodayTrip";
+import TripHistory from "./components/TripHistory";
 
 function App() {
 
@@ -80,6 +81,7 @@ function App() {
                           <Route path="/resetPassword" element={<PasswordReset/>}></Route>
                           <Route path="/busRoute" element={<BusRoute/>}></Route>
                           <Route path="/busSchedule" element={<BusSchedule/>}></Route>
+                          <Route path="/tripHistory" element={<TripHistory/>}></Route>
                       </>
                   ) :
                       <>
@@ -96,7 +98,7 @@ function App() {
                               <Route path="/bus" element={<Bus/>}></Route>
                               <Route path="/busRoute" element={<BusRoute/>}></Route>
                               <Route path="/busSchedule" element={<BusSchedule/>}></Route>
-                              <Route path="/todaySchedule" element={<TodayTrip/>}></Route>
+                              <Route path="/tripHistory" element={<TripHistory/>}></Route>
                           </>
                       ) :
                       <>
@@ -124,6 +126,8 @@ function App() {
                               <Route path="/profile" element={<Profile/>}></Route>
                               <Route path="/resetPassword" element={<PasswordReset/>}></Route>
                               <Route path="/busSchedule" element={<BusSchedule/>}></Route>
+                              <Route path="/todaySchedule" element={<TodayTrip/>}></Route>
+                              <Route path="/tripHistory" element={<TripHistory/>}></Route>
                           </>
                       ) :
                       <>

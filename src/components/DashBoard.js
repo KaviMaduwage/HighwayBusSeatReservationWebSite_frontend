@@ -12,6 +12,7 @@ import BusRoute from "./BusRoute";
 import BusSchedule from "./BusSchedule";
 import Cart from "./PassengerRelated/Cart";
 import TodayTrip from "./BusCrewRelated/TodayTrip";
+import TripHistory from "./TripHistory";
 
 
 export default function DashBoard({ userName, userTypeId, userId }) {
@@ -35,7 +36,7 @@ export default function DashBoard({ userName, userTypeId, userId }) {
 
                 {selectedPage === 'Home' && <Home />}
                 {selectedPage === 'Accept Requests' && <Request />}
-                {selectedPage === 'View Profile' && <Profile />}
+                {selectedPage === 'View Profile' && <Profile userTypeId={userTypeId} userId={userId}/>}
                 {selectedPage === 'View Staff' && <ViewStaff/>}
                 {selectedPage === 'Reset Password' && <PasswordReset/>}
                 {selectedPage === 'View Bus Details' && <Bus userTypeId={userTypeId} userId={userId}/>}
@@ -44,6 +45,7 @@ export default function DashBoard({ userName, userTypeId, userId }) {
 
                 {selectedPage === 'Cart' && <Cart userId={userId}/>}
                 {selectedPage === 'Today\'s Trip' && <TodayTrip userId={userId}/>}
+                {selectedPage === 'Trip History' && <TripHistory userId={userId} userTypeId={userTypeId}/>}
 
             </div>
         </div>
