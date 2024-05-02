@@ -155,7 +155,7 @@ export default function ViewStaff(){
 
         }
 
-        busCrew = {busCrewId, name,address,mobileNo,dob,nic,licenseNo,expiryDate,issueDate,ntcNo,status, busCrewType : selectedBusCrewType, user: user, busOwner:busOwner};
+        busCrew = {busCrewId, name,address,mobileNo,dob,nic,licenseNo,expiryDate,issuesDate: issueDate,ntcNo,status, busCrewType : selectedBusCrewType, user: user, busOwner:busOwner};
 
 
         console.log(busCrew);
@@ -206,6 +206,7 @@ export default function ViewStaff(){
     }
 
     function handleExpiryDate(e) {
+        console.log(e.target.value);
         setExpiryDate(e.target.value);
     }
 
@@ -243,7 +244,7 @@ export default function ViewStaff(){
             setStatus(member.status);
             setDob(member.dob);
             setExpiryDate(member.expiryDate);
-            setIssueDate(member.issueDate);
+            setIssueDate(member.issuesDate);
             setBusCrewId(member.busCrewId);
 
 

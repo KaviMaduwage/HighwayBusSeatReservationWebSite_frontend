@@ -1,28 +1,28 @@
 [
   {
     "title": "Profile Management",
-    "icon": "bi-gear-fill",
+    "icon": "bi-people",
     "childrens": [
       {
-        "title": "View Profile",
-        "icon": "bi-house-fill"
+        "title": "View Profile"
+
 
       },
       {
-        "title": "Accept Requests",
-        "icon": "bi-info-circle-fill"
+        "title": "Accept Requests"
+
 
       },
       {
-        "title": "Reset Password",
-        "icon": "bi-phone-fill"
+        "title": "Reset Password"
+
 
       }
     ]
   },
   {
     "title": "Bus Schedule",
-    "icon": "bi-info-circle-fill",
+    "icon": "bi-calendar-week",
     "childrens": [
       {
         "title": "View Routes"
@@ -37,14 +37,18 @@
 
       },
       {
+        "title": "Trip History"
+
+      },
+      {
         "title": "Manage Seat Structure"
 
       }
     ]
   },
   {
-    "title": "Emergency",
-    "icon": "bi-person-fill",
+    "title": "Emergency Alerts",
+    "icon": "bi-exclamation-triangle",
     "childrens": [
       {
         "title": "View Emergency Alerts"
@@ -54,21 +58,17 @@
   },
   {
     "title": "Reports",
-    "icon": "bi-view-list",
+    "icon": "bi-file-earmark-text",
     "childrens": [
       {
-        "title": "Search"
-
-      },
-      {
-        "title": "History"
+        "title": "Generate Reports"
 
       }
     ]
   },
   {
     "title": "Lost/ Found",
-    "icon": "bi-question-circle-fill"
+    "icon": "bi-duffle"
 
   }
 ]

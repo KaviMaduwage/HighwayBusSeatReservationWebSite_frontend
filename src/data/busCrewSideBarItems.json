@@ -1,23 +1,23 @@
 [
   {
     "title": "Profile",
-    "icon": "bi-gear-fill",
+    "icon": "bi-person-square",
     "childrens": [
       {
-        "title": "View Profile",
-        "icon": "bi-house-fill"
+        "title": "View Profile"
+
 
       },
       {
-        "title": "Reset Password",
-        "icon": "bi-phone-fill"
+        "title": "Reset Password"
+
 
       }
     ]
   },
   {
     "title": "Bus Schedule",
-    "icon": "bi-info-circle-fill",
+    "icon": "bi-calendar-week",
     "childrens": [
       {
         "title": "Today's Trip"

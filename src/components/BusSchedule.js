@@ -1,4 +1,5 @@
 import {useEffect, useRef, useState} from "react";
+import { useNavigate} from 'react-router-dom';
 import citiesData from "../data/cities.json";
 import {getAllRoutes} from "../services/routeService";
 import addImage from "../images/addItem.png";
@@ -7,7 +8,10 @@ import viewSchedule from "../images/updateSchedule.png";
 import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 import ReactDatetimeClass from "react-datetime";
+import getOnImg from "../images/getOnBus.png";
+import getOffImg from "../images/getOffBus.png";
 import {
+    findSeatStructureByBusId,
     loadAllBusDetails,
     loadAllBusDetailsInTravelService,
     loadConductorsInTravelService,
@@ -18,6 +22,17 @@ import {
     loadScheduleByDate,
     saveSchedule
 } from "../services/scheduleService";
+import availableSeatImg from "../images/seat.png";
+import blockedSeatImg from "../images/blockedSeatImg.png";
+import bookedSeatImg from "../images/bookedSeatImg.png";
+import {
+    addReservationToCart,
+    blockSeat,
+    findBlockedSeatsByScheduleId,
+    unblockSelectedSeat
+} from "../services/reservationService";
+import driverSeat from "../images/driverSeat.png";
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 
 export default function BusSchedule({userTypeId,userId}){
     const [searchDate, setSearchDate] = useState();
@@ -27,10 +42,15 @@ export default function BusSchedule({userTypeId,userId}){
     const [routeList, setRouteList] = useState([]);
     const [searchRouteId, setSearchRouteId] = useState('');
     const [showAddPanel, setShowAddPanel] = useState(false);
+    const [reservationPanel, setReservationPanel] = useState(false);
+    const reservationPanelRef = useRef(null);
     const [scheduleList, setScheduleList] = useState([]);
     const addPanelRef = useRef(null);
     const [inputDestination, setInputDestination] = useState('');
     const [inputOrigin, setInputOrigin] = useState('');
+    const [reserveScheduleId, setReserveScheduleId] = useState('');
+    const [oneTicketPrice, setOneTicketPrice] = useState(0);
+    const [totalCost, setTotalCost] = useState(0);
 
     const initialEndingTime = new Date();
     initialEndingTime.setHours(10, 0, 0, 0);
@@ -48,6 +68,21 @@ export default function BusSchedule({userTypeId,userId}){
     const [scheduleId, setScheduleId] = useState('');
 
     const [dateInput, setDateInput] = useState(null);
+
+    const [busRows,setBusRows] = useState('');
+    const [busColumns, setBusColumns] = useState('');
+    const [selectedSeats, setSelectedSeats] = useState([])
+    const [bookedSeatList, setBookedSeatList] = useState([]);
+    const [onGoingSeatList, setOnGoingSeatList] = useState([]);
+    const [passengerSelectedSeats, setPassengerSelectedSeats] = useState([]);
+    const [passengerSelectedSeatsStr, setPassengerSelectedSeatsStr] = useState('');
+    const [openAddToCartDialogBox,setAddToCartDialogBox] = useState(false);
+
+    const [pickUpPoint, setPickUpPoint] = useState('');
+    const [dropOffPoint, setDropOffPoint] = useState('');
+    const [remark, setRemark] = useState('');
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (showAddPanel) {
@@ -77,6 +112,35 @@ export default function BusSchedule({userTypeId,userId}){
 
     }, [showAddPanel]);
 
+    function fetchSeatsCurrentStatus() {
+        findBlockedSeatsByScheduleId(reserveScheduleId).then(response => {
+                    setOnGoingSeatList(response.data);
+                    setSelectedSeatsDescription(response.data);
+                });
+    }
+
+    useEffect(() => {
+        if(reservationPanel){
+            fetchSeatsCurrentStatus();
+
+            const intervalId = setInterval(fetchSeatsCurrentStatus, 10 * 60 * 1000);
+
+
+            return () => clearInterval(intervalId);
+
+        }
+
+    }, [reservationPanel]);
+
+    // const fetchSeatsCurrentStatus = async () => {
+    //
+    //     findBlockedSeatsByScheduleId(reserveScheduleId).then(response => {
+    //         setOnGoingSeatList(response.data);
+    //     });
+    //
+    //
+    // };
+
 
     function loadScheduleList(date) {
         loadScheduleByDate(date).then(response => {
@@ -92,7 +156,7 @@ export default function BusSchedule({userTypeId,userId}){
         getAllRoutes().then(response => {
             setRouteList(response.data);
         });
-        console.log(new Date());
+
         loadScheduleList(getTodayDate(new Date()));
 
 
@@ -207,6 +271,19 @@ export default function BusSchedule({userTypeId,userId}){
         setPrice(e.target.value);
     }
 
+    function handlePickUpPoint(e) {
+        setPickUpPoint(e.target.value);
+    }
+
+    function handleDropOffPoint(e) {
+        setDropOffPoint(e.target.value);
+    }
+
+    function handleRemark(e) {
+        setRemark(e.target.value);
+    }
+
+
     function scheduleTrip() {
 
         const bus ={busId:busId};
@@ -247,16 +324,129 @@ export default function BusSchedule({userTypeId,userId}){
         return undefined;
     }
 
+    function showReservationPanel(scheduleId) {
+        setReservationPanel(true);
+        setShowAddPanel(false);
+        setReserveScheduleId(scheduleId);
+        setRemark('');
+        setDropOffPoint('');
+        setPickUpPoint('');
+
+        findScheduleById(scheduleId).then(response => {
+            let schedule = response.data;
+            setBusRows(schedule.schedule.bus.noOfRows);
+            setBusColumns(schedule.schedule.bus.noOfColumns);
+            setOneTicketPrice(schedule.schedule.ticketPrice);
+
+            findSeatStructureByBusId(schedule.schedule.bus.busId).then(response => {
+                setSelectedSeats(response.data);
+            });
+
+            findBlockedSeatsByScheduleId(schedule.schedule.scheduleId).then(response => {
+                setOnGoingSeatList(response.data);
+                setSelectedSeatsDescription(response.data);
+            })
+
+        });
+    }
+
+    function isSeatSelected(row, col) {
+        return selectedSeats.some(seat => seat.row === row + 1 && seat.col === col + 1);
+    }
+
+    function bookSeat(row, col) {
+
+        const seatIndex = onGoingSeatList.findIndex(seat => seat.row === row+1 && seat.col === col+1);
+        if(seatIndex === -1){
+            setPassengerSelectedSeats([...passengerSelectedSeats, { row: row+1 , col: col+1, userId:userId}]);
+
+            blockSeat(userId,reserveScheduleId,row+1,col+1).then(response =>{
+                setOnGoingSeatList(response.data);
+                setSelectedSeatsDescription(response.data);
+            })
+
+        }
+
+    }
+
+    function isBookedByUser(row,col){
+        return onGoingSeatList.some(seat => seat.row === row + 1 && seat.col === col + 1 && seat.user.userId === userId);
+    }
+
+    function isSeatBlocked(row, col) {
+        return onGoingSeatList.some(seat => seat.row === row + 1 && seat.col === col + 1);
+    }
+
+    function isSeatBooked(row, col) {
+        return bookedSeatList.some(seat => seat.row === row + 1 && seat.col === col + 1);
+    }
+
+    function setSelectedSeatsDescription(seatList) {
+        let str = '';
+        let count = 0;
+        seatList.filter(seat => seat.schedule.scheduleId === reserveScheduleId && seat.user.userId === userId)
+            .forEach(seat => {
+                str += seat.row + " - " + seat.col + ",";
+                count++;
+            });
+
+        setPassengerSelectedSeatsStr(str);
+        let totalCost = oneTicketPrice*count;
+        setTotalCost(totalCost);
+
+    }
+
+    function unblockSeat(row, col) {
+
+        const seatIndex = onGoingSeatList.findIndex(seat => seat.row === row+1 && seat.col === col+1 && seat.user.userId === userId);
+        if(seatIndex !== -1){
+            const updatedSelectedSeats = [...onGoingSeatList];
+            updatedSelectedSeats.splice(seatIndex, 1);
+
+            unblockSelectedSeat(userId,reserveScheduleId,row+1,col+1).then(response => {
+                setOnGoingSeatList(response.data);
+                setSelectedSeatsDescription(response.data);
+            })
+
+        }
+
+
+
+
+    }
+    function showAddToCartConfirmation() {
+        setAddToCartDialogBox(true);
+    }
+
+    function addToCart() {
+        addReservationToCart(reserveScheduleId,userId,pickUpPoint,dropOffPoint,remark).then(response => {
+            setAddToCartDialogBox(false);
+            setReservationPanel(false);
+            setResponseMessage(response.data);
+            loadScheduleList(getTodayDate(new Date()));
+        })
+        
+    }
+
+
+
     return (
         <div>
             <h1>Bus Schedule</h1>
 
-            <p>{responseMessage}</p>
+
 
             <div className="boarder-style">
 
                 <label style={{padding :"10px"}} htmlFor="dateSearch">Trip Date:</label>
-                <input className="form-text-input" type="date"  id="dateSearch" onChange={handleSearchDate} value={searchDate ? formatDate(searchDate) : ''}/>
+                {userTypeId === 3 ?
+                    (
+                    <input className="form-text-input" type="date"  id="dateSearch" onChange={handleSearchDate} value={searchDate ? formatDate(searchDate) : ''} min={getTodayDate(new Date())}/>
+
+                    )
+                :
+                    <input className="form-text-input" type="date"  id="dateSearch" onChange={handleSearchDate} value={searchDate ? formatDate(searchDate) : ''}/>
+                }
 
 
                 <label style={{padding :"10px"}} htmlFor="type">Origin:</label>
@@ -310,7 +500,12 @@ export default function BusSchedule({userTypeId,userId}){
                         <th>Trip Status</th>
                         <th style={{width:'10%'}}>Available Seats</th>
                         <th>Price (Rs.)</th>
-                        <th><img className="button-img" src={addImage} title="Add New Schedule" alt="add" onClick={showPanelAdd}/></th>
+                        {userTypeId === 1 || userTypeId === 2 ?
+
+                            <th><img className="button-img" src={addImage} title="Add New Schedule" alt="add" onClick={showPanelAdd}/></th>
+                            :
+                            <th></th>
+                        }
 
 
                     </tr>
@@ -337,7 +532,7 @@ export default function BusSchedule({userTypeId,userId}){
                                 <td>
                                     {(userTypeId === 3  && schedule.seatsAvailable !== 0) && (
                                         <div>
-                                            <input type="button" value="Book"/>
+                                            <input type="button" value="Book" onClick={() => showReservationPanel(schedule.schedule.scheduleId)}/>
                                         </div>
                                     )}
 
@@ -360,6 +555,8 @@ export default function BusSchedule({userTypeId,userId}){
                     </tbody>
                 </table>
             </div>
+
+            <p>{responseMessage}</p>
 
             {showAddPanel && (
                 <div className="boarder-style" style={{marginTop:'30px'}} ref={addPanelRef}>
@@ -561,6 +758,175 @@ export default function BusSchedule({userTypeId,userId}){
 
                 </div>
             )}
+
+            {reservationPanel && (
+                <div className="boarder-style" style={{marginTop:'30px'}} ref={reservationPanelRef}>
+                    <div style={{display:'flex', flexDirection:'row', padding:'30px'}}>
+                        <div style={{width:'30%'}}>
+                            <label>Available Seat : </label>
+                            <img style={{backgroundColor: '#eaeaea',padding:'5px'}} src={availableSeatImg} alt="Available Seat"/>
+                        </div>
+                        <div style={{width:'30%'}}>
+                            <label>Booked Seat : </label>
+                            <img style={{backgroundColor: '#eaeaea',padding:'5px'}} src={bookedSeatImg} alt="Booked Seat"/>
+                        </div>
+                        <div style={{width:'30%'}}>
+                            <label>Blocked Seat : </label>
+                            <img style={{backgroundColor: '#eaeaea',padding:'5px'}} src={blockedSeatImg} alt="Blocked Seat"/>
+                        </div>
+                    </div>
+
+                    <div style={{display:'flex',flexDirection:'row'}}>
+                        <div className="seat-grid" style={{width:'70%'}}>
+                            <div style={{display:"flex"}}>
+                                <img style={{height:"18%", padding:"3px", marginTop:"10px"}} src={driverSeat} alt="driver seat"/>
+                            </div>
+
+                            {Array.from({ length: busRows }, (_, row) => (
+                                <div key={`row-${row}`} className="row">
+                                    {Array.from({ length: busColumns }, (_, col) => (
+                                        <div
+                                            key={`seat-${row}-${col}`}
+                                            className='seat'
+                                        >
+
+                                            {isSeatSelected(row, col) && (
+
+                                                <div>
+                                                    {isSeatBlocked(row, col) ? (
+
+                                                        <div style={{ backgroundColor: isBookedByUser(row, col) ? '#011f4b' : '#eaeaea' }}>
+                                                            {`${row+1}-${col+1}`}
+                                                            <img src={blockedSeatImg} alt="Blocked Seat" onClick={() => unblockSeat(row,col)} />
+                                                        </div>
+                                                    ) : (
+
+                                                        <div>
+
+                                                            {isSeatBooked(row, col) ? (
+                                                                // If the seat is booked
+                                                                <div>
+                                                                    {`${row+1}-${col+1}`}
+                                                                    <img src={bookedSeatImg} alt="Booked Seat"/>
+                                                                </div>
+                                                            ) : (
+                                                                // If the seat is available
+                                                                <div>
+
+                                                                    {`${row + 1}-${col + 1}`}
+                                                                    <img src={availableSeatImg} alt="Available Seat" onClick={() => bookSeat(row, col)} />
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+
+
+                                    ))}
+                                </div>
+                            ))}
+
+                        </div>
+
+                        <div style={{width:'30%', padding:'2px'}}>
+                            <div>
+                                <label style={{fontWeight:'bold'}}>Selected Seats : </label><br/>
+                                <label style={{color:'tan'}}>{passengerSelectedSeatsStr}</label>
+                            </div>
+
+                            <div>
+                                <label style={{fontWeight:'bold'}}>Price : </label><br/>
+                                <label style={{color:'tan', fontSize:'40px'}}>Rs. {totalCost}/=</label>
+                            </div>
+
+                            <div style={{padding:'20px', display:'flex'}}>
+                                <img src={getOnImg} alt="Pick Up Point" style={{marginRight:'8px'}}/>
+                                <select style={{width:"90%"}} className="select" id="pickUpPoint" onChange={handlePickUpPoint} value={pickUpPoint} >
+
+                                    <option>Please select...</option>
+                                    {cities.map(city => (
+                                        (
+                                            <option key={city.id} value={city.value}>
+                                                {city.name}
+                                            </option>
+                                        )
+
+
+
+                                    ))}
+
+                                </select>
+
+                            </div>
+
+                            <div style={{padding:'20px', display:'flex'}}>
+                                <img src={getOffImg} alt="Drop Point" style={{marginRight:'8px'}}/>
+                                <select style={{width:"90%"}} className="select" id="dropOffPoint" onChange={handleDropOffPoint} value={dropOffPoint} >
+
+                                    <option>Please select...</option>
+                                    {cities.map(city => (
+                                        (
+                                            <option key={city.id} value={city.value}>
+                                                {city.name}
+                                            </option>
+                                        )
+
+
+
+                                    ))}
+
+                                </select>
+
+                            </div>
+
+                            <div style={{padding:'20px'}}>
+                                <label htmlFor="remark">Remark : </label>
+                                <input style={{width:'70%'}} className="form-text-input" type="text"  id="remark" onChange={handleRemark} value={remark}/>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div style={{marginTop:'20px'}}>
+                        <span style={{padding:'10px'}}>
+                                <button onClick={showAddToCartConfirmation}> Add To Cart</button>
+                            </span>
+
+                        <span style={{padding:'10px'}}>
+                                <button> Pay</button>
+                            </span>
+                    </div>
+
+
+
+
+                </div>
+            )}
+
+            <Dialog open={openAddToCartDialogBox}>
+                <DialogTitle>Complete the payment before 30 min. Otherwise cart data will be deleted.Do you want to proceed? </DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button  style={{color:"white"}} onClick={addToCart}
+                             autoFocus>
+                        Okay
+                    </Button>
+                    <Button onClick={() => setAddToCartDialogBox(false)}
+                            style={{color:"white"}} autoFocus>
+                        Cancel
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     )
 }

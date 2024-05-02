@@ -7,4 +7,10 @@ export const userRegistration = (userData) => axios.post(API_BASE_URL+"/signUp",
 export const userLogin = (user) => axios.post(API_BASE_URL+"/login", user);
 
 export const changePassword = (currentPassword, newPassword, userId) => axios.post(API_BASE_URL+"/resetPassword",
-    {currentPassword: currentPassword, newPassword : newPassword, userId : userId})
+    {currentPassword: currentPassword, newPassword : newPassword, userId : userId});
+
+export const findBusOwnerByUserId = (userId) => axios.post(API_BASE_URL+"/findBusOwnerByUserId",{userId:userId});
+
+export const findPassengerByUserId = (userId) => axios.post(API_BASE_URL+"/findPassengerByUserId",{userId:userId});
+
+export const findBusCrewByUserId = (userId) => axios.post(API_BASE_URL+"/findBusCrewByUserId",{userId:userId});

@@ -1,33 +1,33 @@
 [
   {
     "title": "Profile",
-    "icon": "bi-gear-fill",
+    "icon": "bi-person-square",
     "childrens": [
       {
-        "title": "View Profile",
-        "icon": "bi-house-fill"
+        "title": "View Profile"
+
 
       },
       {
-        "title": "View Staff",
-        "icon": "bi-info-circle-fill"
+        "title": "View Staff"
+
 
       },
       {
-        "title": "View Bank Details",
-        "icon": "bi-phone-fill"
+        "title": "View Bank Details"
+
 
       },
       {
-        "title": "Reset Password",
-        "icon": "bi-phone-fill"
+        "title": "Reset Password"
+
 
       }
     ]
   },
   {
     "title": "Bus Schedule",
-    "icon": "bi-info-circle-fill",
+    "icon": "bi-calendar-week",
     "childrens": [
       {
         "title": "View Routes"
@@ -40,12 +40,16 @@
       {
         "title": "View Bus Schedule"
 
+      },
+      {
+        "title": "Trip History"
+
       }
     ]
   },
   {
     "title": "Payments",
-    "icon": "bi-person-fill",
+    "icon": "bi-cash-coin",
     "childrens": [
       {
         "title": "Profile"
