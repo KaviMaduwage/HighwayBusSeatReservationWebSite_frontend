@@ -3,6 +3,7 @@
   {"id" : 2, "value": "Colombo", "name": "Colombo"},
   {"id" : 3, "value": "Kottawa", "name": "Kottawa"},
   {"id" : 4, "value": "Maharagama", "name": "Maharagama"},
-  {"id" : 5, "value": "Elpitiya", "name": "Elpitiya"}
+  {"id" : 5, "value": "Elpitiya", "name": "Elpitiya"},
+  {"id" : 6, "value": "Kadawatha", "name": "Kadawatha"}
 
 ]
