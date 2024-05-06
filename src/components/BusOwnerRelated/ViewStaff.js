@@ -4,7 +4,7 @@ import {
     findMemberById,
     populateBusCrewTypes,
     populateStaffDetails,
-    saveStaffMember, searchStaff
+    saveStaffMember, searchStaff, uploadImage
 } from "../../services/staffService";
 import addImage from "../../images/add1.png";
 import deleteStaff from "../../images/delete.png";
@@ -22,7 +22,8 @@ export default function ViewStaff(){
     const [busCrewList, setBusCrewList] = useState([]);
     const [showAddPanel, setShowAddPanel] = useState(false);
     const [driverLicenseDetailPanel, setDriverLicensePanel] = useState(false);
-    const [profileImage, setProfileImage] = useState(defaultProfile);
+    const [profileImage, setProfileImage] = useState('');
+    const [profileImagePath, setProfileImagePath] = useState(defaultProfile);
 
     const [name, setName] = useState('');
     const [searchName, setSearchName] = useState('');
@@ -76,6 +77,7 @@ export default function ViewStaff(){
         setLicenseNo('');
         setBusCrewType('');
         setDriverLicensePanel(false);
+        setProfileImagePath(defaultProfile);
 
 
 
@@ -95,12 +97,14 @@ export default function ViewStaff(){
         if (file) {
             const reader = new FileReader();
             reader.onload = () => {
-                setProfileImage(reader.result);
+                setProfileImagePath(reader.result);
             };
             reader.readAsDataURL(file);
+            setProfileImage(file);
         }else{
-            setProfileImage(defaultProfile);
+            setProfileImagePath(defaultProfile);
         }
+
     }
 
     function loadStaff() {
@@ -121,6 +125,7 @@ export default function ViewStaff(){
     }
 
     function saveCrewMember() {
+        console.log(profileImage);
         let  selectedBusCrewType;
         if(busCrewType === "Driver"){
             selectedBusCrewType= {
@@ -158,8 +163,12 @@ export default function ViewStaff(){
         busCrew = {busCrewId, name,address,mobileNo,dob,nic,licenseNo,expiryDate,issuesDate: issueDate,ntcNo,status, busCrewType : selectedBusCrewType, user: user, busOwner:busOwner};
 
 
-        console.log(busCrew);
-        saveStaffMember(busCrew).then((response) => {
+
+        const formData = new FormData();
+        formData.append('file',profileImage);
+        formData.append('busCrew',JSON.stringify(busCrew));
+
+        saveStaffMember(formData).then((response) => {
             alert(response.data);
             loadStaff();
             setShowAddPanel(false);
@@ -474,12 +483,12 @@ export default function ViewStaff(){
                             <div style={{width:'50%', flex:'1'}}>
                                 <div className="field-holder" style={{textAlign:'left'}}>
                                     <label  htmlFor="profileImg">Profile Image : </label>
-                                    <input   type="file" id="profileImg" onChange={handleImageChange} />
+                                    <input   type="file" id="profileImg" onChange={handleImageChange} accept="image/png,image/jpeg"/>
 
                                 </div>
-                                {profileImage && (
+                                {profileImagePath && (
                                     <div className="image-preview">
-                                        <img src={profileImage} alt="Preview" />
+                                        <img src={profileImagePath} alt="Preview" />
                                     </div>
                                 )}
 
