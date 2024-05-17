@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
-import {deleteCartByCartId, loadCartListByUserId} from "../../services/reservationService";
+import {deleteCartByCartId, loadCartListByUserId, makeReservation} from "../../services/reservationService";
 import deleteImg from "../../images/deleteAny.png";
 
 export default function Cart({userId}){
     const [cartList, setCartList] = useState([]);
-    const [totalPrice,setTotalPrice] = useState(0);
+    const [totalPrice,setTotalPrice] = useState(0.0);
     const [responseMessage, setResponseMessage] = useState('');
 
 
@@ -13,15 +13,25 @@ export default function Cart({userId}){
 
     }, []);
 
+    useEffect(() => {
+        let price = 0;
+        cartList.forEach(cart => {
+            price += cart.price;
+        });
+        setTotalPrice(price);
+    }, [cartList]);
+
     function loadCartList() {
         loadCartListByUserId(userId).then(response => {
             setCartList(response.data);
-            let price = 0;
-            cartList.map((cart)=> {
-                price += cart.price;
-            })
-            setTotalPrice(price);
-            console.log(response.data);
+            // let price = 0;
+            // cartList.map((cart)=> {
+            //     price += cart.price;
+            // })
+            // setTotalPrice(price);
+            // console.log(price);
+            // console.log(totalPrice);
+            // console.log(response.data);
         })
     }
 
@@ -36,6 +46,14 @@ export default function Cart({userId}){
     }
 
 
+    function createReservation() {
+        makeReservation(cartList, userId, totalPrice).then(response => {
+            if(response.data.payment_url){
+                // window.location.href = response.data.payment_url;
+                window.open(response.data.payment_url, '_blank');
+            }
+        })
+    }
 
     return (
         <div >
@@ -80,7 +98,7 @@ export default function Cart({userId}){
                 </div>
                     <div style={{fontSize:'30px', fontWeight:'bold'}}>Total : Rs.{totalPrice} /=</div>
                     <div style={{marginTop:'10px'}}><span style={{padding:'10px'}}>
-                                <button> Pay</button>
+                                <button onClick={createReservation}> Pay</button>
                             </span>
                     </div>
                 </>

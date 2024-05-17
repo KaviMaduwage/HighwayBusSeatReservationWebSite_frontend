@@ -6,6 +6,7 @@ export const blockSeat = (userId,scheduleId,row,col) => axios.post(API_BASE_URL+
 
 export const findBlockedSeatsByScheduleId = (scheduleId) => axios.post(API_BASE_URL+"/findBlockedSeatsByScheduleId",{scheduleId:scheduleId});
 
+export const findReservedSeatsByScheduleId = (scheduleId) => axios.post(API_BASE_URL+"/findReservedSeatsByScheduleId",{scheduleId:scheduleId});
 export const unblockSelectedSeat = (userId,scheduleId,row,col) => axios.post(API_BASE_URL+"/unblockSelectedSeat",{userId:userId, scheduleId:scheduleId,row:row,col:col})
 
 export const addReservationToCart = (reserveScheduleId,userId,pickUpPoint,dropOffPoint,remark) => axios.post(API_BASE_URL+"/addReservationToCart",
@@ -14,3 +15,7 @@ export const addReservationToCart = (reserveScheduleId,userId,pickUpPoint,dropOf
 export const loadCartListByUserId = (userId) => axios.post(API_BASE_URL+"/loadCartListByUserId",{userId:userId});
 
 export const deleteCartByCartId = (cartId) => axios.post(API_BASE_URL+"/deleteCartByCartId",{cartId:cartId});
+
+export const makeReservation = (cartList, userId, totalPrice) => axios.post(API_BASE_URL+"/makeReservation",{cartList:cartList,userId:userId,totalPrice:totalPrice});
+
+export const generateTicketPDF = () => axios.get(API_BASE_URL+"/generateTicket");
