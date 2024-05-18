@@ -28,7 +28,7 @@ import bookedSeatImg from "../images/bookedSeatImg.png";
 import {
     addReservationToCart,
     blockSeat,
-    findBlockedSeatsByScheduleId,
+    findBlockedSeatsByScheduleId, findReservedSeatsByScheduleId,
     unblockSelectedSeat
 } from "../services/reservationService";
 import driverSeat from "../images/driverSeat.png";
@@ -112,10 +112,18 @@ export default function BusSchedule({userTypeId,userId}){
 
     }, [showAddPanel]);
 
+    function findBookedSeats(reserveScheduleId) {
+        findReservedSeatsByScheduleId(reserveScheduleId).then(response => {
+            setBookedSeatList(response.data)
+        })
+    }
+
     function fetchSeatsCurrentStatus() {
         findBlockedSeatsByScheduleId(reserveScheduleId).then(response => {
                     setOnGoingSeatList(response.data);
                     setSelectedSeatsDescription(response.data);
+
+                    findBookedSeats(reserveScheduleId);
                 });
     }
 
@@ -378,7 +386,8 @@ export default function BusSchedule({userTypeId,userId}){
     }
 
     function isSeatBooked(row, col) {
-        return bookedSeatList.some(seat => seat.row === row + 1 && seat.col === col + 1);
+        console.log("booked:"+bookedSeatList);
+        return bookedSeatList.some(revSeat => revSeat.seat.rowNo === row + 1 && revSeat.seat.columnNo === col + 1);
     }
 
     function setSelectedSeatsDescription(seatList) {
