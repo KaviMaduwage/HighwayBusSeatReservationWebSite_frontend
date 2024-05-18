@@ -58,7 +58,7 @@ export default function Cart({userId}){
     return (
         <div >
 
-            <h1>Your Cart</h1>
+            <h1>My Cart</h1>
             <p>{responseMessage}</p>
 
             {cartList.length > 0 ? (

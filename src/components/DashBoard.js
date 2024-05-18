@@ -14,6 +14,7 @@ import Cart from "./PassengerRelated/Cart";
 import TodayTrip from "./BusCrewRelated/TodayTrip";
 import TripHistory from "./TripHistory";
 import AdminReports from "./Reports/AdminReports";
+import MyReservations from "./PassengerRelated/MyReservations";
 
 
 export default function DashBoard({ userName, userTypeId, userId }) {
@@ -48,6 +49,7 @@ export default function DashBoard({ userName, userTypeId, userId }) {
                 {selectedPage === 'Today\'s Trip' && <TodayTrip userId={userId}/>}
                 {selectedPage === 'Trip History' && <TripHistory userId={userId} userTypeId={userTypeId}/>}
                 {selectedPage === 'Generate Reports' && <AdminReports/>}
+                {selectedPage === 'My Reservations' && <MyReservations userId={userId}/>}
 
             </div>
         </div>
