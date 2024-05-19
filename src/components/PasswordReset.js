@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 
 export default function PasswordReset(){
     const [responseMessage, setResponseMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmedNewPassword, setConfirmedNewPassword] = useState('');
@@ -36,13 +37,16 @@ export default function PasswordReset(){
 
         }
 
-        if(newPassword !== confirmedNewPassword){
-            setResponseMessage("New password and confirmed password are not same.")
+        if(currentPassword.trim()===""|| newPassword.trim()===""|| confirmedNewPassword.trim()===""){
+            setErrorMessage("Please fill all the data.");
+        }else if(newPassword !== confirmedNewPassword){
+            setErrorMessage("New password and confirmed password are not same.");
         }else{
             changePassword(currentPassword, newPassword, user.userId).then(response =>{
                 const{status, message} = response.data;
 
                 setResponseMessage(message);
+                setErrorMessage('');
                 if(status === "success"){
                     Cookies.remove("auth");
                 }
@@ -59,6 +63,7 @@ export default function PasswordReset(){
             </div>
 
             <div>{responseMessage}</div>
+            <p style={{color:'red'}}>{errorMessage}</p>
 
             <div style={{display : "flex", padding: "20px"}}>
                 <label style={{textAlign: "left", verticalAlign:"middle", width:"20%", marginTop: "2%"}} htmlFor="currentPassword">Current Password :</label>

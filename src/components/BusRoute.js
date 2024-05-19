@@ -15,6 +15,7 @@ export default function BusRoute({userTypeId}){
     const [destination, setDestination] = useState('');
     const [description, setDescription] = useState('');
     const [responseMessage, setResponseMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         if (showAddPanel) {
@@ -43,6 +44,7 @@ export default function BusRoute({userTypeId}){
             setDestination(route.endingPoint);
             setDescription(route.routeDescription);
             setBusRouteId(route.routeId);
+            setErrorMessage('');
         })
     }
 
@@ -53,6 +55,7 @@ export default function BusRoute({userTypeId}){
         setDestination('');
         setDescription('');
         setBusRouteId('');
+        setErrorMessage('');
     }
 
     function handleRouteNo(e) {
@@ -72,13 +75,17 @@ export default function BusRoute({userTypeId}){
     }
 
     function saveRouteDetails() {
-        const route = {routeId : busRouteId,routeNo,startingPoint: tripOrigin, endingPoint:destination,routeDescription : description};
-        console.log(route);
-        saveRoute(route).then(response => {
-            setResponseMessage(response.data);
-            loadRoutes();
-            setShowAddPanel(false);
-        })
+        if(routeNo.trim()==="" || tripOrigin.trim() ===""|| destination.trim()==="" ||description.trim() ===""){
+            setErrorMessage("Please fill all the data.")
+        }else{
+            const route = {routeId : busRouteId,routeNo,startingPoint: tripOrigin, endingPoint:destination,routeDescription : description};
+            saveRoute(route).then(response => {
+                setResponseMessage(response.data);
+                loadRoutes();
+                setShowAddPanel(false);
+            });
+        }
+
 
 
     }
@@ -137,6 +144,7 @@ export default function BusRoute({userTypeId}){
 
             { showAddPanel && (
                 <div className="boarder-style" style={{marginTop:'30px'}} id="addPanel" ref={addPanelRef}>
+                    <p style={{color:'red'}}>{errorMessage}</p>
                     <div>
 
                         <input type="hidden" id="busRouteId" value={busRouteId}/>

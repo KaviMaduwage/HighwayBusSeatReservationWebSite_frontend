@@ -24,6 +24,7 @@ export default function ViewStaff(){
     const [driverLicenseDetailPanel, setDriverLicensePanel] = useState(false);
     const [profileImage, setProfileImage] = useState('');
     const [profileImagePath, setProfileImagePath] = useState(defaultProfile);
+    const [errorDataMsg, setErrorDataMsg] = useState('');
 
     const [name, setName] = useState('');
     const [searchName, setSearchName] = useState('');
@@ -87,6 +88,7 @@ export default function ViewStaff(){
         setExpiryDate(null);
         setIssueDate(null);
         setBusCrewId('');
+        setErrorDataMsg('');
         if(showAddPanel){
 
         }
@@ -125,55 +127,73 @@ export default function ViewStaff(){
     }
 
     function saveCrewMember() {
-        console.log(profileImage);
+        console.log("busCrewType"+issueDate);
         let  selectedBusCrewType;
-        if(busCrewType === "Driver"){
-            selectedBusCrewType= {
-                busCrewTypeId: 1,
-                description: 'driver'
+        let emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+        let mobileNoRegex = /^\d*$/;
+
+        if(name.trim() === "" || address.trim()==="" || email.trim()==="" || mobileNo.trim() ===""|| nic.trim() === ""|| busCrewType ==="" ||
+            (busCrewType === "Driver" && (licenseNo.trim() === "" || (issueDate ==="" || issueDate === null) || (expiryDate==="" || expiryDate===null))) || dob ==="" || status.trim() === ""){
+            setErrorDataMsg("Please fill all the mandatory data marked in asterisk(*) mark.");
+        }else if(!emailRegex.test(email)){
+            setErrorDataMsg("Please enter valid email address.");
+        }else if(!mobileNoRegex.test(mobileNo) || (mobileNo.length < 10 || mobileNo.length>10)){
+            setErrorDataMsg("Please enter 10 digits mobile no.");
+        }else if(new Date(issueDate) > new Date(expiryDate)){
+            setErrorDataMsg("Expiry date should be greater than the issue date.");
+        }else if(new Date(dob) >= new Date()){
+            setErrorDataMsg("Date of birth should be a past date.");
+        } else{
+            if(busCrewType === "Driver"){
+                selectedBusCrewType= {
+                    busCrewTypeId: 1,
+                    description: 'driver'
+                }
+            }else{
+                selectedBusCrewType= {
+                    busCrewTypeId: 2,
+                    description: 'conductor'
+                }
             }
-        }else{
-            selectedBusCrewType= {
-                busCrewTypeId: 2,
-                description: 'conductor'
+
+            const user = {email : email};
+            let busOwnerUser = {};
+            let busOwner = {};
+            const cookieData = Cookies.get('auth');
+
+            if (cookieData) {
+                console.log(JSON.parse(cookieData));
+                let cookie = JSON.parse(cookieData)
+
+                setBusOwnerId(cookie.userId)
+                busOwnerUser = {userId :cookie.userId};
+            }else{
+                console.log("no cookie");
+                busOwnerUser = null;
             }
+
+            busOwner = {
+                user:busOwnerUser
+
+            }
+
+            busCrew = {busCrewId, name,address,mobileNo,dob,nic,licenseNo,expiryDate,issuesDate: issueDate,ntcNo,status, busCrewType : selectedBusCrewType, user: user, busOwner:busOwner};
+
+
+
+            const formData = new FormData();
+            formData.append('file',profileImage);
+            formData.append('busCrew',JSON.stringify(busCrew));
+
+            saveStaffMember(formData).then((response) => {
+                alert(response.data);
+                loadStaff();
+                setShowAddPanel(false);
+
+            });
+
         }
 
-        const user = {email : email};
-        let busOwnerUser = {};
-        let busOwner = {};
-        const cookieData = Cookies.get('auth');
-
-        if (cookieData) {
-            console.log(JSON.parse(cookieData));
-            let cookie = JSON.parse(cookieData)
-
-            setBusOwnerId(cookie.userId)
-            busOwnerUser = {userId :cookie.userId};
-        }else{
-            console.log("no cookie");
-            busOwnerUser = null;
-        }
-
-        busOwner = {
-            user:busOwnerUser
-
-        }
-
-        busCrew = {busCrewId, name,address,mobileNo,dob,nic,licenseNo,expiryDate,issuesDate: issueDate,ntcNo,status, busCrewType : selectedBusCrewType, user: user, busOwner:busOwner};
-
-
-
-        const formData = new FormData();
-        formData.append('file',profileImage);
-        formData.append('busCrew',JSON.stringify(busCrew));
-
-        saveStaffMember(formData).then((response) => {
-            alert(response.data);
-            loadStaff();
-            setShowAddPanel(false);
-
-        })
     }
 
     function handleName(e) {
@@ -235,6 +255,7 @@ export default function ViewStaff(){
             let member = response.data;
             console.log(member);
             setShowAddPanel(true);
+            setErrorDataMsg('');
             setName(member.name);
             setAddress(member.address);
             setEmail(member.user.email);
@@ -261,7 +282,9 @@ export default function ViewStaff(){
     }
 
     function formatDate(dateStr) {
+
         const date = new Date(dateStr);
+        date.setDate(date.getDate() + 1);
         const year = date.getFullYear();
         let month = date.getMonth() + 1;
         let day = date.getDate();
@@ -408,7 +431,7 @@ export default function ViewStaff(){
 
             { showAddPanel && (
                 <div className="boarder-style" style={{marginTop:'30px'}} id="addPanel" ref={addPanelRef}>
-
+                        <p style={{color:'red'}}>{errorDataMsg}</p>
 
                         <div style={{display:'flex'}}>
 
@@ -416,25 +439,25 @@ export default function ViewStaff(){
                                 <input type="hidden" id="busCrewId" value={busCrewId}/>
                                 <div className="field-holder">
                                     <input className="form-input" type="text" id="name" required onChange={handleName} value={name}/>
-                                    <label className="form-label" htmlFor="name">Name :</label>
+                                    <label className="form-label" htmlFor="name"><span style={{color:'red'}}> *</span> Name :</label>
                                 </div>
                                 <div className="field-holder">
                                     <input className="form-input" type="text" id="address" required onChange={handleAddress} value={address}/>
-                                    <label className="form-label" htmlFor="address">Address :</label>
+                                    <label className="form-label" htmlFor="address"><span style={{color:'red'}}> *</span> Address :</label>
                                 </div>
                                 <div className="field-holder">
                                     <input className="form-input" type="text" id="emailId" required onChange={handleEmail} value={email}/>
-                                    <label className="form-label" htmlFor="emailId">Email :</label>
+                                    <label className="form-label" htmlFor="emailId"><span style={{color:'red'}}> *</span> Email :</label>
                                 </div>
 
                                 <div className="field-holder">
                                     <input className="form-input" type="number" id="tel" inputMode="numeric" required onChange={handleTel} value={mobileNo}/>
-                                    <label className="form-label" htmlFor="tel">Mobile No :</label>
+                                    <label className="form-label" htmlFor="tel"><span style={{color:'red'}}> *</span> Mobile No :</label>
                                 </div>
 
                                 <div className="field-holder">
                                     <input className="form-input" type="text" id="nic" required onChange={handleNIC} value={nic}/>
-                                    <label className="form-label" htmlFor="nic">NIC :</label>
+                                    <label className="form-label" htmlFor="nic"><span style={{color:'red'}}> *</span> NIC :</label>
                                 </div>
 
                                 <div className="field-holder">
@@ -442,10 +465,27 @@ export default function ViewStaff(){
                                     <label className="form-label" htmlFor="ntcNo">NTC No :</label>
                                 </div>
 
+                            </div>
+
+                            <div style={{width:'50%', flex:'1'}}>
+                                <div style={{display:'none'}}>
+
+                                    <div className="field-holder" style={{textAlign:'left'}}>
+                                        <label  htmlFor="profileImg">Profile Image : </label>
+                                        <input   type="file" id="profileImg" onChange={handleImageChange} accept="image/png,image/jpeg"/>
+
+                                    </div>
+                                    {profileImagePath && (
+                                        <div className="image-preview">
+                                            <img src={profileImagePath} alt="Preview" />
+                                        </div>
+                                    )}
+                                </div>
+
                                 <div className="field-holder" style={{textAlign:'left'}}>
 
 
-                                    <label style={{paddingBottom:'20px'}}  htmlFor="jobType">Job Type :</label>
+                                    <label style={{paddingBottom:'20px'}}  htmlFor="jobType"><span style={{color:'red'}}> *</span> Job Type :</label>
                                     <RadioGroup id="jobType" style={{display: "flex",alignItems: 'flex-start', marginLeft:'20px'}} >
                                         <span style={{ padding:'15px'}}>
                                             <input type="radio" name="jobType" value="Driver" id="driverLabel" onChange={handleJobType} onClick={() => setDriverLicensePanel(true) } checked={busCrewType === 'Driver'}/>
@@ -463,44 +503,31 @@ export default function ViewStaff(){
                                     <div>
                                         <div className="field-holder">
                                             <input className="form-input" type="text" id="licenseNo" required onChange={handleLicenseNo} value={licenseNo}/>
-                                            <label className="form-label" htmlFor="licenseNo">License No :</label>
+                                            <label className="form-label" htmlFor="licenseNo"><span style={{color:'red'}}> *</span> License No :</label>
                                         </div>
 
                                         <div className="field-holder">
                                             <input className="form-input" type="date" id="issueDate" required onChange={handleIssueDate} value={issueDate ? formatDate(issueDate) : ''}/>
-                                            <label className="form-label" style={{top:'-25px', fontSize:'0.75rm'}} htmlFor="issueDate">Issue Date :</label>
+                                            <label className="form-label" style={{top:'-25px', fontSize:'0.75rm'}} htmlFor="issueDate"><span style={{color:'red'}}> *</span> Issue Date :</label>
                                         </div>
 
                                         <div className="field-holder">
                                             <input className="form-input"  type="date" id="expiryDate" required onChange={handleExpiryDate} value={expiryDate ? formatDate(expiryDate) : ''}/>
-                                            <label className="form-label" style={{top:'-25px', fontSize:'0.75rm'}} htmlFor="expiryDate">Expiry Date :</label>
+                                            <label className="form-label" style={{top:'-25px', fontSize:'0.75rm'}} htmlFor="expiryDate"><span style={{color:'red'}}> *</span> Expiry Date :</label>
                                         </div>
                                     </div>
 
                                 }
-                            </div>
-
-                            <div style={{width:'50%', flex:'1'}}>
-                                <div className="field-holder" style={{textAlign:'left'}}>
-                                    <label  htmlFor="profileImg">Profile Image : </label>
-                                    <input   type="file" id="profileImg" onChange={handleImageChange} accept="image/png,image/jpeg"/>
-
-                                </div>
-                                {profileImagePath && (
-                                    <div className="image-preview">
-                                        <img src={profileImagePath} alt="Preview" />
-                                    </div>
-                                )}
 
                                 <div className="field-holder">
                                     <input className="form-input"  type="date" id="bd" required onChange={handleBD} value={dob ? formatDate(dob) : ''}/>
-                                    <label className="form-label" style={{top:'-25px', fontSize:'0.75rm'}} htmlFor="bd">Birth Date :</label>
+                                    <label className="form-label" style={{top:'-25px', fontSize:'0.75rm'}} htmlFor="bd"><span style={{color:'red'}}> *</span> Birth Date :</label>
                                 </div>
 
                                 <div className="field-holder" style={{textAlign:'left'}}>
 
 
-                                    <label style={{paddingBottom:'20px'}}  htmlFor="status">Status :</label>
+                                    <label style={{paddingBottom:'20px'}}  htmlFor="status"><span style={{color:'red'}}> *</span> Status :</label>
                                     <RadioGroup id="status" style={{display: "flex",alignItems: 'flex-start', marginLeft:'20px'}} >
                                         <span style={{ padding:'15px'}}>
                                             <input type="radio" name="status" value="present" id="presentLabel" onChange={handleStatus} checked={status === 'present'}/>

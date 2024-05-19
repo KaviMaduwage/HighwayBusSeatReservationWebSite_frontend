@@ -51,6 +51,9 @@ export default function BusSchedule({userTypeId,userId}){
     const [reserveScheduleId, setReserveScheduleId] = useState('');
     const [oneTicketPrice, setOneTicketPrice] = useState(0);
     const [totalCost, setTotalCost] = useState(0);
+    const [searchErrorMessage, setSearchErrorMessage] = useState('');
+    const [formErrorMessage, setFormErrorMessage] = useState('');
+    const [reservationErrorMsg,setReservationErrorMsg] = useState('');
 
     const initialEndingTime = new Date();
     initialEndingTime.setHours(10, 0, 0, 0);
@@ -170,9 +173,14 @@ export default function BusSchedule({userTypeId,userId}){
 
     }, []);
     function searchBusSchedule() {
-        findBusScheduleByDateTownAndRoute(searchDate,searchOrigin,searchDestination,searchRouteId).then(response => {
-            setScheduleList(response.data);
-        })
+        if(searchDate){
+            findBusScheduleByDateTownAndRoute(searchDate,searchOrigin,searchDestination,searchRouteId).then(response => {
+                setScheduleList(response.data);
+            });
+        }else{
+            setSearchErrorMessage("Search date is mandatory. Please select the date.")
+        }
+
 
     }
 
@@ -182,9 +190,11 @@ export default function BusSchedule({userTypeId,userId}){
 
     function formatDate(searchDate) {
         const date = new Date(searchDate);
+        date.setDate(date.getDate() + 1);
+
         const year = date.getFullYear();
         let month = date.getMonth() + 1;
-        let day = date.getDate()+1;
+        let day = date.getDate();
 
         if (month < 10) {
             month = '0' + month;
@@ -227,6 +237,7 @@ export default function BusSchedule({userTypeId,userId}){
 
     function showPanelAdd() {
         setShowAddPanel(true);
+        setFormErrorMessage('');
         setDateInput(null);
         setScheduleId('');
         setInputOrigin('');
@@ -293,23 +304,31 @@ export default function BusSchedule({userTypeId,userId}){
 
 
     function scheduleTrip() {
+        console.log("busId"+busId);
+        if(dateInput===null || price==="" || inputOrigin==='0'|| inputDestination==='0' ||inputEndingTime===null
+            ||inputStartingTime===null || (busId==='0' || busId==='')){
+            setFormErrorMessage("Please fill all the mandatory data marked in asterisk mark(*).")
+        }else{
+            const bus ={busId:busId};
+            const schedule = {scheduleId:scheduleId,tripDateStr:dateInput,origin:inputOrigin,destination:inputDestination,tripStartTime:inputStartingTime,
+                tripEndTime:inputEndingTime, ticketPrice:price, bus:bus};
 
-        const bus ={busId:busId};
-        const schedule = {scheduleId:scheduleId,tripDateStr:dateInput,origin:inputOrigin,destination:inputDestination,tripStartTime:inputStartingTime,
-            tripEndTime:inputEndingTime, ticketPrice:price, bus:bus};
+            saveSchedule(schedule, driverId,conductorId).then(response => {
+                setResponseMessage(response.data);
+                setShowAddPanel(false);
 
-        saveSchedule(schedule, driverId,conductorId).then(response => {
-            setResponseMessage(response.data);
-            setShowAddPanel(false);
+                loadScheduleList(formatDate(dateInput));
+            });
+        }
 
-            loadScheduleList(formatDate(dateInput));
-        })
+
     }
 
     function updateSchedule(scheduleId) {
         findScheduleById(scheduleId).then(response => {
             let schedule = response.data;
             setShowAddPanel(true);
+            setFormErrorMessage('');
             setScheduleId(schedule.schedule.scheduleId);
             setDateInput(schedule.schedule.tripDateStr);
             setInputOrigin(schedule.schedule.origin);
@@ -334,6 +353,7 @@ export default function BusSchedule({userTypeId,userId}){
 
     function showReservationPanel(scheduleId) {
         setReservationPanel(true);
+        setReservationErrorMsg('');
         setShowAddPanel(false);
         setReserveScheduleId(scheduleId);
         setRemark('');
@@ -424,7 +444,12 @@ export default function BusSchedule({userTypeId,userId}){
 
     }
     function showAddToCartConfirmation() {
-        setAddToCartDialogBox(true);
+        if(onGoingSeatList.length===0){
+            setReservationErrorMsg("Plase select at lease one seat.");
+        }else{
+            setAddToCartDialogBox(true);
+        }
+
     }
 
     function addToCart() {
@@ -446,6 +471,7 @@ export default function BusSchedule({userTypeId,userId}){
 
 
             <div className="boarder-style">
+                <p>{searchErrorMessage}</p>
 
                 <label style={{padding :"10px"}} htmlFor="dateSearch">Trip Date:</label>
                 {userTypeId === 3 ?
@@ -569,6 +595,7 @@ export default function BusSchedule({userTypeId,userId}){
 
             {showAddPanel && (
                 <div className="boarder-style" style={{marginTop:'30px'}} ref={addPanelRef}>
+                    <p style={{color:'red'}}>{formErrorMessage}</p>
                     <div style={{display:"flex"}}>
 
 
@@ -578,16 +605,16 @@ export default function BusSchedule({userTypeId,userId}){
 
                             <div style={{padding:'10px', display:"flex"}}>
 
-                                <label style={{padding :"10px",width:"150px"}} htmlFor="dateInput">Trip Date:</label>
+                                <label style={{padding :"10px",width:"150px"}} htmlFor="dateInput"><span style={{color:'red'}}>*</span>Trip Date:</label>
                                 <input style={{width:"43%"}} className="form-text-input" type="date"  id="dateInput" onChange={handleInputDate} value={dateInput ? formatDate(dateInput) : ''}/>
 
                             </div>
 
                             <div style={{padding:'10px', display:"flex"}}>
-                                <label style={{padding :"10px",width:"150px"}} htmlFor="originInput">Origin:</label>
+                                <label style={{padding :"10px",width:"150px"}} htmlFor="originInput"><span style={{color:'red'}}>*</span>Origin:</label>
                                 <select style={{width:"43%"}} className="select" id="originInput" onChange={handleInputOrigin} value={inputOrigin} >
 
-                                    <option>Please select...</option>
+                                    <option value="0">Please select...</option>
                                     {cities.map(city => (
                                         (inputOrigin === city.name) ? (
                                             <option key={city.id} value={city.value} selected>
@@ -604,10 +631,10 @@ export default function BusSchedule({userTypeId,userId}){
                             </div>
 
                             <div style={{padding:'10px', display:"flex"}}>
-                                <label style={{padding :"10px",width:"150px"}} htmlFor="destinationInput">Destination:</label>
+                                <label style={{padding :"10px",width:"150px"}} htmlFor="destinationInput"><span style={{color:'red'}}>*</span>Destination:</label>
                                 <select style={{width:"43%"}} className="select" id="destinationInput" onChange={handleInputDestination} value={inputDestination} >
 
-                                    <option>Please select...</option>
+                                    <option value="0">Please select...</option>
                                     {cities.map(city => (
 
                                         (inputDestination === city.name) ? (
@@ -628,7 +655,7 @@ export default function BusSchedule({userTypeId,userId}){
                             </div>
 
                             <div  style={{padding:'10px', display:"flex"}}>
-                                <label style={{padding :"10px",width:"150px"}} htmlFor="startTimeInput">Starting Time:</label>
+                                <label style={{padding :"10px",width:"150px"}} htmlFor="startTimeInput"><span style={{color:'red'}}>*</span>Starting Time:</label>
 
                                 <ReactDatetimeClass
 
@@ -644,7 +671,7 @@ export default function BusSchedule({userTypeId,userId}){
                             </div>
 
                             <div  style={{padding:'10px', display:"flex"}}>
-                                <label style={{padding :"10px",width:"150px"}} htmlFor="endTimeInput">End Time:</label>
+                                <label style={{padding :"10px",width:"150px"}} htmlFor="endTimeInput"><span style={{color:'red'}}>*</span>End Time:</label>
 
                                 <ReactDatetimeClass
 
@@ -664,11 +691,11 @@ export default function BusSchedule({userTypeId,userId}){
                         <div style={{textAlign: "left", width:"50%", flex:"1"}}>
 
                             <div style={{padding:'10px', display:"flex"}}>
-                                <label style={{padding :"10px",width:"150px"}} htmlFor="busId">Bus:</label>
+                                <label style={{padding :"10px",width:"150px"}} htmlFor="busId"><span style={{color:'red'}}>*</span>Bus:</label>
 
                                 <select style={{width:"43%"}} className="select" id="busId" onChange={handleBusId} value={busId} >
 
-                                    <option>Please select...</option>
+                                    <option value="0">Please select...</option>
                                     {busList.map(bus => (
 
                                         (busId === bus.busId) ? (
@@ -736,7 +763,7 @@ export default function BusSchedule({userTypeId,userId}){
                                 </div>
 
                                 <div style={{padding:'10px', display:"flex"}}>
-                                    <label style={{padding :"10px",width:"150px"}} htmlFor="priceAmount">Price (Rs.) :</label>
+                                    <label style={{padding :"10px",width:"150px"}} htmlFor="priceAmount"><span style={{color:'red'}}>*</span>Price (Rs.) :</label>
                                     <input style={{padding:"10px",width:"43%",height:"40px"}} className="form-input" type="number" id="priceAmount" inputMode="numeric" required onChange={handlePrice} value={price}/>
                                 </div>
                             </div>
@@ -770,6 +797,7 @@ export default function BusSchedule({userTypeId,userId}){
 
             {reservationPanel && (
                 <div className="boarder-style" style={{marginTop:'30px'}} ref={reservationPanelRef}>
+                    <p style={{color:'red'}}>{reservationErrorMsg}</p>
                     <div style={{display:'flex', flexDirection:'row', padding:'30px'}}>
                         <div style={{width:'30%'}}>
                             <label>Available Seat : </label>
@@ -907,9 +935,9 @@ export default function BusSchedule({userTypeId,userId}){
                                 <button onClick={showAddToCartConfirmation}> Add To Cart</button>
                             </span>
 
-                        <span style={{padding:'10px'}}>
-                                <button> Pay</button>
-                            </span>
+                        {/*<span style={{padding:'10px'}}>*/}
+                        {/*        <button> Pay</button>*/}
+                        {/*    </span>*/}
                     </div>
 
 

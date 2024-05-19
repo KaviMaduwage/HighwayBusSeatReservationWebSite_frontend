@@ -22,6 +22,7 @@ import Cart from "./components/PassengerRelated/Cart";
 import TodayTrip from "./components/BusCrewRelated/TodayTrip";
 import TripHistory from "./components/TripHistory";
 import PaymentSuccess from "./components/PassengerRelated/PaymentSuccess";
+import MyReservations from "./components/PassengerRelated/MyReservations";
 
 function App() {
 
@@ -131,6 +132,7 @@ function App() {
                               <Route path="/busSchedule" element={<BusSchedule/>}></Route>
                               <Route path="/todaySchedule" element={<TodayTrip/>}></Route>
                               <Route path="/tripHistory" element={<TripHistory/>}></Route>
+                              <Route path="/myReservations" element={<MyReservations/>}></Route>
                           </>
                       ) :
                       <>

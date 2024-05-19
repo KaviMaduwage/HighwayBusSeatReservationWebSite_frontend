@@ -18,4 +18,6 @@ export const deleteCartByCartId = (cartId) => axios.post(API_BASE_URL+"/deleteCa
 
 export const makeReservation = (cartList, userId, totalPrice) => axios.post(API_BASE_URL+"/makeReservation",{cartList:cartList,userId:userId,totalPrice:totalPrice});
 
-export const generateTicketPDF = () => axios.get(API_BASE_URL+"/generateTicket");
+export const generateTicketPDF = (reservationId) => axios.get(API_BASE_URL+"/generateTicket",{params : { reservationId: reservationId }});
+
+export const findReservationsByUserId = (userId) => axios.post(API_BASE_URL+"/findReservationsByUserId", {userId:userId});
