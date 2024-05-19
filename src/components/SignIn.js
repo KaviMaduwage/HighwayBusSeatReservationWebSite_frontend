@@ -31,7 +31,7 @@ export default function SignIn({ loggedIn }){
             console.log(response.data);
             if (response.data === "Invalid") {
                 console.error('Login failed');
-                setResponseMessage(response.data);
+                setResponseMessage("Invalid User Email Or Password");
 
             } else {
                 //setLoggedIn(true);

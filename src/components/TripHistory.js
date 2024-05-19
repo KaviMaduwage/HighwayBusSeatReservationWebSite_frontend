@@ -4,7 +4,8 @@ import viewPassengersImg from "../images/seatSet.png";
 
 export default function TripHistory({userId,userTypeId}){
     const [scheduleList, setScheduleList] = useState([]);
-    const [searchDate, setSearchDate] = useState();
+    const [searchDate, setSearchDate] = useState(null);
+    const [errorMessage,setErrorMessage] = useState('');
 
     function formatDate(searchDate) {
         const date = new Date(searchDate);
@@ -27,19 +28,27 @@ export default function TripHistory({userId,userTypeId}){
     }
 
     function searchBusSchedule() {
-        findScheduleByCrewUserIdDate(userId,userTypeId,searchDate).then(response => {
-            console.log(response.data);
-            setScheduleList(response.data);
-        })
+
+        if(searchDate == null){
+            setErrorMessage("Select date.")
+        }else{
+            findScheduleByCrewUserIdDate(userId,userTypeId,searchDate).then(response => {
+                console.log(response.data);
+                setScheduleList(response.data);
+                setErrorMessage('');
+            });
+        }
+
 
     }
 
     return (
 
         <div>
-            <h1>Today's Schedule</h1>
+            <h1>Schedule History</h1>
 
             <div className="boarder-style">
+                <p style={{color:'red'}}>{errorMessage}</p>
                 <label style={{padding :"10px"}} htmlFor="dateSearch">Trip Date:</label>
                 <input className="form-text-input" type="date"  id="dateSearch" onChange={handleSearchDate} value={searchDate ? formatDate(searchDate) : ''}/>
 

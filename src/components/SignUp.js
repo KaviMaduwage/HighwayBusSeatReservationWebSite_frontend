@@ -21,6 +21,7 @@ export default function SignUp(){
     const [travelServiceName, setTravelServiceName] = useState('');
     const [mobileNo, setMobileNo] = useState('');
     const [address, setAddress] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     function handleUserName(e){
         setUserName(e.target.value);
@@ -63,36 +64,66 @@ export default function SignUp(){
         e.preventDefault();
 
         let  selectedUserType;
-        if(userType === "passenger"){
-            selectedUserType= {
-                userTypeId: 3,
-                description: 'passenger'
-            }
-        }else{
-            selectedUserType= {
-                userTypeId: 2,
-                description: 'bus owner'
-            }
-        }
-        const user = {userName, password,email, userType: selectedUserType };
-        const busOwner  ={travelServiceName, mobileNo, address};
-        let userData = {};
+        let emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+        let mobileNoRegex = /^\d*$/;
 
-        if(userType === "passenger"){
-            userData = {
-                user: user
-            };
+        if(userName.trim() === "" && email.trim() === "" && password.trim() === "" && userType === ""){
+            setErrorMessage("Please fill the data");
+        } else if(userName.trim() === "") {
+            setErrorMessage("Please enter the userName.");
+        }else if(email.trim() === ""){
+            setErrorMessage("Please enter the email address.")
+        }else if(!emailRegex.test(email)){
+            setErrorMessage("Please enter valid email address.")
+        }else if(password.trim() === ""){
+            setErrorMessage("Please enter the password.")
+        }else if(userType === ""){
+            setErrorMessage("Please select the user type.")
+        }else if(userType === "busOwner" && travelServiceName.trim()===""){
+            setErrorMessage("Please enter company name.")
+        }else if(userType === "busOwner" && mobileNo.trim()===""){
+            setErrorMessage("Please enter mobile no.")
+        }else if(userType === "busOwner" && !mobileNoRegex.test(mobileNo) && (mobileNo.length < 10 || mobileNo.length>10)){
+            setErrorMessage("Please enter 10 digits length mobile no.")
+        }else if(userType === "busOwner" && address.trim() === ""){
+            setErrorMessage("Please enter company address.")
         }else{
-            userData = {
-                user: user,
-                busOwner: busOwner
-            };
-        }
-        console.log(userData);
 
-        userRegistration(userData).then((response) => {
-            setResponseMessage(response.data);
-        })
+            if(userType === "passenger"){
+                selectedUserType= {
+                    userTypeId: 3,
+                    description: 'passenger'
+                }
+            }else{
+                selectedUserType= {
+                    userTypeId: 2,
+                    description: 'bus owner'
+                }
+            }
+            const user = {userName, password,email, userType: selectedUserType };
+            const busOwner  ={travelServiceName, mobileNo, address};
+            let userData = {};
+
+            if(userType === "passenger"){
+                userData = {
+                    user: user
+                };
+            }else{
+                userData = {
+                    user: user,
+                    busOwner: busOwner
+                };
+            }
+            console.log(userData);
+
+            userRegistration(userData).then((response) => {
+                setResponseMessage(response.data);
+                setErrorMessage('');
+            })
+
+        }
+
+
     }
 
     return (
@@ -102,22 +133,23 @@ export default function SignUp(){
             </div>
 
             <div>{responseMessage}</div>
+            <div style={{color : 'red'}}>{errorMessage}</div>
 
             <div className="inputs">
 
                 <div className="input">
                     <img src={usernameImg} alt=""/>
-                    <input type="text" name='userName' value={userName} placeholder="Userame" onChange={handleUserName}/>
+                    <input type="text" name='userName' value={userName} placeholder="Userame" onChange={handleUserName} required/>
                 </div>
 
                 <div className="input">
                     <img src={emailImg} alt=""/>
-                    <input type="email" name='email' value={email} placeholder="Email" onChange={handleEmail}/>
+                    <input type="email" name='email' value={email} placeholder="Email" onChange={handleEmail} required/>
                 </div>
 
                 <div className="input">
                     <img src={passwordImg} alt=""/>
-                    <input type="password" name='password' value={password} placeholder="Password" onChange={handlePassword}/>
+                    <input type="password" name='password' value={password} placeholder="Password" onChange={handlePassword} required/>
                 </div>
 
                 <div>
@@ -143,7 +175,7 @@ export default function SignUp(){
 
                         <div className="input">
                             <img src={telImg} alt=""/>
-                            <input type="text" name='companyTel' placeholder="Company Tel." value={mobileNo} onChange={handleCompanyTel}/>
+                            <input type="number" maxLength="10" name='companyTel' placeholder="Company Tel." value={mobileNo} onChange={handleCompanyTel}/>
 
                         </div>
 

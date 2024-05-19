@@ -34,6 +34,8 @@ export default function Bus({userTypeId, userId}){
 
     const [routeList, setRouteList] = useState([]);
     const [routeId, setRouteId] = useState('');
+    const [errorDataMessage, setErrorDataMessage] = useState('');
+    const [seatStructureErrorMsg,setSeatStructureErrorMsg] = useState('');
 
 
     useEffect(() => {
@@ -53,6 +55,7 @@ export default function Bus({userTypeId, userId}){
     function showPanelAdd() {
         setShowAddPanel(true);
         setShowSeatStructurePanel(false);
+        setErrorDataMessage('');
         setBusId('');
         setPlateNo('');
         setPermitNo('');
@@ -70,6 +73,7 @@ export default function Bus({userTypeId, userId}){
 
             setShowAddPanel(true);
             setShowSeatStructurePanel(false);
+            setErrorDataMessage('');
             setBusId(bus.busId);
             setPlateNo(bus.plateNo);
             setPermitNo(bus.permitNo);
@@ -108,15 +112,21 @@ export default function Bus({userTypeId, userId}){
     }
 
     function saveBusDetails() {
-        const route = {routeId};
-        const bus = {busId, name, plateNo, permitNo,route,noOfRows: rows, noOfColumns:columns,noOfSeats:seats};
+        console.log("col"+columns);
+        if(name.trim()===""||plateNo.trim()===""||permitNo.trim()===""||routeId==='0'||columns===""||rows===""||seats===""){
+            setErrorDataMessage("Please fill all the data.")
+        }else{
+            const route = {routeId};
+            const bus = {busId, name, plateNo, permitNo,route,noOfRows: rows, noOfColumns:columns,noOfSeats:seats};
 
-        saveBus(bus, userId).then(response => {
-            setResponseMessage(response.data);
-            setShowAddPanel(false);
-            setShowSeatStructurePanel(false);
-            loadBusDetails();
-        })
+            saveBus(bus, userId).then(response => {
+                setResponseMessage(response.data);
+                setShowAddPanel(false);
+                setShowSeatStructurePanel(false);
+                loadBusDetails();
+            })
+        }
+
 
 
 
@@ -176,11 +186,16 @@ export default function Bus({userTypeId, userId}){
     }
 
     function saveStructure() {
+        if(selectedSeats.length ===0){
+            setSeatStructureErrorMsg("Please select at lease 1 seat");
+        }else{
+            saveSeatStructure(selectedSeats, busId).then(response => {
+                setResponseMessage(response.data);
+                setShowSeatStructurePanel(false);
+            });
+        }
 
-        saveSeatStructure(selectedSeats, busId).then(response => {
-            setResponseMessage(response.data);
-            setShowSeatStructurePanel(false);
-        })
+
     }
 
     return (
@@ -200,11 +215,15 @@ export default function Bus({userTypeId, userId}){
                         <th>No of Seats</th>
                         <th>Route No</th>
                         {userTypeId === 1 &&
+
                             <th>Travel Service Name</th>
+
                         }
 
-                        {userTypeId === 2 &&
+                        {userTypeId === 2 ?
                             <th><img className="button-img" src={addImage} title="Add New Bus" alt="add" onClick={showPanelAdd}/></th>
+                            :
+                            <th></th>
 
                         }
 
@@ -262,6 +281,7 @@ export default function Bus({userTypeId, userId}){
             { showAddPanel && (
                 <div className="boarder-style" style={{marginTop:'30px'}} id="addPanel" ref={addPanelRef}>
                     <div>
+                        <p style={{color:'red'}}>{errorDataMessage}</p>
 
                         <input type="hidden" id="busId" value={busId}/>
                         <div className="field-holder">
@@ -324,6 +344,7 @@ export default function Bus({userTypeId, userId}){
             {showSeatStructurePanel && (
                 <div className="boarder-style" style={{marginTop:'30px',display: "flex", flexDirection: "column"}} id="addPanel" ref={addPanelRef}>
                     <h2>Seating Structure</h2>
+                    <p style={{color:'red'}}>{seatStructureErrorMsg}</p>
                     <div className="seat-grid">
 
                         <div style={{display:"flex"}}>
