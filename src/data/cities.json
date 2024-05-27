@@ -4,6 +4,8 @@
   {"id" : 3, "value": "Kottawa", "name": "Kottawa"},
   {"id" : 4, "value": "Maharagama", "name": "Maharagama"},
   {"id" : 5, "value": "Elpitiya", "name": "Elpitiya"},
-  {"id" : 6, "value": "Kadawatha", "name": "Kadawatha"}
+  {"id" : 6, "value": "Kadawatha", "name": "Kadawatha"},
+  {"id" : 7, "value": "Kandy", "name": "Kandy"}
+
 
 ]

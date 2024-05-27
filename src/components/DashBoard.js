@@ -15,6 +15,7 @@ import TodayTrip from "./BusCrewRelated/TodayTrip";
 import TripHistory from "./TripHistory";
 import AdminReports from "./Reports/AdminReports";
 import MyReservations from "./PassengerRelated/MyReservations";
+import ReservationHistoryReport from "./PassengerRelated/ReservationHistoryReport";
 
 
 export default function DashBoard({ userName, userTypeId, userId }) {
@@ -50,6 +51,7 @@ export default function DashBoard({ userName, userTypeId, userId }) {
                 {selectedPage === 'Trip History' && <TripHistory userId={userId} userTypeId={userTypeId}/>}
                 {selectedPage === 'Generate Reports' && <AdminReports/>}
                 {selectedPage === 'My Reservations' && <MyReservations userId={userId}/>}
+                {selectedPage === 'Travel History Report' && <ReservationHistoryReport userId={userId}/>}
 
             </div>
         </div>
