@@ -23,6 +23,7 @@ import TodayTrip from "./components/BusCrewRelated/TodayTrip";
 import TripHistory from "./components/TripHistory";
 import PaymentSuccess from "./components/PassengerRelated/PaymentSuccess";
 import MyReservations from "./components/PassengerRelated/MyReservations";
+import ReservationHistoryReport from "./components/PassengerRelated/ReservationHistoryReport";
 
 function App() {
 
@@ -115,6 +116,8 @@ function App() {
                               <Route path="/resetPassword" element={<PasswordReset/>}></Route>
                               <Route path="/busSchedule" element={<BusSchedule/>}></Route>
                               <Route path="/cart" element={<Cart/>}></Route>
+                              <Route path="/reservationHistoryReport" element={<ReservationHistoryReport/>}></Route>
+                              <Route path="/payment/success" element={<PaymentSuccess/>}></Route>
 
 
                           </>
@@ -136,7 +139,7 @@ function App() {
                           </>
                       ) :
                       <>
-                          <Route path="/payment/success" element={<PaymentSuccess/>}></Route>
+                          {/*<Route path="/payment/success" element={<PaymentSuccess/>}></Route>*/}
                           <Route path="*" element={<SignIn/>}></Route>
                       </>
                   }

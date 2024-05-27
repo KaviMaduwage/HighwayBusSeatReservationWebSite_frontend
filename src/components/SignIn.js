@@ -38,7 +38,7 @@ export default function SignIn({ loggedIn }){
                 const { userTypeId, userName,userId } = response.data;
 
                 const userDetails = {userTypeId, userName, userId};
-                const expirationTime = new Date(new Date().getTime() + 60000);
+                const expirationTime = new Date(new Date().getTime() + 60000*10);
                 Cookies.set('auth', JSON.stringify(userDetails), { expires: expirationTime });
 
                 navigate("/dashboard");
