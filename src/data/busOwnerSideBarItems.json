@@ -1,5 +1,10 @@
 [
   {
+    "title": "Summary",
+    "icon": "bi bi-card-list"
+
+  },
+  {
     "title": "Profile",
     "icon": "bi-person-square",
     "childrens": [

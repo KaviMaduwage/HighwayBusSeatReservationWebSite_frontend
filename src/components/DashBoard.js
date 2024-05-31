@@ -16,11 +16,12 @@ import TripHistory from "./TripHistory";
 import AdminReports from "./Reports/AdminReports";
 import MyReservations from "./PassengerRelated/MyReservations";
 import ReservationHistoryReport from "./PassengerRelated/ReservationHistoryReport";
+import Summary from "./PassengerRelated/Summary";
 
 
 export default function DashBoard({ userName, userTypeId, userId }) {
     const contentRef = useRef(null);
-    const [selectedPage, setSelectedPage] = useState('Home');
+    const [selectedPage, setSelectedPage] = useState('Summary');
 
     console.log(selectedPage);
 
@@ -38,6 +39,7 @@ export default function DashBoard({ userName, userTypeId, userId }) {
             <div className="dashBoard-container" style={{ flex: "1", padding: "20px", overflow: "auto" }}>
 
                 {selectedPage === 'Home' && <Home />}
+                {selectedPage === 'Summary' && <Summary userTypeId={userTypeId} userId={userId}/>}
                 {selectedPage === 'Accept Requests' && <Request />}
                 {selectedPage === 'View Profile' && <Profile userTypeId={userTypeId} userId={userId}/>}
                 {selectedPage === 'View Staff' && <ViewStaff/>}

@@ -25,3 +25,5 @@ export const findReservationsByUserId = (userId) => axios.post(API_BASE_URL+"/fi
 export const findReservedSeatsByReservationId = (reservationId) => axios.post(API_BASE_URL+"/findReservedSeatsByReservationId",{reservationId:reservationId});
 
 export const cancelReservations = (type,cancelSeatList,userId) => axios.post(API_BASE_URL+"/cancelReservations",{type:type,cancelSeatList:cancelSeatList,userId:userId});
+
+export const getUpcomingReservationsByUserId = (userId) => axios.post(API_BASE_URL+"/getUpcomingReservationsByUserId",{userId:userId});

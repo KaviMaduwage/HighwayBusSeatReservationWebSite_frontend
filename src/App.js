@@ -24,6 +24,7 @@ import TripHistory from "./components/TripHistory";
 import PaymentSuccess from "./components/PassengerRelated/PaymentSuccess";
 import MyReservations from "./components/PassengerRelated/MyReservations";
 import ReservationHistoryReport from "./components/PassengerRelated/ReservationHistoryReport";
+import Summary from "./components/PassengerRelated/Summary";
 
 function App() {
 
@@ -118,6 +119,7 @@ function App() {
                               <Route path="/cart" element={<Cart/>}></Route>
                               <Route path="/reservationHistoryReport" element={<ReservationHistoryReport/>}></Route>
                               <Route path="/payment/success" element={<PaymentSuccess/>}></Route>
+                              <Route path="/passengerHome" element={<Summary/>}></Route>
 
 
                           </>

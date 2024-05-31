@@ -352,3 +352,9 @@ table td {
     cursor: pointer;
     z-index: 1;
 }
+
+.card-img {
+    max-width: 60%;
+    height: 70%;
+    object-fit: contain;
+}
