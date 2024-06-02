@@ -21,3 +21,9 @@ export const makeReservation = (cartList, userId, totalPrice) => axios.post(API_
 export const generateTicketPDF = (reservationId) => axios.get(API_BASE_URL+"/generateTicket",{params : { reservationId: reservationId },responseType: 'arraybuffer'});
 
 export const findReservationsByUserId = (userId) => axios.post(API_BASE_URL+"/findReservationsByUserId", {userId:userId});
+
+export const findReservedSeatsByReservationId = (reservationId) => axios.post(API_BASE_URL+"/findReservedSeatsByReservationId",{reservationId:reservationId});
+
+export const cancelReservations = (type,cancelSeatList,userId) => axios.post(API_BASE_URL+"/cancelReservations",{type:type,cancelSeatList:cancelSeatList,userId:userId});
+
+export const getUpcomingReservationsByUserId = (userId) => axios.post(API_BASE_URL+"/getUpcomingReservationsByUserId",{userId:userId});

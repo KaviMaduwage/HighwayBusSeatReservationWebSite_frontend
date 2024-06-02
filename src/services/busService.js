@@ -17,3 +17,5 @@ export const loadAllBusDetailsInTravelService = (userId) => axios.post(API_BASE_
 export const loadDriversInTravelService = (userId) => axios.post(API_BASE_URL+"/loadDriversInTravelService",{userId:userId});
 
 export const loadConductorsInTravelService = (userId) => axios.post(API_BASE_URL+"/loadConductorsInTravelService",{userId:userId});
+
+export const getAllTravelServiceList = () => axios.post(API_BASE_URL+"/getAllTravelServiceList");

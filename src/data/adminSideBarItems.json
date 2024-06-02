@@ -1,5 +1,10 @@
 [
   {
+    "title": "Summary",
+    "icon": "bi bi-card-list"
+
+  },
+  {
     "title": "Profile Management",
     "icon": "bi-people",
     "childrens": [
@@ -38,6 +43,16 @@
       },
       {
         "title": "Trip History"
+
+      }
+    ]
+  },
+  {
+    "title": "Discounts",
+    "icon": "bi-piggy-bank",
+    "childrens": [
+      {
+        "title": "View Discounts"
 
       }
     ]

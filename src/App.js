@@ -24,6 +24,8 @@ import TripHistory from "./components/TripHistory";
 import PaymentSuccess from "./components/PassengerRelated/PaymentSuccess";
 import MyReservations from "./components/PassengerRelated/MyReservations";
 import ReservationHistoryReport from "./components/PassengerRelated/ReservationHistoryReport";
+import Summary from "./components/PassengerRelated/Summary";
+import Discount from "./components/Discount";
 
 function App() {
 
@@ -85,6 +87,7 @@ function App() {
                           <Route path="/busRoute" element={<BusRoute/>}></Route>
                           <Route path="/busSchedule" element={<BusSchedule/>}></Route>
                           <Route path="/tripHistory" element={<TripHistory/>}></Route>
+                          <Route path="/vieweDiscounts" element={<Discount/>}></Route>
                       </>
                   ) :
                       <>
@@ -102,6 +105,7 @@ function App() {
                               <Route path="/busRoute" element={<BusRoute/>}></Route>
                               <Route path="/busSchedule" element={<BusSchedule/>}></Route>
                               <Route path="/tripHistory" element={<TripHistory/>}></Route>
+                              <Route path="/vieweDiscounts" element={<Discount/>}></Route>
                           </>
                       ) :
                       <>
@@ -118,6 +122,8 @@ function App() {
                               <Route path="/cart" element={<Cart/>}></Route>
                               <Route path="/reservationHistoryReport" element={<ReservationHistoryReport/>}></Route>
                               <Route path="/payment/success" element={<PaymentSuccess/>}></Route>
+                              <Route path="/passengerHome" element={<Summary/>}></Route>
+                              <Route path="/vieweDiscounts" element={<Discount/>}></Route>
 
 
                           </>
@@ -136,10 +142,11 @@ function App() {
                               <Route path="/todaySchedule" element={<TodayTrip/>}></Route>
                               <Route path="/tripHistory" element={<TripHistory/>}></Route>
                               <Route path="/myReservations" element={<MyReservations/>}></Route>
+                              <Route path="/vieweDiscounts" element={<Discount/>}></Route>
                           </>
                       ) :
                       <>
-                          {/*<Route path="/payment/success" element={<PaymentSuccess/>}></Route>*/}
+                          <Route path="/payment/success" element={<PaymentSuccess/>}></Route>
                           <Route path="*" element={<SignIn/>}></Route>
                       </>
                   }

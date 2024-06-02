@@ -14,3 +14,5 @@ export const findBusOwnerByUserId = (userId) => axios.post(API_BASE_URL+"/findBu
 export const findPassengerByUserId = (userId) => axios.post(API_BASE_URL+"/findPassengerByUserId",{userId:userId});
 
 export const findBusCrewByUserId = (userId) => axios.post(API_BASE_URL+"/findBusCrewByUserId",{userId:userId});
+
+export const getWalletAmountByUSerId = (userId) => axios.post(API_BASE_URL+"/getWalletAmountByUSerId", {userId:userId});

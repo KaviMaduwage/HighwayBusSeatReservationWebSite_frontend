@@ -445,8 +445,11 @@ export default function BusSchedule({userTypeId,userId}){
     }
     function showAddToCartConfirmation() {
         if(onGoingSeatList.length===0){
-            setReservationErrorMsg("Plase select at lease one seat.");
-        }else{
+            setReservationErrorMsg("Please select at lease one seat.");
+        }else if(onGoingSeatList.length>5){
+            setReservationErrorMsg("You can only book only maximum 5 seats.Remove other seats.")
+        }
+        else{
             setAddToCartDialogBox(true);
         }
 
