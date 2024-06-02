@@ -19,8 +19,11 @@ export default function Summary({userTypeId,userId}){
     }
 
     useEffect(() => {
-        findWalletAmount(userId);
-        findUpcomingReservations(userId);
+        if(userTypeId === 3){
+            findWalletAmount(userId);
+            findUpcomingReservations(userId);
+        }
+
     }, []);
 
     function findWalletAmount(userId){

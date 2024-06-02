@@ -48,6 +48,16 @@
     ]
   },
   {
+    "title": "Discounts",
+    "icon": "bi-piggy-bank",
+    "childrens": [
+      {
+        "title": "View Discounts"
+
+      }
+    ]
+  },
+  {
     "title": "Emergency Alerts",
     "icon": "bi-exclamation-triangle",
     "childrens": [

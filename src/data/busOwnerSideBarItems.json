@@ -54,37 +54,16 @@
   },
   {
     "title": "Payments",
-    "icon": "bi-cash-coin",
+    "icon": "bi-cash-coin"
+
+  },
+  {
+    "title": "Discounts",
+    "icon": "bi-piggy-bank",
     "childrens": [
       {
-        "title": "Profile"
+        "title": "View Discounts"
 
-      },
-      {
-        "title": "Settings",
-        "childrens": [
-          {
-            "title": "Account"
-
-          },
-          {
-            "title": "Billing",
-            "childrens": [
-              {
-                "title": "Payment"
-
-              },
-              {
-                "title": "Subscription"
-
-              }
-            ]
-          },
-          {
-            "title": "Notifications"
-
-          }
-        ]
       }
     ]
   }

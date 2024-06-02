@@ -233,9 +233,9 @@ export default function MyReservations({userId}){
                                 <button id="addToWalletButton" disabled={isCancellationButtonsEnable} onClick={() => cancelReservation("wallet")}>Add To Wallet</button>
                             </span>
 
-                        <span style={{padding:'10px'}}>
-                                <button id="needRefundButton" disabled={isCancellationButtonsEnable} onClick={() => cancelReservation("refund")}>Need Refund</button>
-                            </span>
+                        {/*<span style={{padding:'10px'}}>*/}
+                        {/*        <button id="needRefundButton" disabled={isCancellationButtonsEnable} onClick={() => cancelReservation("refund")}>Need Refund</button>*/}
+                        {/*    </span>*/}
                         <span style={{padding:'10px'}}>
                                 <button onClick={() => setReservationCancellationPanel(false)}>Close</button>
                             </span>

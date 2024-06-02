@@ -51,7 +51,7 @@ export default function PaymentSuccess(){
             <h3>Thank you for choosing My Seat. Download the ticket.</h3>
             <h4>Have a safe and great journey</h4>
             <div>
-                <button style={{width: '35%'}} onClick={generateTicket}>Download Ticket</button>
+                <h3>Go to Profile->My Reservations to download the ticket/s.</h3>
             </div>
 
         </div>
