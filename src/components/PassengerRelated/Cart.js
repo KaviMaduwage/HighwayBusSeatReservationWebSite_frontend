@@ -1,15 +1,23 @@
 import {useEffect, useState} from "react";
-import {deleteCartByCartId, loadCartListByUserId, makeReservation} from "../../services/reservationService";
+import {
+    deleteCartByCartId,
+    loadCartListByUserId,
+    makeReservation,
+    makeReservationFromWalletSavings
+} from "../../services/reservationService";
 import deleteImg from "../../images/deleteAny.png";
+import {getWalletAmountByUSerId} from "../../services/userService";
 
 export default function Cart({userId}){
     const [cartList, setCartList] = useState([]);
     const [totalPrice,setTotalPrice] = useState(0.0);
     const [responseMessage, setResponseMessage] = useState('');
+    const [walletAmount, setWalletAmount] = useState(0);
 
 
     useEffect(() => {
         loadCartList();
+        findWalletAmount(userId);
 
     }, []);
 
@@ -20,6 +28,12 @@ export default function Cart({userId}){
         });
         setTotalPrice(price);
     }, [cartList]);
+
+    function findWalletAmount(userId){
+        getWalletAmountByUSerId(userId).then(response => {
+            setWalletAmount(response.data);
+        })
+    }
 
     function loadCartList() {
         loadCartListByUserId(userId).then(response => {
@@ -52,6 +66,13 @@ export default function Cart({userId}){
                 // window.location.href = response.data.payment_url;
                 window.open(response.data.payment_url, '_blank');
             }
+        })
+    }
+
+    function createReservationWithoutPayment() {
+        makeReservationFromWalletSavings(cartList, userId, totalPrice).then(response => {
+            setResponseMessage(response.data);
+            loadCartList();
         })
     }
 
@@ -97,10 +118,31 @@ export default function Cart({userId}){
 
                 </div>
                     <div style={{fontSize:'30px', fontWeight:'bold'}}>Total : Rs.{totalPrice} /=</div>
-                    <div style={{marginTop:'10px'}}><span style={{padding:'10px'}}>
+                    { walletAmount >= totalPrice &&
+                        <div>
+                            <div style={{fontSize:'30px', fontWeight:'bold'}}>Wallet amount : Rs.({totalPrice}) /=</div>
+                            <div style={{fontSize:'30px', fontWeight:'bold',color:'red'}}>Amount payable : Rs. 0 /=</div>
+                            <div style={{marginTop:'10px'}}><span style={{padding:'10px'}}>
+                                <h3>You don't need to pay for these reservations. Wallet savings will be used.</h3>
+                                <button onClick={createReservationWithoutPayment}>Reserve</button>
+
+                            </span>
+                            </div>
+                        </div>
+                    }
+
+                    { walletAmount < totalPrice &&
+                    <div>
+                        <div style={{fontSize:'30px', fontWeight:'bold'}}>Wallet amount : Rs.({walletAmount}) /=</div>
+                        <div style={{fontSize:'30px', fontWeight:'bold',color:'red'}}>Amount payable : Rs. {totalPrice - walletAmount} /=</div>
+
+                        <div style={{marginTop:'10px'}}><span style={{padding:'10px'}}>
                                 <button onClick={createReservation}> Pay</button>
                             </span>
-                    </div>
+                        </div>
+
+                    </div>}
+
                 </>
 
 
