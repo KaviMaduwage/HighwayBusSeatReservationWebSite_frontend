@@ -577,7 +577,7 @@ export default function BusSchedule({userTypeId,userId}){
                                 
 
                                 <td>
-                                    {(userTypeId === 3  && schedule.seatsAvailable !== 0 && isBookingAvailable(schedule.tripDateStr,schedule.tripStartTime)) && (
+                                    {(userTypeId === 3  && schedule.seatsAvailable !== 0 && isBookingAvailable(schedule.schedule.tripDateStr,schedule.schedule.tripStartTime)) && (
                                         <div>
                                             <input type="button" value="Book" onClick={() => showReservationPanel(schedule.schedule.scheduleId)}/>
                                         </div>
