@@ -1,11 +1,15 @@
 import {useEffect, useState} from "react";
 import {findScheduleByCrewUserId, findScheduleByCrewUserIdDate} from "../services/staffService";
 import viewPassengersImg from "../images/seatSet.png";
+import {findReservedSeatsByScheduleId} from "../services/reservationService";
 
 export default function TripHistory({userId,userTypeId}){
     const [scheduleList, setScheduleList] = useState([]);
     const [searchDate, setSearchDate] = useState(null);
     const [errorMessage,setErrorMessage] = useState('');
+
+    const [activeScheduleId, setActiveScheduleId] = useState(null);
+    const [bookedSeatList,setBookedSeatList] = useState([]);
 
     function formatDate(searchDate) {
         const date = new Date(searchDate);
@@ -42,6 +46,13 @@ export default function TripHistory({userId,userTypeId}){
 
     }
 
+    function loadPassengerList(scheduleId) {
+        setActiveScheduleId(scheduleId);
+        findReservedSeatsByScheduleId(scheduleId).then(response => {
+            setBookedSeatList(response.data)
+        })
+    }
+
     return (
 
         <div>
@@ -67,7 +78,24 @@ export default function TripHistory({userId,userTypeId}){
                                         <h3 style={{textAlign:'left', marginLeft:'5%'}}>{schedule.schedule.origin} To {schedule.schedule.destination}</h3>
                                     </div>
                                     <div style={{flex:1}}>
-                                        <h4 style={{textAlign:'right',marginRight:'5%',color:'darkred'}}>{schedule.isCancelled ? 'Cancelled' : 'Available'}</h4>
+
+                                        {schedule.schedule.started && !schedule.schedule.end &&
+                                            <>
+                                                <label style={{marginRight:'5%', padding:'5px',backgroundColor: 'Green'}} >Started</label>
+
+                                            </>
+
+                                        }
+
+                                        {schedule.schedule.end &&
+                                            <>
+
+                                                <label style={{marginRight:'5%', padding:'5px',backgroundColor:'Red'}}>Ended</label>
+
+                                            </>
+
+                                        }
+                                        <label style={{textAlign:'right',marginRight:'5%',color:'darkred',fontWeight:'bold'}}>{schedule.isCancelled ? 'Cancelled' : 'Available'}</label>
                                     </div>
 
                                 </div>
@@ -98,9 +126,54 @@ export default function TripHistory({userId,userTypeId}){
                                 <div style={{display:"flex", justifyContent:'space-between',marginTop:'10px',marginBottom:'10px'}}>
                                     <div style={{flex:'1'}}>
                                         <label style={{fontSize: '25px',fontWeight:'bold'}}>Reservations : {schedule.availableSeats}</label>
-                                        <img className="button-img" style={{height:'50px',width:'50px',padding:'5px'}} src={viewPassengersImg} title="View Passenger List"/>
+                                        <img className="button-img" style={{height:'50px',width:'50px',padding:'5px'}} src={viewPassengersImg} title="View Passenger List" onClick={() => loadPassengerList(schedule.schedule.scheduleId)}/>
                                     </div>
                                 </div>
+
+
+                                {activeScheduleId === schedule.schedule.scheduleId &&
+                                    <div>
+                                        <h4> Available reservations</h4>
+
+                                        <table>
+                                            <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>NIC</th>
+                                                <th>Mobile No</th>
+                                                <th>Pickup Point</th>
+                                                <th>Drop Point</th>
+                                                <th>Seat (Row - Col)</th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <tr>
+                                                {bookedSeatList.length > 0 ?
+                                                    <>
+                                                        {bookedSeatList.map((seatReserve,index) => (
+                                                            <>
+                                                                <td>{index+1}</td>
+                                                                <td>{seatReserve.reservation.passenger.nic}</td>
+                                                                <td>{seatReserve.reservation.passenger.mobileNo}</td>
+                                                                <td>{seatReserve.reservation.boardingPoint}</td>
+                                                                <td>{seatReserve.reservation.droppingPoint}</td>
+                                                                <td>{seatReserve.seat.rowNo} - {seatReserve.seat.columnNo}</td>
+                                                            </>
+                                                        ))}
+
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <td colSpan="6">-- No Reservations --</td>
+                                                    </>}
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                }
 
                             </div>
                         ))}

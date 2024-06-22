@@ -466,6 +466,15 @@ export default function BusSchedule({userTypeId,userId}){
     }
 
 
+    function isBookingAvailable(tripDateStr, tripStartTime) {
+        const tripDate = new Date(tripDateStr+" "+tripStartTime);
+        const today = new Date();
+
+
+        const lastTime = new Date(tripDate.getTime() - 2 * 60 * 60 * 1000);
+
+        return lastTime > today;
+    }
 
     return (
         <div>
@@ -568,7 +577,7 @@ export default function BusSchedule({userTypeId,userId}){
                                 
 
                                 <td>
-                                    {(userTypeId === 3  && schedule.seatsAvailable !== 0) && (
+                                    {(userTypeId === 3  && schedule.seatsAvailable !== 0 && isBookingAvailable(schedule.schedule.tripDateStr,schedule.schedule.tripStartTime)) && (
                                         <div>
                                             <input type="button" value="Book" onClick={() => showReservationPanel(schedule.schedule.scheduleId)}/>
                                         </div>

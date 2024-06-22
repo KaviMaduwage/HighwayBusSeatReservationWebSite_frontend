@@ -11,3 +11,7 @@ export const loadScheduleByDate = (date) => axios.post(API_BASE_URL+"/loadSchedu
 export const findBusScheduleByDateTownAndRoute = (date, origin, destination, routeId) => axios.post(API_BASE_URL+"/findBusScheduleByDateTownAndRoute",{date:date,origin:origin,destination:destination,routeId:routeId});
 
 export const findScheduleById =  (scheduleId) => axios.post(API_BASE_URL+"/findScheduleById",{scheduleId:scheduleId});
+
+export const updateTripStart = (scheduleId) => axios.post(API_BASE_URL+"/updateTripStart",{scheduleId:scheduleId});
+
+export const updateTripEnding = (scheduleId) => axios.post(API_BASE_URL+"/updateTripEnding",{scheduleId:scheduleId});

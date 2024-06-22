@@ -2,6 +2,7 @@ import emailImg from "../images/email.png"
 import usernameImg from "../images/username.png"
 import passwordImg from "../images/password.png"
 import companyImg from "../images/company.png"
+import nicImg from "../images/nic.png"
 import telImg from "../images/tel.png"
 import locationImg from "../images/location.png"
 import Select from "react-select";
@@ -22,6 +23,10 @@ export default function SignUp(){
     const [mobileNo, setMobileNo] = useState('');
     const [address, setAddress] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+
+    const [nic,setNic] = useState('');
+    const [passengerMobile,setPassengerMobile] = useState('');
+    const [isShowPassengerDetailPanel, setIsShowPassengerDetailPanel] = useState(false);
 
     function handleUserName(e){
         setUserName(e.target.value);
@@ -53,8 +58,20 @@ export default function SignUp(){
         setUserType(selectedUserType);
 
         if(selectedUserType === 'busOwner') {
+            setTravelServiceName('');
+            setMobileNo('');
+            setAddress('');
+            setNic('');
+            setPassengerMobile('');
             setIsShowCompanyDetailPanel(true);
-        } else {
+            setIsShowPassengerDetailPanel(false);
+        } else if(selectedUserType === 'passenger'){
+            setTravelServiceName('');
+            setMobileNo('');
+            setAddress('');
+            setNic('');
+            setPassengerMobile('');
+            setIsShowPassengerDetailPanel(true);
             setIsShowCompanyDetailPanel(false);
         }
 
@@ -87,6 +104,12 @@ export default function SignUp(){
             setErrorMessage("Please enter 10 digits length mobile no.")
         }else if(userType === "busOwner" && address.trim() === ""){
             setErrorMessage("Please enter company address.")
+        }else if(userType === "passenger" && nic.trim() === ""){
+            setErrorMessage("Please enter NIC.")
+        } else if (userType === "passenger" && passengerMobile.trim() === ""){
+            setErrorMessage("Please enter mobile no.")
+        }else if(userType === "passenger" && !mobileNoRegex.test(passengerMobile) && (passengerMobile.length < 10 || passengerMobile.length>10)) {
+            setErrorMessage("Please enter 10 digits length mobile no.")
         }else{
 
             if(userType === "passenger"){
@@ -102,16 +125,19 @@ export default function SignUp(){
             }
             const user = {userName, password,email, userType: selectedUserType };
             const busOwner  ={travelServiceName, mobileNo, address};
+            const tempPassenger = {nic,mobileNo:passengerMobile};
             let userData = {};
 
             if(userType === "passenger"){
                 userData = {
-                    user: user
+                    user: user,
+                    tempPassenger: tempPassenger
                 };
             }else{
                 userData = {
                     user: user,
                     busOwner: busOwner
+
                 };
             }
             console.log(userData);
@@ -124,6 +150,14 @@ export default function SignUp(){
         }
 
 
+    }
+
+    function handlePassengerMobile(e) {
+        setPassengerMobile(e.target.value);
+    }
+
+    function handleNIC(e) {
+        setNic(e.target.value);
     }
 
     return (
@@ -188,6 +222,25 @@ export default function SignUp(){
 
                     </div>
                 )}
+
+                {isShowPassengerDetailPanel &&
+                    <div className="inputs">
+                        <div className="input">
+                            <img src={nicImg} alt=""/>
+                            <input type="text" name='nic' placeholder="NIC" value={nic} onChange={handleNIC}/>
+
+                        </div>
+
+                        <div className="input">
+                            <img src={telImg} alt=""/>
+                            <input type="number" maxLength="10" name='passengerMobile' placeholder="Mobile No." value={passengerMobile} onChange={handlePassengerMobile}/>
+
+                        </div>
+
+
+
+                    </div>
+                }
 
 
 
