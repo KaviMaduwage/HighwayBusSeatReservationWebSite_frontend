@@ -353,6 +353,17 @@ table td {
     z-index: 1;
 }
 
+.alert-card-delete-icon{
+
+    margin-top: -2px;
+    margin-left: 97%;
+
+    width: 20px;
+
+    cursor: pointer;
+
+}
+
 .card-img {
     max-width: 60%;
     height: 70%;

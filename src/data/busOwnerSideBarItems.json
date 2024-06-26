@@ -66,5 +66,15 @@
 
       }
     ]
+  },
+  {
+    "title": "Emergency Alerts",
+    "icon": "bi-exclamation-triangle",
+    "childrens": [
+      {
+        "title": "View Emergency Alerts"
+
+      }
+    ]
   }
 ]
