@@ -18,6 +18,7 @@ import MyReservations from "./PassengerRelated/MyReservations";
 import ReservationHistoryReport from "./PassengerRelated/ReservationHistoryReport";
 import Summary from "./PassengerRelated/Summary";
 import Discount from "./Discount";
+import EmergencyAlerts from "./EmergencyAlerts";
 
 
 export default function DashBoard({ userName, userTypeId, userId }) {
@@ -56,6 +57,7 @@ export default function DashBoard({ userName, userTypeId, userId }) {
                 {selectedPage === 'My Reservations' && <MyReservations userId={userId}/>}
                 {selectedPage === 'Travel History Report' && <ReservationHistoryReport userId={userId}/>}
                 {selectedPage === 'View Discounts' && <Discount userTypeId={userTypeId} userId={userId}/>}
+                {selectedPage === 'View Emergency Alerts' && <EmergencyAlerts userTypeId={userTypeId} userId={userId}/>}
 
             </div>
         </div>
