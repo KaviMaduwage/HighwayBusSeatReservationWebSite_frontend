@@ -35,7 +35,7 @@ export default function EmergencyAlerts({userTypeId,userId}){
     }, []);
 
     function loadAlerts() {
-        getAllAlerts(userTypeId).then(response => {
+        getAllAlerts(userTypeId,userId).then(response => {
                 setAlertList(response.data);
         });
     }
@@ -61,8 +61,15 @@ export default function EmergencyAlerts({userTypeId,userId}){
                 forTravelService = true;
             }
 
-            let alert = {alertType : {alertTypeId},reason,forAll,forAdmin,forTravelService,createdBy:{userId}, schedule :{scheduleId: currentSchedule.scheduleId}};
-            createAlert(alert).then(response => {
+            let alert = {};
+            if(userTypeId === 1){
+                alert = {alertType : {alertTypeId},reason,forAll,forAdmin,forTravelService,createdBy:{userId}};
+
+            }else{
+                alert = {alertType : {alertTypeId},reason,forAll,forAdmin,forTravelService,createdBy:{userId}, schedule :{scheduleId: currentSchedule.scheduleId}};
+
+            }
+             createAlert(alert).then(response => {
                     setSuccessMessage(response.data);
                     setErrorMessage('');
                     setReason('');
@@ -87,8 +94,11 @@ export default function EmergencyAlerts({userTypeId,userId}){
 
     function getDateOnly(createdDate) {
         const date = new Date(createdDate);
-        // Get date in format: YYYY-MM-DD
-        const formattedDate = date.toISOString().split('T')[0];
+
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day}`;
 
         return formattedDate;
     }
@@ -97,12 +107,13 @@ export default function EmergencyAlerts({userTypeId,userId}){
         const date = new Date(createdDate);
 
         // Get time in format: HH:mm:ss
-        const formattedTime = date.toLocaleTimeString('en-GB', {
-            hour12: false,
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        }).replace(/:/g, '.');
+        // const formattedTime = date.toLocaleTimeString('en-GB', {
+        //     hour12: false,
+        //     hour: '2-digit',
+        //     minute: '2-digit',
+        //     second: '2-digit'
+        // }).replace(/:/g, '.');
+        const  formattedTime = date.getHours()+" : "+date.getMinutes();
         return formattedTime;
     }
     return (
@@ -116,26 +127,28 @@ export default function EmergencyAlerts({userTypeId,userId}){
                     <h3>Travelling From {currentSchedule.origin} To {currentSchedule.destination}</h3>
                 </>
             }
-            <div className="boarder-style" style={{display:'flex',flexDirection:'row'}}>
-                <div style={{display:'flex',flexDirection:'column',width:'25%'}}>
 
-                    <label style={{marginBottom:'7px',fontWeight:'bold'}}>Alert Type:</label>
-                    <select className="select" id="alertTypeId" onChange={handleAlertType} value={alertTypeId}>
-                        <option value="0">Please select ...</option>
-                        {alertTypeList.map((alertType) => (
-                            <option key={alertType.alertTypeId} value={alertType.alertTypeId}>{alertType.description}</option>
-                        ))}
-                    </select>
-                </div>
+            {userTypeId !== 2 &&
+                <div className="boarder-style" style={{display:'flex',flexDirection:'row'}}>
+                    <div style={{display:'flex',flexDirection:'column',width:'25%'}}>
 
-                <div style={{display:'flex',flexDirection:'column',width:'45%'}}>
-                    <label style={{marginBottom:'7px',fontWeight:'bold'}}>Reason:</label>
-                    <textarea className="form-text-input" style={{width:'90%',height:'100px'}} maxLength="150" onChange={handleReason} value={reason}>
+                        <label style={{marginBottom:'7px',fontWeight:'bold'}}>Alert Type:</label>
+                        <select className="select" id="alertTypeId" onChange={handleAlertType} value={alertTypeId}>
+                            <option value="0">Please select ...</option>
+                            {alertTypeList.map((alertType) => (
+                                <option key={alertType.alertTypeId} value={alertType.alertTypeId}>{alertType.description}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div style={{display:'flex',flexDirection:'column',width:'45%'}}>
+                        <label style={{marginBottom:'7px',fontWeight:'bold'}}>Reason:</label>
+                        <textarea className="form-text-input" style={{width:'90%',height:'100px'}} maxLength="150" onChange={handleReason} value={reason}>
 
                     </textarea>
-                </div>
-                <div style={{width:'20%'}}>
-                    <label style={{marginBottom:'7px',fontWeight:'bold'}}>Notify:</label>
+                    </div>
+                    <div style={{width:'20%'}}>
+                        <label style={{marginBottom:'7px',fontWeight:'bold'}}>Notify:</label>
 
                         <div style={{display: "flex",alignItems: 'flex-start', marginLeft:'20px'}}><span style={{marginBottom:'10px'}}>
                                 <input type="checkbox" name="notifyTypeAdmin" id="forAdmin" value="admin" onChange={handleNotifyType} checked disabled/>
@@ -156,11 +169,21 @@ export default function EmergencyAlerts({userTypeId,userId}){
                         </RadioGroup>
 
 
+                    </div>
+                    <div style={{width:'10%', marginTop:'30px'}}>
+                        {userTypeId === 1 &&
+                            <button onClick={sendAlert}>Send</button>
+                        }
+
+                        {(userTypeId === 3 || userTypeId === 4 || userTypeId ===5) &&
+                            <button onClick={sendAlert} disabled={currentSchedule !== null ? false : true}>Send</button>
+                        }
+
+
+                    </div>
                 </div>
-                <div style={{width:'10%', marginTop:'30px'}}>
-                    <button onClick={sendAlert} disabled={currentSchedule !== null ? false : true}>Send</button>
-                </div>
-            </div>
+            }
+
 
 
             <div className="boarder-style" style={{marginTop:'20px',height:'500px',overflow:'auto'}}>
@@ -182,9 +205,9 @@ export default function EmergencyAlerts({userTypeId,userId}){
 
 
                                     <div style={{display:'flex',flexDirection:'row'}}>
-                                        <p style={{width:'30%'}}><span style={{color:'darkblue',fontWeight:'bold'}}>Date :</span> {getDateOnly(alert.createdDate)}</p>
-                                        <p style={{width:'30%'}}><span style={{color:'darkblue',fontWeight:'bold'}}>Time :</span>{getTimeOnly(alert.createdDate)}</p>
-                                        <p style={{width:'30%'}}><span style={{color:'darkblue',fontWeight:'bold'}}>Created By :</span>{alert.createdBy.userName}</p>
+                                        <p style={{width:'30%'}}><span style={{color:'darkblue',fontWeight:'bold'}}>Date : </span> {getDateOnly(alert.createdDate)}</p>
+                                        <p style={{width:'30%'}}><span style={{color:'darkblue',fontWeight:'bold'}}>Time : </span>{getTimeOnly(alert.createdDate)}</p>
+                                        <p style={{width:'30%'}}><span style={{color:'darkblue',fontWeight:'bold'}}>Created By : </span>{alert.createdBy.userName} ({alert.createdBy.userType.description})</p>
                                     </div>
 
 
