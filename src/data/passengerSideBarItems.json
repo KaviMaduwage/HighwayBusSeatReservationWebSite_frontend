@@ -109,15 +109,19 @@
     "icon": "bi-duffle",
     "childrens": [
       {
-        "title": "View Lost Items"
+        "title": "Lost Items"
 
       },
       {
-        "title": "View Found Items"
+        "title": "Found Items"
 
       },
       {
-        "title": "View User's Posts"
+        "title": "User's Lost/Found Items"
+
+      },
+      {
+        "title": "Report Lost/Found Items"
 
       }
     ]

@@ -20,6 +20,10 @@ import Summary from "./PassengerRelated/Summary";
 import Discount from "./Discount";
 import EmergencyAlerts from "./EmergencyAlerts";
 import MyAlerts from "./MyAlerts";
+import LostItems from "./LostItems";
+import FoundItems from "./FoundItems";
+import UserLostFoundPost from "./UserLostFoundPost";
+import LostFoundSubmission from "./LostFoundSubmission";
 
 
 export default function DashBoard({ userName, userTypeId, userId }) {
@@ -60,6 +64,14 @@ export default function DashBoard({ userName, userTypeId, userId }) {
                 {selectedPage === 'View Discounts' && <Discount userTypeId={userTypeId} userId={userId}/>}
                 {selectedPage === 'View Emergency Alerts' && <EmergencyAlerts userTypeId={userTypeId} userId={userId}/>}
                 {selectedPage === 'My Alerts' && <MyAlerts userTypeId={userTypeId} userId={userId}/>}
+                {selectedPage === 'Lost Items' && <LostItems userTypeId={userTypeId} userId={userId}/>}
+
+                {selectedPage === 'Found Items' && <FoundItems userTypeId={userTypeId} userId={userId}/>}
+
+                {selectedPage === 'User\'s Lost/Found Items' && <UserLostFoundPost userTypeId={userTypeId} userId={userId}/>}
+
+                {selectedPage === 'Report Lost/Found Items' && <LostFoundSubmission userTypeId={userTypeId} userId={userId}/>}
+
 
             </div>
         </div>
