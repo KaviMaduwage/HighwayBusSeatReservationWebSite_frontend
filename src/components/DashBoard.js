@@ -24,6 +24,8 @@ import LostItems from "./LostItems";
 import FoundItems from "./FoundItems";
 import UserLostFoundPost from "./UserLostFoundPost";
 import LostFoundSubmission from "./LostFoundSubmission";
+import FeedBackForm from "./PassengerRelated/FeedBackForm";
+import ViewFeedbacks from "./ViewFeedbacks";
 
 
 export default function DashBoard({ userName, userTypeId, userId }) {
@@ -72,7 +74,8 @@ export default function DashBoard({ userName, userTypeId, userId }) {
 
                 {selectedPage === 'Report Lost/Found Items' && <LostFoundSubmission userTypeId={userTypeId} userId={userId}/>}
 
-
+                {selectedPage === 'Feedback Form' && <FeedBackForm userId={userId}/>}
+                {selectedPage === 'View Feedbacks' && <ViewFeedbacks/>}
             </div>
         </div>
     );
