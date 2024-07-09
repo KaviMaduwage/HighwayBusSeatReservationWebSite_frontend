@@ -90,5 +90,15 @@
 
       }
     ]
+  },
+  {
+    "title": "Feedbacks",
+    "icon": "bi-chat-square-text",
+    "childrens": [
+      {
+        "title": "View Feedbacks"
+
+      }
+    ]
   }
 ]

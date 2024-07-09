@@ -137,11 +137,15 @@
     ]
   },
   {
-    "title": "Feedback/ Complaints",
+    "title": "Feedbacks",
     "icon": "bi-chat-square-text",
     "childrens": [
       {
-        "title": "View Feedback / Complaints"
+        "title": "Feedback Form"
+
+      },
+      {
+        "title": "View Feedbacks"
 
       }
     ]
