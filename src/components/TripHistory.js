@@ -148,18 +148,18 @@ export default function TripHistory({userId,userTypeId}){
                                             </thead>
 
                                             <tbody>
-                                            <tr>
+
                                                 {bookedSeatList.length > 0 ?
                                                     <>
                                                         {bookedSeatList.map((seatReserve,index) => (
-                                                            <>
+                                                            <tr>
                                                                 <td>{index+1}</td>
                                                                 <td>{seatReserve.reservation.passenger.nic}</td>
                                                                 <td>{seatReserve.reservation.passenger.mobileNo}</td>
                                                                 <td>{seatReserve.reservation.boardingPoint}</td>
                                                                 <td>{seatReserve.reservation.droppingPoint}</td>
                                                                 <td>{seatReserve.seat.rowNo} - {seatReserve.seat.columnNo}</td>
-                                                            </>
+                                                            </tr>
                                                         ))}
 
                                                     </>
@@ -167,7 +167,7 @@ export default function TripHistory({userId,userTypeId}){
                                                     <>
                                                         <td colSpan="6">-- No Reservations --</td>
                                                     </>}
-                                            </tr>
+
                                             </tbody>
                                         </table>
 
