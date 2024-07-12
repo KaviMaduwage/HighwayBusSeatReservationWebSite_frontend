@@ -295,7 +295,12 @@ export default function Discount({userId,userTypeId}){
                                     <td>{new Date(discount.discountStartDate).toLocaleDateString()}</td>
                                     <td>{new Date(discount.discountExpiryDate).toLocaleDateString()}</td>
                                     <td>{new Date(discount.discountExpiryDate) < new Date ? 'Expired' : new Date(discount.discountStartDate) > new Date() ? 'Upcoming' : 'Ongoing'}</td>
-                                    <td>{discount.route.routeNo} - ({discount.route.startingPoint} - {discount.route.endingPoint})</td>
+                                    {discount.route != null ?
+                                        <td>{discount.route.routeNo} - ({discount.route.startingPoint} - {discount.route.endingPoint})</td>
+                                        :
+                                        <td></td>
+                                    }
+
                                     <td>{discount.busOwner.travelServiceName}</td>
                                     <td>{discount.percentage}%</td>
                                     <td><img src={viewDiscount} alt="View Discount" onClick={() => viewDiscountPanel(discount.discountId)}/></td>

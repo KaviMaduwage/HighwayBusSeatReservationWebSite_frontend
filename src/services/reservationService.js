@@ -29,3 +29,5 @@ export const cancelReservations = (type,cancelSeatList,userId) => axios.post(API
 export const getUpcomingReservationsByUserId = (userId) => axios.post(API_BASE_URL+"/getUpcomingReservationsByUserId",{userId:userId});
 
 export const makeReservationFromWalletSavings =(cartList, userId, totalPrice) => axios.post(API_BASE_URL+"/makeReservationFromWalletSavings",{cartList:cartList,userId:userId,totalPrice:totalPrice});
+
+export const loadTotalPaymentsForEachSchedule = (searchDate,userTypeId,userId) => axios.post(API_BASE_URL+"/loadTotalPaymentsForEachSchedule",{searchDate:searchDate,userTypeId:userTypeId,userId:userId})

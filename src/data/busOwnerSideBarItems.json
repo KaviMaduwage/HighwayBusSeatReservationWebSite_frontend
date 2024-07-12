@@ -54,7 +54,13 @@
   },
   {
     "title": "Payments",
-    "icon": "bi-cash-coin"
+    "icon": "bi-cash-coin",
+    "childrens": [
+      {
+        "title": "Payment Details"
+
+      }
+    ]
 
   },
   {

@@ -58,6 +58,17 @@
     ]
   },
   {
+    "title": "Payments",
+    "icon": "bi-cash-coin",
+    "childrens": [
+      {
+        "title": "Payment Details"
+
+      }
+    ]
+
+  },
+  {
     "title": "Emergency Alerts",
     "icon": "bi-exclamation-triangle",
     "childrens": [

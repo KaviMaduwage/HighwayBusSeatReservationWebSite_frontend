@@ -26,6 +26,7 @@ import UserLostFoundPost from "./UserLostFoundPost";
 import LostFoundSubmission from "./LostFoundSubmission";
 import FeedBackForm from "./PassengerRelated/FeedBackForm";
 import ViewFeedbacks from "./ViewFeedbacks";
+import PaymentDetails from "./PaymentDetails";
 
 
 export default function DashBoard({ userName, userTypeId, userId }) {
@@ -76,6 +77,7 @@ export default function DashBoard({ userName, userTypeId, userId }) {
 
                 {selectedPage === 'Feedback Form' && <FeedBackForm userId={userId}/>}
                 {selectedPage === 'View Feedbacks' && <ViewFeedbacks/>}
+                {selectedPage === 'Payment Details' && <PaymentDetails userId={userId} userTypeId={userTypeId}/>}
             </div>
         </div>
     );
