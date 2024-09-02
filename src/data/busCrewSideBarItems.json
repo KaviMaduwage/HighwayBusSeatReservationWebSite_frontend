@@ -53,6 +53,16 @@
     ]
   },
   {
+    "title": "Notifications",
+    "icon": "bi bi-bell",
+    "childrens": [
+      {
+        "title": "View Notifications"
+
+      }
+    ]
+  },
+  {
     "title": "Lost/ Found",
     "icon": "bi-duffle",
     "childrens": [

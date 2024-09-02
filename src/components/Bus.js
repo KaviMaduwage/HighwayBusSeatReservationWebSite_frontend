@@ -257,7 +257,7 @@ export default function Bus({userTypeId, userId}){
                                 }
 
                                 <td>
-                                    {(bus.busOwner.user.userId === userId || userTypeId === 1) &&
+                                    {(bus.busOwner.user.userId === userId) &&
                                         <>
                                         <img style={{padding: "4px", marginRight:"3px"}} className="button-img" src={updateImg} title="Update Bus" alt="update" onClick={() => viewBusDetail(bus.busId)}/>
                                         <img style={{padding: "1px"}} className="button-img" src={seatImg} title="Seat Structure" alt="" onClick={() => showSeatStructure(bus.busId)}/>
@@ -286,19 +286,19 @@ export default function Bus({userTypeId, userId}){
                         <input type="hidden" id="busId" value={busId}/>
                         <div className="field-holder">
                             <input className="form-input" type="text" id="plateNo" required onChange={handlePlateNo} value={plateNo}/>
-                            <label className="form-label" htmlFor="plateNo">Plate No :</label>
+                            <label className="form-label" htmlFor="plateNo"><span style={{color:'red'}}> *</span>Plate No :</label>
                         </div>
                         <div className="field-holder">
                             <input className="form-input" type="text" id="permitNo" required onChange={handlePermitNo} value={permitNo}/>
-                            <label className="form-label" htmlFor="permitNo">Permit No :</label>
+                            <label className="form-label" htmlFor="permitNo"><span style={{color:'red'}}> *</span>Permit No :</label>
                         </div>
                         <div className="field-holder">
                             <input className="form-input" type="text" id="name" required onChange={handleName} value={name}/>
-                            <label className="form-label" htmlFor="name">Name :</label>
+                            <label className="form-label" htmlFor="name"><span style={{color:'red'}}> *</span>Name :</label>
                         </div>
 
                         <div style={{display:"flex"}}>
-                            <label style={{paddingRight :"10px",paddingTop :"7px"}} htmlFor="type">Route:</label>
+                            <label style={{paddingRight :"10px",paddingTop :"7px"}} htmlFor="type"><span style={{color:'red'}}> *</span>Route:</label>
                             <select className="select" id="type" style={{width:"400px"}} onChange={handleRouteId} value={routeId}>
 
                                 <option value="0">Please select...</option>
@@ -313,15 +313,15 @@ export default function Bus({userTypeId, userId}){
 
                         <div className="field-holder">
                             <input className="form-input" type="number" id="rows" min="0" required onChange={handleRows} value={rows}/>
-                            <label className="form-label" htmlFor="rows">No of Rows :</label>
+                            <label className="form-label" htmlFor="rows"><span style={{color:'red'}}> *</span>No of Rows :</label>
                         </div>
                         <div className="field-holder">
                             <input className="form-input" type="number"  id="columns" min="0" required onChange={handleColumns} value={columns}/>
-                            <label className="form-label" htmlFor="columns">No of Columns :</label>
+                            <label className="form-label" htmlFor="columns"><span style={{color:'red'}}> *</span>No of Columns :</label>
                         </div>
                         <div className="field-holder">
                             <input className="form-input" type="number"  id="seats" min="0" required onChange={handleSeats} value={seats}/>
-                            <label className="form-label" htmlFor="seats">No of Seats :</label>
+                            <label className="form-label" htmlFor="seats"><span style={{color:'red'}}> *</span>No of Seats :</label>
                         </div>
                     </div>
 

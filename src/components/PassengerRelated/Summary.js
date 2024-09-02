@@ -3,6 +3,7 @@ import {getWalletAmountByUSerId} from "../../services/userService";
 import walletImg from "../../images/wallet.png";
 import upcomingReservationImg from "../../images/upcomingReservationImg.jpg";
 import cancelledResImg from "../../images/cancelledImg.png";
+import userHome from "../../images/homepage/userHome.png";
 import {getUpcomingReservationsByUserId} from "../../services/reservationService";
 
 export default function Summary({userTypeId,userId}){
@@ -36,6 +37,36 @@ export default function Summary({userTypeId,userId}){
             {userTypeId === 1 ? (
                 <div>
                     <h3>Admin home panel</h3>
+                    <div className="card-container">
+                        <div className="card">
+
+                            <img src={userHome} alt="" className="card-img"/>
+                            <h4>Total Users : {walletAmount}</h4>
+                        </div>
+
+                        <div className="card">
+                            <img src={upcomingReservationImg} alt="" className="card-img"/>
+                            <h4>Total Buses : {upcomingReservations}</h4>
+                        </div>
+
+                        <div className="card">
+                            <img src={upcomingReservationImg} alt="" className="card-img"/>
+                            <h4>Total Travel Services : {upcomingReservations}</h4>
+                        </div>
+
+                        <div className="card">
+                            <img src={cancelledResImg} alt="" className="card-img"/>
+                            <h4>Today Reservations : {cancelledReservations}</h4>
+                        </div>
+
+                        <div className="card">
+                            <img src={cancelledResImg} alt="" className="card-img"/>
+                            <h4>Today Cancelled Reservations : {cancelledReservations}</h4>
+                        </div>
+
+
+
+                    </div>
                 </div>
             ) : <></>}
 
