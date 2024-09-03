@@ -483,7 +483,7 @@ export default function BusSchedule({userTypeId,userId}){
 
 
             <div className="boarder-style">
-                <p>{searchErrorMessage}</p>
+                <p style={{color:'red'}}>{searchErrorMessage}</p>
 
                 <label style={{padding :"10px"}} htmlFor="dateSearch">Trip Date:</label>
                 {userTypeId === 3 ?
@@ -618,7 +618,7 @@ export default function BusSchedule({userTypeId,userId}){
                             <div style={{padding:'10px', display:"flex"}}>
 
                                 <label style={{padding :"10px",width:"150px"}} htmlFor="dateInput"><span style={{color:'red'}}>*</span>Trip Date:</label>
-                                <input style={{width:"43%"}} className="form-text-input" type="date"  id="dateInput" onChange={handleInputDate} value={dateInput ? formatDate(dateInput) : ''}/>
+                                <input style={{width:"43%"}} className="form-text-input" type="date"  id="dateInput" onChange={handleInputDate} value={dateInput ? formatDate(dateInput) : ''} min={getTodayDate(new Date())}/>
 
                             </div>
 

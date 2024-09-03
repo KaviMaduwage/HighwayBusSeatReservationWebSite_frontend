@@ -53,6 +53,16 @@
     ]
   },
   {
+    "title": "Notifications",
+    "icon": "bi bi-bell",
+    "childrens": [
+      {
+        "title": "View Notifications"
+
+      }
+    ]
+  },
+  {
     "title": "Payments",
     "icon": "bi-cash-coin",
     "childrens": [

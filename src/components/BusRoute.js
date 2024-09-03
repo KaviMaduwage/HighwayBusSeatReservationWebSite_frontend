@@ -150,19 +150,19 @@ export default function BusRoute({userTypeId}){
                         <input type="hidden" id="busRouteId" value={busRouteId}/>
                         <div className="field-holder">
                             <input className="form-input" type="text" id="routeNo" required onChange={handleRouteNo} value={routeNo}/>
-                            <label className="form-label" htmlFor="routeNo">Route No :</label>
+                            <label className="form-label" htmlFor="routeNo"><span style={{color:'red'}}> *</span> Route No :</label>
                         </div>
                         <div className="field-holder">
                             <input className="form-input" type="text" id="origin" required onChange={handleOrigin} value={tripOrigin}/>
-                            <label className="form-label" htmlFor="origin">Origin :</label>
+                            <label className="form-label" htmlFor="origin"><span style={{color:'red'}}> *</span> Origin :</label>
                         </div>
                         <div className="field-holder">
                             <input className="form-input" type="text" id="destination" required onChange={handleDestination} value={destination}/>
-                            <label className="form-label" htmlFor="destination">Destination :</label>
+                            <label className="form-label" htmlFor="destination"><span style={{color:'red'}}> *</span> Destination :</label>
                         </div>
                         <div className="field-holder">
                             <input className="form-input" type="text"  id="description" required onChange={handleDescription} value={description}/>
-                            <label className="form-label" htmlFor="description">Description :</label>
+                            <label className="form-label" htmlFor="description"><span style={{color:'red'}}> *</span> Description :</label>
                         </div>
                     </div>
 
