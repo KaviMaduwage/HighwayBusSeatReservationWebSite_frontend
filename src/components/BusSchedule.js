@@ -20,7 +20,7 @@ import {
 import {
     findBusScheduleByDateTownAndRoute, findScheduleById,
     loadScheduleByDate,
-    saveSchedule
+    saveSchedule, updateNotifingCancelledReservations
 } from "../services/scheduleService";
 import availableSeatImg from "../images/seat.png";
 import blockedSeatImg from "../images/blockedSeatImg.png";
@@ -80,6 +80,8 @@ export default function BusSchedule({userTypeId,userId}){
     const [passengerSelectedSeats, setPassengerSelectedSeats] = useState([]);
     const [passengerSelectedSeatsStr, setPassengerSelectedSeatsStr] = useState('');
     const [openAddToCartDialogBox,setAddToCartDialogBox] = useState(false);
+    const [openNotifyCancellationDialogBox, setOpenNotifyCancellationDialogBox] = useState(false);
+    const [updateCancelNotificationScheduleId, setUpdateCancelNotificationScheduleId] = useState(0);
 
     const [pickUpPoint, setPickUpPoint] = useState('');
     const [dropOffPoint, setDropOffPoint] = useState('');
@@ -154,7 +156,7 @@ export default function BusSchedule({userTypeId,userId}){
 
 
     function loadScheduleList(date) {
-        loadScheduleByDate(date).then(response => {
+        loadScheduleByDate(date,userId).then(response => {
             setScheduleList(response.data);
         })
     }
@@ -174,7 +176,7 @@ export default function BusSchedule({userTypeId,userId}){
     }, []);
     function searchBusSchedule() {
         if(searchDate){
-            findBusScheduleByDateTownAndRoute(searchDate,searchOrigin,searchDestination,searchRouteId).then(response => {
+            findBusScheduleByDateTownAndRoute(searchDate,searchOrigin,searchDestination,searchRouteId,userId).then(response => {
                 setScheduleList(response.data);
             });
         }else{
@@ -476,6 +478,20 @@ export default function BusSchedule({userTypeId,userId}){
         return lastTime > today;
     }
 
+    function showNotifyCancellationConfirmation(scheduleId){
+        setUpdateCancelNotificationScheduleId(scheduleId);
+        setOpenNotifyCancellationDialogBox(true);
+    }
+
+    function updateReceivingCancelledRes(){
+        setOpenNotifyCancellationDialogBox(false);
+        updateNotifingCancelledReservations(updateCancelNotificationScheduleId,userId).then(response => {
+            setSearchErrorMessage(response.data);
+        })
+    }
+
+
+
     return (
         <div>
             <h1>Bus Schedule</h1>
@@ -580,6 +596,14 @@ export default function BusSchedule({userTypeId,userId}){
                                     {(userTypeId === 3  && schedule.seatsAvailable !== 0 && isBookingAvailable(schedule.schedule.tripDateStr,schedule.schedule.tripStartTime)) && (
                                         <div>
                                             <input type="button" value="Book" onClick={() => showReservationPanel(schedule.schedule.scheduleId)}/>
+                                        </div>
+                                    )}
+
+                                    {(userTypeId === 3  && schedule.seatsAvailable == 0 && isBookingAvailable(schedule.schedule.tripDateStr,schedule.schedule.tripStartTime)) && (
+                                        <div>
+                                            <input type="checkbox" id="notifyCancellation" onClick={() => showNotifyCancellationConfirmation(schedule.schedule.scheduleId)} checked={schedule.isCancelledNotified}/>
+                                            <label htmlFor="notifyCancellation">Notify Seat Cancellation</label>
+
                                         </div>
                                     )}
 
@@ -971,6 +995,25 @@ export default function BusSchedule({userTypeId,userId}){
                         Okay
                     </Button>
                     <Button onClick={() => setAddToCartDialogBox(false)}
+                            style={{color:"white"}} autoFocus>
+                        Cancel
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={openNotifyCancellationDialogBox}>
+                <DialogTitle>Do you want to update receiving notifications regarding cancellations?</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button  style={{color:"white"}} onClick={updateReceivingCancelledRes}
+                             autoFocus>
+                        Okay
+                    </Button>
+                    <Button onClick={() => setOpenNotifyCancellationDialogBox(false)}
                             style={{color:"white"}} autoFocus>
                         Cancel
                     </Button>
