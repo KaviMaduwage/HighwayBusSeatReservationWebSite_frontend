@@ -24,3 +24,5 @@ export const loadAdminSummaryDataForSummaryPage = () => axios.post(API_BASE_URL+
 export const loadBusOwnerSummaryDataForSummaryPage = (userId) => axios.post(API_BASE_URL+"/loadBusOwnerSummaryDataForSummaryPage",{userId:userId});
 
 export const loadBusCrewSummaryDataForSummaryPage = (userId) => axios.post(API_BASE_URL+"/loadBusCrewSummaryDataForSummaryPage",{userId:userId});
+
+export const updateBusOwnerDetails = (busOwner) => axios.post(API_BASE_URL+"/updateBusOwnerDetails",busOwner);
