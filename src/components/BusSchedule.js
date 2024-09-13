@@ -556,6 +556,8 @@ export default function BusSchedule({userTypeId,userId}){
                     <thead>
                     <tr>
                         <th>Date</th>
+                        <th>Bus No</th>
+                        <th>Travel Service</th>
                         <th>Origin</th>
                         <th>Destination</th>
                         <th style={{width:'10%'}}>Departure Time</th>
@@ -576,13 +578,15 @@ export default function BusSchedule({userTypeId,userId}){
                     <tbody>
                     {scheduleList.length === 0 ?
                         ( <tr>
-                            <td colSpan="8">-- No Data --</td>
+                            <td colSpan="10">-- No Data --</td>
                             <td></td>
                         </tr>)
                         :
                         ( scheduleList.map(schedule => (
                             <tr key={schedule.schedule.scheduleId}>
                                 <td>{schedule.schedule.tripDateStr}</td>
+                                <td>{schedule.schedule.bus.plateNo}</td>
+                                <td>{schedule.schedule.bus.busOwner.travelServiceName}</td>
                                 <td>{schedule.schedule.origin}</td>
                                 <td>{schedule.schedule.destination}</td>
                                 <td>{schedule.schedule.tripStartTime}</td>
@@ -607,7 +611,7 @@ export default function BusSchedule({userTypeId,userId}){
                                         </div>
                                     )}
 
-                                    {(userTypeId === 1 || userTypeId === 2) && (
+                                    {( userTypeId === 2 && schedule.schedule.bus.busOwner.user.userId === userId) && (
                                         <div>
                                             <img style={{padding:'3px'}} className="button-img" src={deleteScheduleImg} title="Delete Schedule" alt="delete" onClick={() => deleteSchedule(schedule.schedule.scheduleId)}/>
 
