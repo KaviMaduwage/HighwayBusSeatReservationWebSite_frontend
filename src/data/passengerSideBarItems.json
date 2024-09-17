@@ -49,29 +49,11 @@
     ]
   },
   {
-    "title": "Payments",
-    "icon": "bi-cash-coin",
-    "childrens": [
-      {
-        "title": "View Transaction History"
-
-      },
-      {
-        "title": "Payment Details"
-
-      }
-    ]
-  },
-  {
     "title": "Reports",
     "icon": "bi-file-earmark-text",
     "childrens": [
       {
         "title": "Travel History Report"
-
-      },
-      {
-        "title": "Payment History Report"
 
       }
     ]

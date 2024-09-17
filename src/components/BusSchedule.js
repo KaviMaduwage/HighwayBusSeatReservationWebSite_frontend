@@ -188,6 +188,7 @@ export default function BusSchedule({userTypeId,userId}){
 
     function handleSearchDate(e) {
         setSearchDate(e.target.value);
+        console.log('se-'+searchDate);
     }
 
     function formatDate(searchDate) {
@@ -446,9 +447,14 @@ export default function BusSchedule({userTypeId,userId}){
 
     }
     function showAddToCartConfirmation() {
-        if(onGoingSeatList.length===0){
+        let userOngoingSeats = 0;
+        onGoingSeatList.filter(seat => seat.user.userId === userId).forEach(seat => {
+            userOngoingSeats++;
+        });
+
+        if(userOngoingSeats===0){
             setReservationErrorMsg("Please select at lease one seat.");
-        }else if(onGoingSeatList.length>5){
+        }else if(userOngoingSeats>5){
             setReservationErrorMsg("You can only book only maximum 5 seats.Remove other seats.")
         }
         else{
@@ -488,6 +494,11 @@ export default function BusSchedule({userTypeId,userId}){
         updateNotifingCancelledReservations(updateCancelNotificationScheduleId,userId).then(response => {
             setSearchErrorMessage(response.data);
         })
+    }
+
+    function closeNotifyCancellationDialogBox(){
+        setOpenNotifyCancellationDialogBox(false);
+        document.getElementById("notifyCancellation").checked = false;
     }
 
 
@@ -565,7 +576,7 @@ export default function BusSchedule({userTypeId,userId}){
                         <th>Trip Status</th>
                         <th style={{width:'10%'}}>Available Seats</th>
                         <th>Price (Rs.)</th>
-                        {userTypeId === 1 || userTypeId === 2 ?
+                        { userTypeId === 2 ?
 
                             <th><img className="button-img" src={addImage} title="Add New Schedule" alt="add" onClick={showPanelAdd}/></th>
                             :
@@ -920,41 +931,44 @@ export default function BusSchedule({userTypeId,userId}){
 
                             <div style={{padding:'20px', display:'flex'}}>
                                 <img src={getOnImg} alt="Pick Up Point" style={{marginRight:'8px'}}/>
-                                <select style={{width:"90%"}} className="select" id="pickUpPoint" onChange={handlePickUpPoint} value={pickUpPoint} >
+                                {/*<select style={{width:"90%"}} className="select" id="pickUpPoint" onChange={handlePickUpPoint} value={pickUpPoint} >*/}
 
-                                    <option>Please select...</option>
-                                    {cities.map(city => (
-                                        (
-                                            <option key={city.id} value={city.value}>
-                                                {city.name}
-                                            </option>
-                                        )
+                                {/*    <option>Please select...</option>*/}
+                                {/*    {cities.map(city => (*/}
+                                {/*        (*/}
+                                {/*            <option key={city.id} value={city.value}>*/}
+                                {/*                {city.name}*/}
+                                {/*            </option>*/}
+                                {/*        )*/}
 
 
 
-                                    ))}
+                                {/*    ))}*/}
 
-                                </select>
+                                {/*</select>*/}
+                                <input style={{width:'70%'}} className="form-text-input" type="text"  id="pickUpPoint" placeholder="Pick Up Point" onChange={handlePickUpPoint} value={pickUpPoint}/>
+
 
                             </div>
 
                             <div style={{padding:'20px', display:'flex'}}>
                                 <img src={getOffImg} alt="Drop Point" style={{marginRight:'8px'}}/>
-                                <select style={{width:"90%"}} className="select" id="dropOffPoint" onChange={handleDropOffPoint} value={dropOffPoint} >
+                                {/*<select style={{width:"90%"}} className="select" id="dropOffPoint" onChange={handleDropOffPoint} value={dropOffPoint} >*/}
 
-                                    <option>Please select...</option>
-                                    {cities.map(city => (
-                                        (
-                                            <option key={city.id} value={city.value}>
-                                                {city.name}
-                                            </option>
-                                        )
+                                {/*    <option>Please select...</option>*/}
+                                {/*    {cities.map(city => (*/}
+                                {/*        (*/}
+                                {/*            <option key={city.id} value={city.value}>*/}
+                                {/*                {city.name}*/}
+                                {/*            </option>*/}
+                                {/*        )*/}
 
 
 
-                                    ))}
+                                {/*    ))}*/}
 
-                                </select>
+                                {/*</select>*/}
+                                <input style={{width:'70%'}} className="form-text-input" type="text"  id="dropOffPoint" placeholder="Drop Off Point" onChange={handleDropOffPoint} value={dropOffPoint}/>
 
                             </div>
 
@@ -1017,7 +1031,7 @@ export default function BusSchedule({userTypeId,userId}){
                              autoFocus>
                         Okay
                     </Button>
-                    <Button onClick={() => setOpenNotifyCancellationDialogBox(false)}
+                    <Button onClick={closeNotifyCancellationDialogBox}
                             style={{color:"white"}} autoFocus>
                         Cancel
                     </Button>

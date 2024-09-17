@@ -1,11 +1,16 @@
 [
   {"id" : 1, "value": "Ambalangoda", "name": "Ambalangoda"},
-  {"id" : 2, "value": "Colombo", "name": "Colombo"},
-  {"id" : 3, "value": "Kottawa", "name": "Kottawa"},
-  {"id" : 4, "value": "Maharagama", "name": "Maharagama"},
-  {"id" : 5, "value": "Elpitiya", "name": "Elpitiya"},
-  {"id" : 6, "value": "Kadawatha", "name": "Kadawatha"},
-  {"id" : 7, "value": "Kandy", "name": "Kandy"}
+  {"id" : 2, "value": "Borella", "name": "Borella"},
+  {"id" : 3, "value": "Elpitiya", "name": "Elpitiya"},
+  {"id" : 4, "value": "Colombo", "name": "Colombo"},
+  {"id" : 5, "value": "Kadawatha", "name": "Kadawatha"},
+  {"id" : 6, "value": "Kandy", "name": "Kandy"},
+  {"id" : 7, "value": "Karandeniya", "name": "Karandeniya"},
+  {"id" : 8, "value": "Kottawa", "name": "Kottawa"},
+  {"id" : 9, "value": "Maharagama", "name": "Maharagama"},
+  {"id" : 10, "value": "Nugegoda", "name": "Nugegoda"}
+
+
 
 
 ]
