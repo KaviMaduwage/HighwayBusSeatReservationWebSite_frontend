@@ -37,28 +37,6 @@
       {
         "title": "View Bus Schedule"
 
-      },
-      {
-        "title": "Reservation"
-
-      },
-      {
-        "title": "Reserved Seat Cancellation"
-
-      }
-    ]
-  },
-  {
-    "title": "Payments",
-    "icon": "bi-cash-coin",
-    "childrens": [
-      {
-        "title": "View Transaction History"
-
-      },
-      {
-        "title": "Payment Details"
-
       }
     ]
   },
@@ -68,10 +46,6 @@
     "childrens": [
       {
         "title": "Travel History Report"
-
-      },
-      {
-        "title": "Payment History Report"
 
       }
     ]

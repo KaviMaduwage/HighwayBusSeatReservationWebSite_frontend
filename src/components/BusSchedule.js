@@ -20,7 +20,7 @@ import {
 import {
     findBusScheduleByDateTownAndRoute, findScheduleById,
     loadScheduleByDate,
-    saveSchedule
+    saveSchedule, updateNotifingCancelledReservations
 } from "../services/scheduleService";
 import availableSeatImg from "../images/seat.png";
 import blockedSeatImg from "../images/blockedSeatImg.png";
@@ -80,6 +80,8 @@ export default function BusSchedule({userTypeId,userId}){
     const [passengerSelectedSeats, setPassengerSelectedSeats] = useState([]);
     const [passengerSelectedSeatsStr, setPassengerSelectedSeatsStr] = useState('');
     const [openAddToCartDialogBox,setAddToCartDialogBox] = useState(false);
+    const [openNotifyCancellationDialogBox, setOpenNotifyCancellationDialogBox] = useState(false);
+    const [updateCancelNotificationScheduleId, setUpdateCancelNotificationScheduleId] = useState(0);
 
     const [pickUpPoint, setPickUpPoint] = useState('');
     const [dropOffPoint, setDropOffPoint] = useState('');
@@ -154,7 +156,7 @@ export default function BusSchedule({userTypeId,userId}){
 
 
     function loadScheduleList(date) {
-        loadScheduleByDate(date).then(response => {
+        loadScheduleByDate(date,userId).then(response => {
             setScheduleList(response.data);
         })
     }
@@ -174,7 +176,7 @@ export default function BusSchedule({userTypeId,userId}){
     }, []);
     function searchBusSchedule() {
         if(searchDate){
-            findBusScheduleByDateTownAndRoute(searchDate,searchOrigin,searchDestination,searchRouteId).then(response => {
+            findBusScheduleByDateTownAndRoute(searchDate,searchOrigin,searchDestination,searchRouteId,userId).then(response => {
                 setScheduleList(response.data);
             });
         }else{
@@ -186,6 +188,7 @@ export default function BusSchedule({userTypeId,userId}){
 
     function handleSearchDate(e) {
         setSearchDate(e.target.value);
+        console.log('se-'+searchDate);
     }
 
     function formatDate(searchDate) {
@@ -444,9 +447,14 @@ export default function BusSchedule({userTypeId,userId}){
 
     }
     function showAddToCartConfirmation() {
-        if(onGoingSeatList.length===0){
+        let userOngoingSeats = 0;
+        onGoingSeatList.filter(seat => seat.user.userId === userId).forEach(seat => {
+            userOngoingSeats++;
+        });
+
+        if(userOngoingSeats===0){
             setReservationErrorMsg("Please select at lease one seat.");
-        }else if(onGoingSeatList.length>5){
+        }else if(userOngoingSeats>5){
             setReservationErrorMsg("You can only book only maximum 5 seats.Remove other seats.")
         }
         else{
@@ -475,6 +483,25 @@ export default function BusSchedule({userTypeId,userId}){
 
         return lastTime > today;
     }
+
+    function showNotifyCancellationConfirmation(scheduleId){
+        setUpdateCancelNotificationScheduleId(scheduleId);
+        setOpenNotifyCancellationDialogBox(true);
+    }
+
+    function updateReceivingCancelledRes(){
+        setOpenNotifyCancellationDialogBox(false);
+        updateNotifingCancelledReservations(updateCancelNotificationScheduleId,userId).then(response => {
+            setSearchErrorMessage(response.data);
+        })
+    }
+
+    function closeNotifyCancellationDialogBox(){
+        setOpenNotifyCancellationDialogBox(false);
+        document.getElementById("notifyCancellation").checked = false;
+    }
+
+
 
     return (
         <div>
@@ -540,6 +567,8 @@ export default function BusSchedule({userTypeId,userId}){
                     <thead>
                     <tr>
                         <th>Date</th>
+                        <th>Bus No</th>
+                        <th>Travel Service</th>
                         <th>Origin</th>
                         <th>Destination</th>
                         <th style={{width:'10%'}}>Departure Time</th>
@@ -547,7 +576,7 @@ export default function BusSchedule({userTypeId,userId}){
                         <th>Trip Status</th>
                         <th style={{width:'10%'}}>Available Seats</th>
                         <th>Price (Rs.)</th>
-                        {userTypeId === 1 || userTypeId === 2 ?
+                        { userTypeId === 2 ?
 
                             <th><img className="button-img" src={addImage} title="Add New Schedule" alt="add" onClick={showPanelAdd}/></th>
                             :
@@ -560,13 +589,15 @@ export default function BusSchedule({userTypeId,userId}){
                     <tbody>
                     {scheduleList.length === 0 ?
                         ( <tr>
-                            <td colSpan="8">-- No Data --</td>
+                            <td colSpan="10">-- No Data --</td>
                             <td></td>
                         </tr>)
                         :
                         ( scheduleList.map(schedule => (
                             <tr key={schedule.schedule.scheduleId}>
                                 <td>{schedule.schedule.tripDateStr}</td>
+                                <td>{schedule.schedule.bus.plateNo}</td>
+                                <td>{schedule.schedule.bus.busOwner.travelServiceName}</td>
                                 <td>{schedule.schedule.origin}</td>
                                 <td>{schedule.schedule.destination}</td>
                                 <td>{schedule.schedule.tripStartTime}</td>
@@ -583,7 +614,15 @@ export default function BusSchedule({userTypeId,userId}){
                                         </div>
                                     )}
 
-                                    {(userTypeId === 1 || userTypeId === 2) && (
+                                    {(userTypeId === 3  && schedule.seatsAvailable == 0 && isBookingAvailable(schedule.schedule.tripDateStr,schedule.schedule.tripStartTime)) && (
+                                        <div>
+                                            <input type="checkbox" id="notifyCancellation" onClick={() => showNotifyCancellationConfirmation(schedule.schedule.scheduleId)} checked={schedule.isCancelledNotified}/>
+                                            <label htmlFor="notifyCancellation">Notify Seat Cancellation</label>
+
+                                        </div>
+                                    )}
+
+                                    {( userTypeId === 2 && schedule.schedule.bus.busOwner.user.userId === userId) && (
                                         <div>
                                             <img style={{padding:'3px'}} className="button-img" src={deleteScheduleImg} title="Delete Schedule" alt="delete" onClick={() => deleteSchedule(schedule.schedule.scheduleId)}/>
 
@@ -892,41 +931,44 @@ export default function BusSchedule({userTypeId,userId}){
 
                             <div style={{padding:'20px', display:'flex'}}>
                                 <img src={getOnImg} alt="Pick Up Point" style={{marginRight:'8px'}}/>
-                                <select style={{width:"90%"}} className="select" id="pickUpPoint" onChange={handlePickUpPoint} value={pickUpPoint} >
+                                {/*<select style={{width:"90%"}} className="select" id="pickUpPoint" onChange={handlePickUpPoint} value={pickUpPoint} >*/}
 
-                                    <option>Please select...</option>
-                                    {cities.map(city => (
-                                        (
-                                            <option key={city.id} value={city.value}>
-                                                {city.name}
-                                            </option>
-                                        )
+                                {/*    <option>Please select...</option>*/}
+                                {/*    {cities.map(city => (*/}
+                                {/*        (*/}
+                                {/*            <option key={city.id} value={city.value}>*/}
+                                {/*                {city.name}*/}
+                                {/*            </option>*/}
+                                {/*        )*/}
 
 
 
-                                    ))}
+                                {/*    ))}*/}
 
-                                </select>
+                                {/*</select>*/}
+                                <input style={{width:'70%'}} className="form-text-input" type="text"  id="pickUpPoint" placeholder="Pick Up Point" onChange={handlePickUpPoint} value={pickUpPoint}/>
+
 
                             </div>
 
                             <div style={{padding:'20px', display:'flex'}}>
                                 <img src={getOffImg} alt="Drop Point" style={{marginRight:'8px'}}/>
-                                <select style={{width:"90%"}} className="select" id="dropOffPoint" onChange={handleDropOffPoint} value={dropOffPoint} >
+                                {/*<select style={{width:"90%"}} className="select" id="dropOffPoint" onChange={handleDropOffPoint} value={dropOffPoint} >*/}
 
-                                    <option>Please select...</option>
-                                    {cities.map(city => (
-                                        (
-                                            <option key={city.id} value={city.value}>
-                                                {city.name}
-                                            </option>
-                                        )
+                                {/*    <option>Please select...</option>*/}
+                                {/*    {cities.map(city => (*/}
+                                {/*        (*/}
+                                {/*            <option key={city.id} value={city.value}>*/}
+                                {/*                {city.name}*/}
+                                {/*            </option>*/}
+                                {/*        )*/}
 
 
 
-                                    ))}
+                                {/*    ))}*/}
 
-                                </select>
+                                {/*</select>*/}
+                                <input style={{width:'70%'}} className="form-text-input" type="text"  id="dropOffPoint" placeholder="Drop Off Point" onChange={handleDropOffPoint} value={dropOffPoint}/>
 
                             </div>
 
@@ -971,6 +1013,25 @@ export default function BusSchedule({userTypeId,userId}){
                         Okay
                     </Button>
                     <Button onClick={() => setAddToCartDialogBox(false)}
+                            style={{color:"white"}} autoFocus>
+                        Cancel
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={openNotifyCancellationDialogBox}>
+                <DialogTitle>Do you want to update receiving notifications regarding cancellations?</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button  style={{color:"white"}} onClick={updateReceivingCancelledRes}
+                             autoFocus>
+                        Okay
+                    </Button>
+                    <Button onClick={closeNotifyCancellationDialogBox}
                             style={{color:"white"}} autoFocus>
                         Cancel
                     </Button>

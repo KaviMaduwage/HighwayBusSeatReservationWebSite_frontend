@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {
     findBusCrewByUserId,
     findBusOwnerByUserId,
-    findPassengerByUserId,
+    findPassengerByUserId, updateBusOwnerDetails,
     updatePassenger
 } from "../services/userService";
 import wavingImg from "../images/waving.png";
@@ -29,6 +29,13 @@ export default function Profile({userTypeId,userId}){
 
     const [errorMessage,setErrorMessage] = useState('');
 
+    const [busOwnerId,setBusOwnerId] = useState(0);
+    const [busOwnerName, setBusOwnerName] = useState('');
+    const [travelServiceName,setTravelServiceName] = useState('');
+    const [busOwnerMobileNo, setBusOwnerMobileNo] = useState('');
+    const [busOwnerAddress, setBusOwnerAddress] = useState('');
+    const [busOwnerEmail, setBusOwnerEmail] = useState('');
+
 
     useEffect(() => {
         loadUserDetails();
@@ -38,6 +45,13 @@ export default function Profile({userTypeId,userId}){
         if(userTypeId === 2){
             findBusOwnerByUserId(userId).then(response => {
                 setBusOwner(response.data);
+                let b = response.data;
+                setBusOwnerId(b.busOwnerId);
+                setBusOwnerName(b.ownerName);
+                setTravelServiceName(b.travelServiceName);
+                setBusOwnerMobileNo(b.mobileNo);
+                setBusOwnerAddress(b.address);
+                setBusOwnerEmail(b.user.email);
             })
 
         }else if(userTypeId === 3){
@@ -144,14 +158,105 @@ export default function Profile({userTypeId,userId}){
         loadUserDetails();
     }
 
+    function handleTravelServiceName(e) {
+        setTravelServiceName(e.target.value)
+    }
+
+    function handleBusOwnerName(e) {
+        setBusOwnerName(e.target.value);
+    }
+
+
+    function handleBusOwnerAddress(e) {
+        setBusOwnerAddress(e.target.value);
+    }
+
+
+    function handleBusOwnerMobileNo(e) {
+        setBusOwnerMobileNo(e.target.value);
+    }
+
+
+    function handleBusOwnerEmail(e) {
+        setBusOwnerEmail(e.target.value);
+    }
+
+    function resetBusOwnerDetails() {
+        setErrorMessage('');
+        setResponse('');
+        loadUserDetails();
+    }
+
+    function updateBusOwner(){
+        let mobileNoRegex = /^\d*$/;
+
+        if(busOwnerName === null || busOwnerName.trim() === "" || busOwnerMobileNo.trim() === "" || busOwnerEmail.trim() === "" || travelServiceName.trim() === ""){
+            setErrorMessage("Please fill the data mandatory data marked in asterisk mark.");
+        }else if(!mobileNoRegex.test(mobileNo) && (mobileNo.length < 10 || mobileNo.length>10)) {
+            setErrorMessage("Please enter 10 digits length mobile no.")
+        }else{
+            let busOwnerObj = {busOwnerId,ownerName:busOwnerName,travelServiceName,address:busOwnerAddress,mobileNo:busOwnerMobileNo,user: {userId,email:busOwnerEmail}};
+
+            updateBusOwnerDetails(busOwnerObj).then(response => {
+                setResponse(response.data);
+                setErrorMessage('');
+                loadUserDetails();
+            })
+        }
+    }
     return (
         <div>
 
             {busOwner != null &&
                 <div>
-                    <label style={{textAlign:'left',fontSize:'25px',fontWeight:'bold'}}>Welcome {busOwner.user.userName} <img src={wavingImg}/></label>
+                    <label style={{textAlign:'left',fontSize:'25px',fontWeight:'bold'}}>Welcome {busOwner.travelServiceName} <img src={wavingImg}/></label>
+
+                    <div><h4>{response}</h4></div>
+                    <div><h5 style={{color:'red'}}>{errorMessage}</h5></div>
 
                     <div className="boarder-style" style={{marginTop:'20px',display:'flex'}}>
+                        <div style={{width:'50%',flexDirection:'column'}}>
+
+                            <input type="hidden" value={busOwnerId}/>
+
+                            <div style={{display:'flex', width:'100%'}} className="field-holder">
+                                <input className="form-input" type="text" id="name" required onChange={handleTravelServiceName} value={travelServiceName != null ? travelServiceName : ''}/>
+                                <label className="form-label" htmlFor="name"><span style={{color:'red'}}>* </span>Travel Service Name :</label>
+                            </div>
+
+                            <div style={{display:'flex', width:'100%'}} className="field-holder">
+                                <input className="form-input" type="text" id="busOwnerName" required onChange={handleBusOwnerName} value={busOwnerName != null ? busOwnerName : ''}/>
+                                <label className="form-label" htmlFor="busOwnerName"><span style={{color:'red'}}>* </span>Bus Owner Name :</label>
+                            </div>
+
+                            <div style={{display:'flex', width:'100%'}} className="field-holder">
+                                <input className="form-input" type="text" id="address" required onChange={handleBusOwnerAddress} value={busOwnerAddress != null ? busOwnerAddress : ''}/>
+                                <label className="form-label" htmlFor="address">Address :</label>
+                            </div>
+
+                            <div style={{display:'flex', width:'100%'}} className="field-holder">
+                                <input className="form-input" type="number" maxLength="10" id="mobileNo" required onChange={handleBusOwnerMobileNo} value={busOwnerMobileNo != null ? busOwnerMobileNo : ''}/>
+                                <label className="form-label" htmlFor="mobileNo"><span style={{color:'red'}}>* </span>Mobile No :</label>
+                            </div>
+
+                            <div style={{display:'flex', width:'100%'}} className="field-holder">
+                                <input className="form-input" type="email" id="email" required onChange={handleBusOwnerEmail} value={busOwnerEmail != null ? busOwnerEmail : ''}/>
+                                <label className="form-label" htmlFor="email"><span style={{color:'red'}}>* </span>Email :</label>
+                            </div>
+
+                            <div >
+                                <button style={{marginRight:'10px'}} onClick={updateBusOwner}>Save</button>
+                                <button style={{marginRight:'10px'}} onClick={resetBusOwnerDetails}>Reset</button>
+                            </div>
+
+                        </div>
+
+
+
+
+
+
+
 
                     </div>
 

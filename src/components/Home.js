@@ -19,8 +19,9 @@ export default function Home(){
 
     return (
         <div style={{padding: '20px'}}>
-            <div className="home-screen" style={{ background: `url(${homeImg})`, backgroundSize: 'cover', width: '100%', height: '300px', position: 'relative' }}>
+            <div className="home-screen" style={{ background: `url(${homeImg})`,padding:'0px', backgroundSize: 'cover', width: '100%', height: '300px', position: 'relative',borderRadius: '0 0 85% 85% / 30%' }}>
                 <h3 style={{
+                    fontFamily: 'Dancing Script',
                     color: 'white',
                     backgroundColor: 'rgba(0, 0, 0, 0.5)',
                     padding: '10px',

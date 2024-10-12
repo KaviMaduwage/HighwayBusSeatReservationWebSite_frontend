@@ -47,16 +47,7 @@
       }
     ]
   },
-  {
-    "title": "Notifications",
-    "icon": "bi bi-bell",
-    "childrens": [
-      {
-        "title": "View Notifications"
 
-      }
-    ]
-  },
   {
     "title": "Discounts",
     "icon": "bi-piggy-bank",

@@ -49,21 +49,21 @@ function App() {
 
     const isAuthenticated = !!userData;
 
-    const confirmUserAccount = async (confirmationToken) => {
-        try {
-            const response = await fetch(`/confirm-account?token=${confirmationToken}`);
-            if (response.ok) {
-                setMessage('Confirmation successful');
-                navigate('/signIn'); // Redirect to the sign-in page
-            } else {
-                const data = await response.json();
-                setMessage(data.message);
-            }
-        } catch (error) {
-            console.error('Error confirming account:', error);
-            setMessage('Error confirming account');
-        }
-    };
+    // const confirmUserAccount = async (confirmationToken) => {
+    //     try {
+    //         const response = await fetch(`/confirm-account?token=${confirmationToken}`);
+    //         if (response.ok) {
+    //             setMessage('Confirmation successful');
+    //             navigate('/signIn'); // Redirect to the sign-in page
+    //         } else {
+    //             const data = await response.json();
+    //             setMessage(data.message);
+    //         }
+    //     } catch (error) {
+    //         console.error('Error confirming account:', error);
+    //         setMessage('Error confirming account');
+    //     }
+    // };
 
 
   return (
@@ -74,7 +74,7 @@ function App() {
                   <Route path="/" element={ <Home/> }></Route>
                   <Route path="/about" element={ <About/> }></Route>
                   <Route path="/contact" element={ <Contact/> }></Route>
-                  <Route path="/signIn" element={ <SignIn confirmUserAccount={confirmUserAccount} loggedIn={isAuthenticated}/> }></Route>
+                  <Route path="/signIn" element={ <SignIn loggedIn={isAuthenticated}/> }></Route>
                   <Route path="/signUp" element={ <SignUp/> }></Route>
 
 
