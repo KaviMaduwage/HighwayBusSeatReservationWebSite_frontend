@@ -104,7 +104,7 @@ export default function Summary({userTypeId,userId}){
         <div>
             {userTypeId === 1 ? (
                 <div>
-                    <h3>Admin home panel</h3>
+                    <h1>Admin home panel</h1>
                     <div className="card-container">
                         <div className="card">
 
@@ -136,7 +136,7 @@ export default function Summary({userTypeId,userId}){
 
             {userTypeId === 2 ? (
                 <div>
-                    <h3>Bus Owner home panel</h3>
+                    <h1>Bus Owner home panel</h1>
                     <div className="card-container">
                         <div className="card">
 
@@ -204,7 +204,7 @@ export default function Summary({userTypeId,userId}){
 
             {userTypeId === 4 || userTypeId === 5 ? (
                 <div>
-                    <h3>Bus Crew home panel</h3>
+                    <h1>Bus Crew home panel</h1>
                     <div className="card-container">
                         <div className="card">
 

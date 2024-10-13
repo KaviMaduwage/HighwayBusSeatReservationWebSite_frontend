@@ -45,7 +45,7 @@ export default function Request(){
 
     return (
         <div>
-            <h2>Requests</h2>
+            <h1>Requests</h1>
 
             <div>
                 <table>

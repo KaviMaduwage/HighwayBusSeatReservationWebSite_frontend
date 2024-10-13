@@ -1,8 +1,25 @@
+import aboutImg from "../images/aboutUs.jpg";
+
 export default function About(){
     return (
-        <div>
-            <h1 style={{textAlign:"center"}}>About us</h1>
-            {/*<img src="https://drive.google.com/thumbnail?id=1-AbVlH3xPIspwz0KekAckseCfopeCy8x" alt="drive image" width="100px" height="100px"/>*/}
+        <div style={{padding: '20px'}}>
+            <div className="home-screen" style={{ background: `url(${aboutImg})`,padding:'0px', backgroundSize: 'contain', width: '100%', height: '300px', position: 'relative',borderRadius: '0 0 85% 85% / 30%' }}>
+                <h3 style={{
+                    fontFamily: 'Dancing Script',
+                    color: 'white',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    padding: '10px',
+                    textAlign: 'center',
+                    fontSize:'30px',
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)'
+                }}>
+                    About Us <br/>
+                </h3>
+            </div>
 
             <div style={{textAlign:"center"}}>
                 <h3>Welcome to "My Travel", your go-to platform for hassle-free bus seat reservations. We are committed to making your travel experience seamless and convenient. With just a few clicks, you can browse routes, compare prices, and book your seats from the comfort of your home. Whether you're commuting for work, planning a vacation, or embarking on a cross-country adventure, we strive to provide an efficient, user-friendly booking experience.
